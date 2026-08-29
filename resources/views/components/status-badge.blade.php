@@ -1,29 +1,32 @@
 @props(['status'])
 @php
-$classes = match(strtoupper($status ?? '')) {
-    'DRAFT'                 => 'bg-gray-100 text-gray-600 border border-gray-200',
-    'READY'                 => 'bg-blue-100 text-blue-700 border border-blue-200',
-    'DISPATCHED'            => 'bg-orange-100 text-orange-700 border border-orange-200',
-    'COMPLETED'             => 'bg-teal-100 text-teal-700 border border-teal-200',
-    'SETTLEMENT PENDING'    => 'bg-amber-100 text-amber-700 border border-amber-200',
-    'SETTLED'               => 'bg-green-100 text-green-700 border border-green-200',
-    'CLOSED'                => 'bg-gray-200 text-gray-700 border border-gray-300',
-    'DELIVERED'             => 'bg-green-100 text-green-700 border border-green-200',
-    'PARTIAL'               => 'bg-yellow-100 text-yellow-700 border border-yellow-200',
-    'NOT DELIVERED'         => 'bg-red-100 text-red-700 border border-red-200',
-    'RESERVICE'             => 'bg-purple-100 text-purple-700 border border-purple-200',
-    'PENDING'               => 'bg-amber-100 text-amber-700 border border-amber-200',
-    'RESTOCKED'             => 'bg-green-100 text-green-700 border border-green-200',
-    'IN STOCK'              => 'bg-green-100 text-green-700 border border-green-200',
-    'LOW STOCK'             => 'bg-amber-100 text-amber-700 border border-amber-200',
-    'OUT OF STOCK'          => 'bg-red-100 text-red-700 border border-red-200',
-    'MARKET SHORT'          => 'bg-blue-100 text-blue-700 border border-blue-200',
-    'DELIVERYMAN SHORT'     => 'bg-red-100 text-red-700 border border-red-200',
-    'APPROVED WRITE-OFF'    => 'bg-gray-100 text-gray-600 border border-gray-200',
-    'PENDING INVESTIGATION' => 'bg-amber-100 text-amber-700 border border-amber-200',
-    default                 => 'bg-gray-100 text-gray-600 border border-gray-200',
-};
+$map = [
+    'DRAFT'                 => ['bg'=>'#f1f5f9','color'=>'#64748b','dot'=>'#94a3b8'],
+    'READY'                 => ['bg'=>'#eff6ff','color'=>'#2563eb','dot'=>'#3b82f6'],
+    'DISPATCHED'            => ['bg'=>'#fff7ed','color'=>'#c2410c','dot'=>'#f97316'],
+    'COMPLETED'             => ['bg'=>'#f0fdfa','color'=>'#0f766e','dot'=>'#14b8a6'],
+    'SETTLEMENT PENDING'    => ['bg'=>'#fffbeb','color'=>'#b45309','dot'=>'#f59e0b'],
+    'SETTLED'               => ['bg'=>'#f0fdf4','color'=>'#15803d','dot'=>'#22c55e'],
+    'CLOSED'                => ['bg'=>'#f1f5f9','color'=>'#475569','dot'=>'#94a3b8'],
+    'DELIVERED'             => ['bg'=>'#f0fdf4','color'=>'#15803d','dot'=>'#22c55e'],
+    'PARTIAL'               => ['bg'=>'#fefce8','color'=>'#854d0e','dot'=>'#eab308'],
+    'NOT DELIVERED'         => ['bg'=>'#fff1f2','color'=>'#b91c1c','dot'=>'#ef4444'],
+    'RESERVICE'             => ['bg'=>'#faf5ff','color'=>'#7e22ce','dot'=>'#a855f7'],
+    'PENDING'               => ['bg'=>'#fffbeb','color'=>'#b45309','dot'=>'#f59e0b'],
+    'RESTOCKED'             => ['bg'=>'#f0fdf4','color'=>'#15803d','dot'=>'#22c55e'],
+    'IN STOCK'              => ['bg'=>'#f0fdf4','color'=>'#15803d','dot'=>'#22c55e'],
+    'LOW STOCK'             => ['bg'=>'#fffbeb','color'=>'#b45309','dot'=>'#f59e0b'],
+    'OUT OF STOCK'          => ['bg'=>'#fff1f2','color'=>'#b91c1c','dot'=>'#ef4444'],
+    'MARKET SHORT'          => ['bg'=>'#eff6ff','color'=>'#1d4ed8','dot'=>'#3b82f6'],
+    'DELIVERYMAN SHORT'     => ['bg'=>'#fff1f2','color'=>'#b91c1c','dot'=>'#ef4444'],
+    'APPROVED WRITE-OFF'    => ['bg'=>'#f1f5f9','color'=>'#475569','dot'=>'#94a3b8'],
+    'PENDING INVESTIGATION' => ['bg'=>'#fffbeb','color'=>'#b45309','dot'=>'#f59e0b'],
+];
+$key = strtoupper($status ?? '');
+$s = $map[$key] ?? ['bg'=>'#f1f5f9','color'=>'#64748b','dot'=>'#94a3b8'];
 @endphp
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $classes }}">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+      style="background: {{ $s['bg'] }}; color: {{ $s['color'] }};">
+    <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background: {{ $s['dot'] }};"></span>
     {{ $status ?? 'Unknown' }}
 </span>

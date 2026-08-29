@@ -2,36 +2,35 @@
 @php $pageTitle = 'Deliveryman Report'; @endphp
 
 @section('content')
-<div class="mb-4"><a href="{{ route('reports.index') }}" class="text-sm text-blue-600 hover:underline">← Back to Reports</a></div>
-<div class="bg-white rounded-xl shadow-sm overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-100"><h2 class="font-semibold text-gray-800 text-lg">Deliveryman Performance Report</h2></div>
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Name</th>
-                    <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Total Trips</th>
-                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Total Value</th>
-                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Collected</th>
-                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Shortages</th>
-                    <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Shortage Rate</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @foreach($rows as $row)
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3 font-medium text-gray-800">{{ $row['name'] }}</td>
-                    <td class="px-4 py-3 text-center font-medium text-gray-800">{{ $row['total_trips'] }}</td>
-                    <td class="px-4 py-3 text-right font-medium text-gray-800">{{ pkr($row['total_value']) }}</td>
-                    <td class="px-4 py-3 text-right font-medium text-green-600">{{ pkr($row['total_collected']) }}</td>
-                    <td class="px-4 py-3 text-right {{ $row['total_shortages'] > 0 ? 'text-red-600 font-bold' : 'text-gray-400' }}">{{ $row['total_shortages'] > 0 ? pkr($row['total_shortages']) : '—' }}</td>
-                    <td class="px-4 py-3 text-center">
-                        <span class="text-xs px-2 py-0.5 rounded-full {{ $row['shortage_rate'] > 0.5 ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700' }}">{{ number_format($row['shortage_rate'], 1) }}%</span>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+<div class="mb-5"><a href="{{ route('reports.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-500 hover:text-blue-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>Back to Reports</a></div>
+<div class="rounded-2xl overflow-hidden" style="background:#ffffff;border:1px solid #e8edf2;">
+    <div class="px-6 py-5 flex items-center gap-2" style="border-bottom:1px solid #f1f5f9;">
+        <div class="w-1 h-5 rounded-full bg-indigo-500"></div>
+        <h2 class="text-lg font-bold text-gray-900">Deliveryman Performance Report</h2>
     </div>
+    <table class="w-full">
+        <thead><tr style="background:#fafbfc;">
+            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Name</th>
+            <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Trips</th>
+            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Total Value</th>
+            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Collected</th>
+            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Shortages</th>
+            <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Rate</th>
+        </tr></thead>
+        <tbody>
+            @foreach($rows as $row)
+            <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color:#f1f5f9;">
+                <td class="px-6 py-4 text-sm font-semibold text-gray-800">{{ $row['name'] }}</td>
+                <td class="px-6 py-4 text-center text-sm font-bold text-gray-800">{{ $row['total_trips'] }}</td>
+                <td class="px-6 py-4 text-right text-sm font-semibold text-gray-800">{{ pkr($row['total_value']) }}</td>
+                <td class="px-6 py-4 text-right text-sm font-bold" style="color:#16a34a;">{{ pkr($row['total_collected']) }}</td>
+                <td class="px-6 py-4 text-right text-sm font-bold {{ $row['total_shortages']>0?'text-red-500':'text-gray-300' }}">{{ $row['total_shortages']>0?pkr($row['total_shortages']):'—' }}</td>
+                <td class="px-6 py-4 text-center">
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full {{ $row['shortage_rate']>0.5?'bg-red-50 text-red-600':'bg-green-50 text-green-600' }}">{{ number_format($row['shortage_rate'],1) }}%</span>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection
