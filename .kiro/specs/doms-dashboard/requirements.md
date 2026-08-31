@@ -200,3 +200,176 @@ The DOMS (Delivery Order Management System) Interactive Dashboard is a client-pr
 3. THE Trip_Report_View SHALL display a filterable table of all trips with totals for Load Value, Collected, and Shortage, grouped by date range (defaulting to the current month).
 4. THE Deliveryman_Report_View SHALL display a per-deliveryman summary table showing: Total Trips, Total Value, Total Collected, Total Shortages, and Shortage Rate percentage.
 5. THE Financial_Summary_Report_View SHALL display daily totals for Sales, Collections, Shortages, and Returns for the current month in a summary table.
+
+---
+
+### Requirement 13: Deliverymen — Create Modal
+
+**User Story:** As an Owner/Admin, I want an "Add Deliveryman" button on the Deliverymen list page, so that I can simulate adding a new driver through the UI without leaving the page.
+
+#### Acceptance Criteria
+
+1. THE Deliverymen_List_Page SHALL display an "Add Deliveryman" button in the page header, styled with a blue primary background (`#3b82f6`) consistent with the existing design system.
+2. WHEN a user clicks the "Add Deliveryman" button, THE Deliverymen_List_Page SHALL open a modal overlay containing a form with the following fields: Name (text, required), Employee ID (text, required), Phone (text, required), Vehicle (text, optional), and Join Date (date picker, required).
+3. THE Create_Deliveryman_Modal SHALL display a "Save" button and a "Cancel" button; the Save button SHALL use the blue primary style and the Cancel button SHALL use a grey neutral style.
+4. WHEN a user clicks "Save" or "Cancel" on THE Create_Deliveryman_Modal, THE Create_Deliveryman_Modal SHALL close without performing any data mutation (dummy action).
+5. THE Create_Deliveryman_Modal SHALL open and close with a smooth transition using Alpine.js or vanilla JavaScript.
+6. WHEN THE Create_Deliveryman_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 14: Deliverymen — Edit and Delete Actions
+
+**User Story:** As an Owner/Admin, I want Edit and Delete action buttons on each deliveryman row, so that I can simulate updating or removing a driver record from the UI.
+
+#### Acceptance Criteria
+
+1. THE Deliverymen_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row, alongside the existing "View →" link.
+2. WHEN a user clicks the "Edit" button for a deliveryman row, THE Deliverymen_List_Page SHALL open an Edit modal pre-filled with that deliveryman's existing data in the same fields defined in Requirement 13.2: Name, Employee ID, Phone, Vehicle, and Join Date.
+3. THE Edit_Deliveryman_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. WHEN a user clicks the "Delete" button for a deliveryman row, THE Deliverymen_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete [Deliveryman Name]?" with a "Confirm" button (red destructive style, `#ef4444`) and a "Cancel" button (grey style).
+5. WHEN a user clicks "Confirm" or "Cancel" on THE Delete_Deliveryman_Modal, THE Delete_Deliveryman_Modal SHALL close without performing any data mutation.
+6. THE "Delete" action button in each row SHALL use a red destructive style consistent with `#ef4444`.
+
+---
+
+### Requirement 15: Trips — Create Modal
+
+**User Story:** As an Owner/Admin, I want a "New Trip" button on the Trips list page, so that I can simulate creating a new trip dispatch record through the UI.
+
+#### Acceptance Criteria
+
+1. THE Trips_List_Page SHALL display a "New Trip" button in the page header, styled with a blue primary background consistent with the existing design system.
+2. WHEN a user clicks the "New Trip" button, THE Trips_List_Page SHALL open a modal containing a form with the following fields: Trip ID (text, read-only, auto-generated in the format TR-YYYY-MM-DD-NNN), Date (date picker, defaulting to today's date), Deliveryman (dropdown populated with the names of existing deliverymen in the fixture data), Vehicle (text, optional), Market/Area (text, required), and Source DLF (text, optional).
+3. THE Create_Trip_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. WHEN THE Create_Trip_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+5. THE Create_Trip_Modal SHALL open and close with a smooth transition using Alpine.js or vanilla JavaScript.
+
+---
+
+### Requirement 16: Trips — Edit and Delete Actions
+
+**User Story:** As an Owner/Admin, I want Edit and Delete action buttons on each trip row, so that I can simulate modifying or removing a trip record from the UI.
+
+#### Acceptance Criteria
+
+1. THE Trips_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row, alongside the existing "View →" link.
+2. WHEN a user clicks the "Edit" button for a trip row, THE Trips_List_Page SHALL open an Edit modal pre-filled with that trip's existing data in the same fields defined in Requirement 15.2: Trip ID (read-only), Date, Deliveryman (dropdown), Vehicle, Market/Area, and Source DLF.
+3. THE Edit_Trip_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. WHEN a user clicks the "Delete" button for a trip row, THE Trips_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete Trip [Trip ID]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style).
+5. WHEN a user clicks "Confirm" or "Cancel" on THE Delete_Trip_Modal, THE Delete_Trip_Modal SHALL close without performing any data mutation.
+6. THE "Delete" action button in each row SHALL use a red destructive style consistent with `#ef4444`.
+
+---
+
+### Requirement 17: Markets — Create, Edit, and Delete Actions
+
+**User Story:** As an Owner/Admin, I want an "Add Market" button on the Markets list page and Edit/Delete actions per row, so that I can simulate managing market records through the UI.
+
+#### Acceptance Criteria
+
+1. THE Markets_List_Page SHALL display an "Add Market" button in the page header, styled with a blue primary background consistent with the existing design system.
+2. WHEN a user clicks the "Add Market" button, THE Markets_List_Page SHALL open a modal containing a form with the following fields: Market Name (text, required), Area/Region (text, required), Contact Person (text, optional), Contact Phone (text, optional), and Outstanding Balance (number input, defaulting to 0).
+3. THE Create_Market_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. THE Markets_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row, alongside the existing "View →" link.
+5. WHEN a user clicks the "Edit" button for a market row, THE Markets_List_Page SHALL open an Edit modal pre-filled with that market's existing data in the same fields defined in Requirement 17.2.
+6. THE Edit_Market_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+7. WHEN a user clicks the "Delete" button for a market row, THE Markets_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete [Market Name]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+8. WHEN THE Create_Market_Modal or Edit_Market_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 18: Invoices — Create, Edit, and Delete Actions
+
+**User Story:** As an Owner/Admin, I want an "Add Invoice" button on the Invoices list page and Edit/Delete actions per row, so that I can simulate managing invoice records through the UI.
+
+#### Acceptance Criteria
+
+1. THE Invoices_List_Page SHALL display an "Add Invoice" button in the page header, styled with a blue primary background consistent with the existing design system.
+2. WHEN a user clicks the "Add Invoice" button, THE Invoices_List_Page SHALL open a modal containing a form with the following fields: Invoice Number (text, required), Customer/Market (text, required), Trip ID (text, required), Date (date picker, required), Total Value (number input, required), and Status (dropdown with options: DELIVERED, PARTIAL, NOT DELIVERED, RESERVICE).
+3. THE Create_Invoice_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. THE Invoices_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row, alongside the existing "View →" link.
+5. WHEN a user clicks the "Edit" button for an invoice row, THE Invoices_List_Page SHALL open an Edit modal pre-filled with that invoice's existing data in the same fields defined in Requirement 18.2.
+6. THE Edit_Invoice_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+7. WHEN a user clicks the "Delete" button for an invoice row, THE Invoices_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete Invoice [Invoice Number]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+8. WHEN THE Create_Invoice_Modal or Edit_Invoice_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 19: Stock — Create, Edit, and Delete Actions
+
+**User Story:** As an Owner/Admin, I want an "Add SKU" button on the Stock list page and Edit/Delete actions per row, so that I can simulate managing inventory records through the UI.
+
+#### Acceptance Criteria
+
+1. THE Stock_Overview_Page SHALL display an "Add SKU" button in the page header, styled with a blue primary background consistent with the existing design system.
+2. WHEN a user clicks the "Add SKU" button, THE Stock_Overview_Page SHALL open a modal containing a form with the following fields: SKU Code (text, required), Product Name (text, required), Category (text, required), Current Stock (number input, required, minimum 0), and Reorder Point (number input, required, minimum 0).
+3. THE Create_SKU_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. THE Stock_Overview_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row, alongside the existing "View →" link.
+5. WHEN a user clicks the "Edit" button for a SKU row, THE Stock_Overview_Page SHALL open an Edit modal pre-filled with that SKU's existing data in the same fields defined in Requirement 19.2.
+6. THE Edit_SKU_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+7. WHEN a user clicks the "Delete" button for a SKU row, THE Stock_Overview_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete SKU [SKU Code]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+8. WHEN THE Create_SKU_Modal or Edit_SKU_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 20: Returns — Edit and Delete Actions
+
+**User Story:** As a Warehouse Supervisor, I want Edit and Delete action buttons on each return row, so that I can simulate correcting or removing a return record through the UI.
+
+#### Acceptance Criteria
+
+1. THE Returns_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row.
+2. WHEN a user clicks the "Edit" button for a return row, THE Returns_List_Page SHALL open an Edit modal pre-filled with that return's existing data containing the following fields: Return ID (text, read-only), Trip ID (text), Deliveryman (text), SKU (text), Product Name (text), Qty Returned (number input), Reason Code (dropdown with options: REFUSED, DAMAGED, EXPIRED, EXCESS), and Status (dropdown with options: Pending, Restocked).
+3. THE Edit_Return_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. WHEN a user clicks the "Delete" button for a return row, THE Returns_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete Return [Return ID]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+5. THE "Delete" action button in each row SHALL use a red destructive style consistent with `#ef4444`.
+6. WHEN THE Edit_Return_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 21: Collections — Create, Edit, and Delete Actions
+
+**User Story:** As an Owner/Admin, I want an "Add Collection" button on the Collections list page and Edit/Delete actions per row, so that I can simulate managing collection records through the UI.
+
+#### Acceptance Criteria
+
+1. THE Collections_List_Page SHALL display an "Add Collection" button in the page header, styled with a blue primary background consistent with the existing design system.
+2. WHEN a user clicks the "Add Collection" button, THE Collections_List_Page SHALL open a modal containing a form with the following fields: Collection ID (text, read-only, auto-generated), Date (date picker, defaulting to today), Customer/Market (text, required), Invoice Number (text, required), Trip ID (text, required), Amount (number input, required), Method (dropdown with options: Cash, Cheque, Transfer), and Deliveryman (text, required).
+3. THE Create_Collection_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. THE Collections_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row.
+5. WHEN a user clicks the "Edit" button for a collection row, THE Collections_List_Page SHALL open an Edit modal pre-filled with that collection's existing data in the same fields defined in Requirement 21.2.
+6. THE Edit_Collection_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+7. WHEN a user clicks the "Delete" button for a collection row, THE Collections_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete Collection [Collection ID]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+8. WHEN THE Create_Collection_Modal or Edit_Collection_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 22: Settlements — Edit and Delete Actions
+
+**User Story:** As an Owner/Admin, I want Edit and Delete action buttons on each settlement row, so that I can simulate correcting a settlement record or marking one for removal through the UI.
+
+#### Acceptance Criteria
+
+1. THE Settlements_List_Page SHALL display an "Edit" button and a "Delete" button in the actions column of each row.
+2. WHEN a user clicks the "Edit" button for a settlement row, THE Settlements_List_Page SHALL open an Edit modal pre-filled with that settlement's existing data containing the following fields: Settlement ID (text, read-only), Trip ID (text, read-only), Deliveryman (text), Date (date picker), Expected Cash (number input), Collected Amount (number input), Shortage Amount (number input), Shortage Classification (dropdown with options: Market Short, Deliveryman Short, Approved Write-Off, Pending Investigation), and Settlement Status (dropdown with options: Pending, Settled, Closed).
+3. THE Edit_Settlement_Modal SHALL display a "Save" button (blue primary style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+4. WHEN a user clicks the "Delete" button for a settlement row, THE Settlements_List_Page SHALL open a confirmation modal displaying the message: "Are you sure you want to delete Settlement [Settlement ID]?" with a "Confirm" button (red destructive style) and a "Cancel" button (grey style); clicking either SHALL close the modal without data mutation.
+5. THE "Delete" action button in each row SHALL use a red destructive style consistent with `#ef4444`.
+6. WHEN THE Edit_Settlement_Modal is open, clicking the backdrop overlay outside the modal SHALL close the modal.
+
+---
+
+### Requirement 23: Modal Interaction — Shared Behaviour
+
+**User Story:** As an Owner/Admin, I want all modals across the dashboard to behave consistently, so that the UI feels predictable and professional throughout.
+
+#### Acceptance Criteria
+
+1. THE Dashboard_Layout SHALL ensure that WHEN any modal is open, the page body scroll SHALL be locked to prevent background scrolling.
+2. WHEN any modal is open, THE Dashboard_Layout SHALL render a semi-transparent dark backdrop behind the modal panel.
+3. ALL modal panels SHALL be centred both horizontally and vertically on the viewport, with a white background, rounded corners, and a drop shadow consistent with the existing card design system.
+4. ALL form fields inside modals SHALL use consistent styling: white background, `#e2e8f0` border, `0.375rem` border-radius, and `0.75rem` padding, matching the existing input patterns in the application.
+5. ALL "Save" buttons in create and edit modals SHALL use blue primary style (`background: #3b82f6`, white text). ALL "Cancel" buttons SHALL use a grey neutral style (`background: #f1f5f9`, `color: #64748b`). ALL "Confirm Delete" buttons SHALL use red destructive style (`background: #ef4444`, white text).
+6. WHEN a user presses the Escape key while any modal is open, THE modal SHALL close without performing any data mutation.
+7. THE Dashboard_Layout SHALL implement all modal open/close behaviour using Alpine.js `x-data`, `x-show`, and `x-on` directives, or equivalent vanilla JavaScript, without requiring a full page reload.

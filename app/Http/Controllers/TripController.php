@@ -54,8 +54,30 @@ class TripController extends Controller
 
     public function index(): View
     {
-        $trips = $this->trips();
-        return view('trips.index', compact('trips'));
+        $filter = request()->get('filter'); // 'open' or null
+        $all = $this->trips();
+
+        if ($filter === 'open') {
+            $trips = array_values(array_filter($all, fn($t) => in_array($t['status'], ['DRAFT', 'READY', 'DISPATCHED'])));
+            $pageTitle = 'Open Trips';
+        } else {
+            $trips = $all;
+            $pageTitle = 'All Trips';
+        }
+
+        $deliverymen = $this->deliverymenWithVehicles();
+        return view('trips.index', compact('trips', 'filter', 'pageTitle', 'deliverymen'));
+    }
+
+    private function deliverymenWithVehicles(): array
+    {
+        return [
+            ['id' => 1, 'name' => 'Ahmed Khan',    'employee_id' => 'EMP-001', 'vehicle' => 'Toyota Hilux – ABC-123',   'area' => 'Gulshan-e-Iqbal'],
+            ['id' => 2, 'name' => 'Bilal Raza',    'employee_id' => 'EMP-002', 'vehicle' => 'Suzuki Ravi – DEF-456',    'area' => 'North Nazimabad'],
+            ['id' => 3, 'name' => 'Usman Tariq',   'employee_id' => 'EMP-003', 'vehicle' => 'Mazda Truck – GHI-789',   'area' => 'Orangi Town'],
+            ['id' => 4, 'name' => 'Zubair Malik',  'employee_id' => 'EMP-004', 'vehicle' => 'Toyota Hilux – JKL-012',  'area' => 'Liaquatabad'],
+            ['id' => 5, 'name' => 'Kashif Hussain','employee_id' => 'EMP-005', 'vehicle' => 'Suzuki Carry – MNO-345',  'area' => 'Saddar'],
+        ];
     }
 
     public function show(int $id): View

@@ -792,3 +792,365 @@ For a specific test:
 ```bash
 php artisan test --compact --filter=PkrHelperTest
 ```
+
+
+---
+
+## CRUD Action Buttons and Modals
+
+### Context
+
+This is a Laravel Blade demo. There is no authentication, no database writes, and no POST/PUT/DELETE routes. All data lives in in-controller PHP arrays. Alpine.js is available globally (loaded via `layouts/app.blade.php`). Tailwind utility classes are used for layout; precise pixel-accurate colours are applied via inline `style=""` attributes to match the existing design system.
+
+No new Blade component files are introduced for modals. Every modal is inlined directly in its list page view file, keeping each page self-contained and easy to inspect.
+
+---
+
+### Modal Component Approach
+
+Each list page view that supports CRUD is wrapped in a single top-level `x-data` div that owns the modal state for that page:
+
+```blade
+<div x-data="{
+    open: false,
+    mode: 'create',
+    selected: null,
+    openCreate() { this.mode = 'create'; this.selected = null; this.open = true; },
+    openEdit(record) { this.mode = 'edit'; this.selected = record; this.open = true; },
+    openDelete(record) { this.mode = 'delete'; this.selected = record; this.open = true; },
+    close() { this.open = false; }
+}" @keydown.escape.window="close()">
+
+    {{-- page content, table, buttons --}}
+
+    {{-- inline modal --}}
+
+</div>
+```
+
+**State fields:**
+
+| Field | Type | Purpose |
+|---|---|---|
+| `open` | boolean | Controls modal visibility |
+| `mode` | `'create'` \| `'edit'` \| `'delete'` | Which modal panel is shown |
+| `selected` | object \| null | The row data passed to edit/delete panels |
+
+The three helper methods (`openCreate`, `openEdit`, `openDelete`) are called from button `@click` handlers. `close()` is the single exit point, called by Cancel buttons, backdrop clicks, and the Escape key handler.
+
+---
+
+### Modal HTML Structure Pattern
+
+The following pattern is used on every page. The backdrop and panel are siblings inside the `x-data` wrapper.
+
+```html
+<!-- Backdrop -->
+<div
+    x-show="open"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="close()"
+    style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:50;"
+></div>
+
+<!-- Panel -->
+<div
+    x-show="open"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+           background:#fff;border-radius:0.75rem;box-shadow:0 4px 24px rgba(0,0,0,0.12);
+           width:100%;max-width:480px;padding:1.5rem;z-index:51;"
+    @click.stop
+>
+    {{-- mode-conditional content --}}
+    <template x-if="mode === 'create' || mode === 'edit'">
+        {{-- Create / Edit form --}}
+    </template>
+    <template x-if="mode === 'delete'">
+        {{-- Delete confirmation --}}
+    </template>
+</div>
+```
+
+Key rules:
+- `@click.stop` on the panel prevents backdrop click from bubbling through.
+- `@keydown.escape.window` is on the `x-data` wrapper, not the panel.
+- `x-transition` uses 200 ms enter/leave for both backdrop and panel.
+- Body scroll locking is achieved with `x-effect="document.body.style.overflow = open ? 'hidden' : ''"` on the `x-data` wrapper div.
+
+---
+
+### Button Styles
+
+All buttons use inline `style=""` for colour fidelity and Tailwind utility classes for spacing/radius.
+
+**Header create button** (appears in page header):
+```html
+<button style="background:#3b82f6;color:#fff;"
+        class="text-xs font-semibold px-4 py-2 rounded-lg">
+    + Add …
+</button>
+```
+
+**Row Edit button**:
+```html
+<button style="background:#f0fdf4;color:#16a34a;"
+        class="text-xs font-semibold px-3 py-1.5 rounded-lg">
+    Edit
+</button>
+```
+
+**Row Delete button**:
+```html
+<button style="background:#fff1f2;color:#ef4444;"
+        class="text-xs font-semibold px-3 py-1.5 rounded-lg">
+    Delete
+</button>
+```
+
+**Modal Save button**:
+```html
+<button style="background:#3b82f6;color:#fff;"
+        class="text-sm font-semibold px-5 py-2 rounded-lg">
+    Save
+</button>
+```
+
+**Modal Cancel button**:
+```html
+<button @click="close()" style="background:#f1f5f9;color:#64748b;"
+        class="text-sm font-semibold px-5 py-2 rounded-lg">
+    Cancel
+</button>
+```
+
+**Modal Confirm Delete button**:
+```html
+<button style="background:#ef4444;color:#fff;"
+        class="text-sm font-semibold px-5 py-2 rounded-lg">
+    Confirm Delete
+</button>
+```
+
+**Form field style** (consistent across all modals):
+```html
+<input class="w-full text-sm"
+       style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.75rem;">
+```
+
+---
+
+### Per-Page Action Additions
+
+#### Trips (`trips/index.blade.php`)
+
+**Header addition:** "New Trip" button calls `openCreate()`.
+
+**Row actions:** Replace the solo "View →" link with a 3-button group:
+```
+[ View → ]  [ Edit ]  [ Delete ]
+```
+- Edit: `openEdit({{ json_encode($trip) }})`
+- Delete: `openDelete({{ json_encode($trip) }})`
+
+**Create / Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Trip ID | `text`, `readonly` | Auto-generated; shows `TR-YYYY-MM-DD-NNN` pattern; for create, pre-filled with a placeholder |
+| Date | `date` | Defaults to today for create |
+| Deliveryman | `select` | Options from `$trips` fixture (unique deliveryman names) |
+| Vehicle | `text` | Optional |
+| Market / Area | `text` | Required |
+| Source DLF | `text` | Optional |
+
+**Delete confirmation:** "Are you sure you want to delete Trip <span x-text="selected?.trip_id"></span>?"
+
+---
+
+#### Deliverymen (`deliverymen/index.blade.php`)
+
+**Header addition:** "Add Deliveryman" button calls `openCreate()`.
+
+**Row actions:** `[ View → ]  [ Edit ]  [ Delete ]`
+
+**Create / Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Name | `text` | Required |
+| Employee ID | `text` | Required |
+| Phone | `text` | Required |
+| Vehicle | `text` | Optional |
+| Join Date | `date` | Required |
+
+**Delete confirmation:** "Are you sure you want to delete <span x-text="selected?.name"></span>?"
+
+---
+
+#### Markets (`markets/index.blade.php`)
+
+**Header addition:** "Add Market" button calls `openCreate()`.
+
+**Row actions:** `[ View → ]  [ Edit ]  [ Delete ]`
+
+**Create / Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Market Name | `text` | Required |
+| Area / Region | `text` | Required |
+| Contact Person | `text` | Optional |
+| Contact Phone | `text` | Optional |
+| Outstanding Balance | `number` | Defaults to `0` |
+
+**Delete confirmation:** "Are you sure you want to delete <span x-text="selected?.name"></span>?"
+
+---
+
+#### Invoices (`invoices/index.blade.php`)
+
+**Header addition:** "Add Invoice" button calls `openCreate()`.
+
+**Row actions:** `[ View → ]  [ Edit ]  [ Delete ]`
+
+**Create / Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Invoice Number | `text` | Required |
+| Customer / Market | `text` | Required |
+| Trip ID | `text` | Required |
+| Date | `date` | Required |
+| Total Value | `number` | Required, min 0 |
+| Status | `select` | Options: DELIVERED, PARTIAL, NOT DELIVERED, RESERVICE |
+
+**Delete confirmation:** "Are you sure you want to delete Invoice <span x-text="selected?.invoice_number"></span>?"
+
+---
+
+#### Stock (`stock/index.blade.php`)
+
+**Header addition:** "Add SKU" button calls `openCreate()`.
+
+**Row actions:** `[ View → ]  [ Edit ]  [ Delete ]`
+
+**Create / Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| SKU Code | `text` | Required |
+| Product Name | `text` | Required |
+| Category | `text` | Required |
+| Current Stock | `number` | Required, min 0 |
+| Reorder Point | `number` | Required, min 0 |
+
+**Delete confirmation:** "Are you sure you want to delete SKU <span x-text="selected?.sku_code"></span>?"
+
+---
+
+#### Returns (`returns/index.blade.php`)
+
+No create button (returns originate from trips; there is no standalone create flow in the demo).
+
+**Row actions:** `[ Edit ]  [ Delete ]`
+
+**Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Return ID | `text`, `readonly` | Read-only |
+| Trip ID | `text` | |
+| Deliveryman | `text` | |
+| SKU | `text` | |
+| Product Name | `text` | |
+| Qty Returned | `number` | Min 1 |
+| Reason Code | `select` | Options: REFUSED, DAMAGED, EXPIRED, EXCESS |
+| Status | `select` | Options: Pending, Restocked |
+
+**Delete confirmation:** "Are you sure you want to delete Return <span x-text="selected?.return_ref"></span>?"
+
+---
+
+#### Collections (`collections/index.blade.php`)
+
+**Header addition:** "Add Collection" button calls `openCreate()`.
+
+**Row actions:** `[ Edit ]  [ Delete ]`
+
+**Create / Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Collection ID | `text`, `readonly` | Auto-generated; read-only |
+| Date | `date` | Defaults to today |
+| Customer / Market | `text` | Required |
+| Invoice Number | `text` | Required |
+| Trip ID | `text` | Required |
+| Amount | `number` | Required, min 0 |
+| Method | `select` | Options: Cash, Cheque, Transfer |
+| Deliveryman | `text` | Required |
+
+**Delete confirmation:** "Are you sure you want to delete Collection <span x-text="selected?.collection_ref"></span>?"
+
+---
+
+#### Settlements (`settlements/index.blade.php`)
+
+No create button (settlements are generated from completed trips; no standalone create flow in the demo).
+
+**Row actions:** `[ Edit ]  [ Delete ]`
+
+**Edit modal fields:**
+
+| Field | Input type | Notes |
+|---|---|---|
+| Settlement ID | `text`, `readonly` | Read-only |
+| Trip ID | `text`, `readonly` | Read-only |
+| Deliveryman | `text` | |
+| Date | `date` | |
+| Expected Cash | `number` | Min 0 |
+| Collected Amount | `number` | Min 0 |
+| Shortage Amount | `number` | Min 0 |
+| Shortage Classification | `select` | Options: Market Short, Deliveryman Short, Approved Write-Off, Pending Investigation |
+| Settlement Status | `select` | Options: Pending, Settled, Closed |
+
+**Delete confirmation:** "Are you sure you want to delete Settlement <span x-text="selected?.settlement_ref"></span>?"
+
+---
+
+### Routes
+
+No new routes are required. All modal open/close/form interactions are handled entirely client-side by Alpine.js. The Save and Confirm Delete buttons close the modal (`close()`) without submitting any data — this is a dummy/demo phase. No POST, PUT, or DELETE routes are added.
+
+---
+
+### Additional Correctness Properties
+
+*The following properties extend the Correctness Properties section above.*
+
+---
+
+### Property 10: Every CRUD-enabled list page initialises Alpine state without errors
+
+*For any* of the eight list pages that include CRUD modals (Trips, Deliverymen, Markets, Invoices, Stock, Returns, Collections, Settlements), the rendered HTML response SHALL contain an `x-data` attribute on the outermost wrapper div that includes the keys `open`, `mode`, and `selected` (or equivalent per-page naming). The rendered page SHALL return HTTP 200 and the `x-data` value SHALL be a syntactically valid JavaScript object expression that does not contain unescaped quotes or malformed JSON from PHP `json_encode` calls.
+
+**Validates: Requirements 13.5, 14 (all), 15.5, 16 (all), 17.8, 18.8, 19.8, 20.6, 21.8, 22.6, 23.7**
+
+---
+
+### Property 11: Required modal fields carry the HTML `required` attribute
+
+*For any* create or edit modal on a list page, every field designated as required in the per-page field table above SHALL have the HTML `required` attribute present in the rendered output. This holds universally across all pages and all required fields — no required field SHALL be rendered without its `required` attribute, ensuring the browser's native validation prevents empty-field submission and keeps the modal open.
+
+**Validates: Requirements 13.2, 15.2, 17.2, 18.2, 19.2, 21.2, 23.5**

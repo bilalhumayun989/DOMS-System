@@ -8,12 +8,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
+        [x-cloak] { display: none !important; }
         * { font-family: 'Inter', system-ui, sans-serif; }
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        aside.sidebar-nav::-webkit-scrollbar { display: none; }
+        aside.sidebar-nav { -ms-overflow-style: none; scrollbar-width: none; }
         .nav-link { transition: all 0.15s ease; }
         .nav-link.active { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); color: #1d4ed8; border-right: 3px solid #3b82f6; }
         .nav-link:not(.active):hover { background: #f8fafc; color: #334155; }
@@ -24,7 +28,7 @@
 <body class="flex h-screen overflow-hidden" style="background: #f0f4f8;">
 
     {{-- ===== SIDEBAR ===== --}}
-    <aside class="w-64 flex flex-col flex-shrink-0 overflow-y-auto" style="background: #ffffff; border-right: 1px solid #e8edf2;">
+    <aside class="sidebar-nav w-64 flex flex-col flex-shrink-0 overflow-y-auto" style="background: #ffffff; border-right: 1px solid #e8edf2;">
 
         {{-- Logo --}}
         <div class="flex items-center gap-3 px-5 py-5" style="border-bottom: 1px solid #e8edf2;">
@@ -44,40 +48,97 @@
         </div>
 
         {{-- Navigation --}}
-        <nav class="flex-1 px-3 pb-4 space-y-0.5">
-            @php
-            $navItems = [
-                ['label'=>'Dashboard',   'route'=>'dashboard',         'pattern'=>'dashboard',       'icon'=>'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', 'badge'=>null],
-                ['label'=>'Trips',       'route'=>'trips.index',       'pattern'=>'trips.*',         'icon'=>'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4', 'badge'=>'8'],
-                ['label'=>'Deliverymen', 'route'=>'deliverymen.index', 'pattern'=>'deliverymen.*',   'icon'=>'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'badge'=>null],
-                ['label'=>'Markets',     'route'=>'markets.index',     'pattern'=>'markets.*',       'icon'=>'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', 'badge'=>null],
-                ['label'=>'Invoices',    'route'=>'invoices.index',    'pattern'=>'invoices.*',      'icon'=>'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', 'badge'=>null],
-                ['label'=>'Stock',       'route'=>'stock.index',       'pattern'=>'stock.*',         'icon'=>'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', 'badge'=>'3'],
-                ['label'=>'Returns',     'route'=>'returns.index',     'pattern'=>'returns.*',       'icon'=>'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6', 'badge'=>'4'],
-                ['label'=>'Collections', 'route'=>'collections.index', 'pattern'=>'collections.*',   'icon'=>'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z', 'badge'=>null],
-                ['label'=>'Settlements', 'route'=>'settlements.index', 'pattern'=>'settlements.*',   'icon'=>'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3', 'badge'=>'2'],
-                ['label'=>'Ledgers',     'route'=>'ledgers.index',     'pattern'=>'ledgers.*',       'icon'=>'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', 'badge'=>null],
-                ['label'=>'Reports',     'route'=>'reports.index',     'pattern'=>'reports.*',       'icon'=>'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'badge'=>null],
-            ];
-            @endphp
+        <nav class="flex-1 px-3 pb-4 space-y-0.5" x-data="{ tripsOpen: {{ request()->routeIs('trips.*') ? 'true' : 'false' }} }">
+    @php
+    $navItems = [
+        ['label'=>'Dashboard',   'route'=>'dashboard',         'pattern'=>'dashboard',       'icon'=>'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', 'badge'=>null],
+        ['label'=>'Deliverymen', 'route'=>'deliverymen.index', 'pattern'=>'deliverymen.*',   'icon'=>'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'badge'=>null],
+        ['label'=>'Markets',     'route'=>'markets.index',     'pattern'=>'markets.*',       'icon'=>'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', 'badge'=>null],
+        ['label'=>'Invoices',    'route'=>'invoices.index',    'pattern'=>'invoices.*',      'icon'=>'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', 'badge'=>null],
+        ['label'=>'Stock',       'route'=>'stock.index',       'pattern'=>'stock.*',         'icon'=>'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', 'badge'=>'3'],
+        ['label'=>'Returns',     'route'=>'returns.index',     'pattern'=>'returns.*',       'icon'=>'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6', 'badge'=>'4'],
+        ['label'=>'Collections', 'route'=>'collections.index', 'pattern'=>'collections.*',   'icon'=>'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z', 'badge'=>null],
+        ['label'=>'Settlements', 'route'=>'settlements.index', 'pattern'=>'settlements.*',   'icon'=>'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3', 'badge'=>'2'],
+        ['label'=>'Ledgers',     'route'=>'ledgers.index',     'pattern'=>'ledgers.*',       'icon'=>'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', 'badge'=>null],
+        ['label'=>'Reports',     'route'=>'reports.index',     'pattern'=>'reports.*',       'icon'=>'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'badge'=>null],
+    ];
+    @endphp
 
-            @foreach($navItems as $item)
-            @php $isActive = request()->routeIs($item['pattern']); @endphp
-            <a href="{{ route($item['route']) }}"
-               class="nav-link {{ $isActive ? 'active' : '' }} flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ $isActive ? '' : 'text-slate-500' }}">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 {{ $isActive ? 'bg-blue-100' : 'bg-slate-50' }}">
-                        <svg class="w-4 h-4 {{ $isActive ? 'text-blue-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
-                        </svg>
-                    </div>
-                    <span>{{ $item['label'] }}</span>
+    {{-- Dashboard first --}}
+    @php $dash = $navItems[0]; $isDash = request()->routeIs($dash['pattern']); @endphp
+    <a href="{{ route($dash['route']) }}"
+       class="nav-link {{ $isDash ? 'active' : '' }} flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ $isDash ? '' : 'text-slate-500' }}">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 {{ $isDash ? 'bg-blue-100' : 'bg-slate-50' }}">
+                <svg class="w-4 h-4 {{ $isDash ? 'text-blue-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $dash['icon'] }}"/>
+                </svg>
+            </div>
+            <span>Dashboard</span>
+        </div>
+    </a>
+
+    {{-- ── Trips expandable ── --}}
+    @php $tripsActive = request()->routeIs('trips.*'); @endphp
+    <div>
+        <button
+            @click="tripsOpen = !tripsOpen"
+            class="nav-link w-full {{ $tripsActive ? 'active' : '' }} flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ $tripsActive ? '' : 'text-slate-500' }}"
+        >
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 {{ $tripsActive ? 'bg-blue-100' : 'bg-slate-50' }}">
+                    <svg class="w-4 h-4 {{ $tripsActive ? 'text-blue-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                    </svg>
                 </div>
-                @if($item['badge'])
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $isActive ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-500' }}">{{ $item['badge'] }}</span>
-                @endif
+                <span>Trips</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $tripsActive ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-500' }}">8</span>
+                <svg class="w-3.5 h-3.5 transition-transform" :class="tripsOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </button>
+
+        {{-- Sub-items --}}
+        <div x-show="tripsOpen" x-cloak x-transition class="mt-0.5 ml-4 pl-3 space-y-0.5" style="border-left: 2px solid #e2e8f0;">
+            <a href="{{ route('trips.index') }}"
+               class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors {{ request()->routeIs('trips.index') && !request()->has('filter') ? 'text-blue-600 bg-blue-50' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                </svg>
+                All Trips
             </a>
-            @endforeach
+            <a href="{{ route('trips.index', ['filter' => 'open']) }}"
+               class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors {{ request()->get('filter') === 'open' ? 'text-orange-600 bg-orange-50' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Open Trips
+                <span class="ml-auto text-xs font-bold px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-600">3</span>
+            </a>
+        </div>
+    </div>
+
+    {{-- Remaining nav items (skip index 0 which is Dashboard) --}}
+    @foreach(array_slice($navItems, 1) as $item)
+    @php $isActive = request()->routeIs($item['pattern']); @endphp
+    <a href="{{ route($item['route']) }}"
+       class="nav-link {{ $isActive ? 'active' : '' }} flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ $isActive ? '' : 'text-slate-500' }}">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 {{ $isActive ? 'bg-blue-100' : 'bg-slate-50' }}">
+                <svg class="w-4 h-4 {{ $isActive ? 'text-blue-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
+                </svg>
+            </div>
+            <span>{{ $item['label'] }}</span>
+        </div>
+        @if($item['badge'])
+        <span class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $isActive ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-500' }}">{{ $item['badge'] }}</span>
+        @endif
+    </a>
+    @endforeach
         </nav>
 
         {{-- User Footer --}}
