@@ -16,7 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
-Route::get('/trips/{id}', [TripController::class, 'show'])->name('trips.show');
+Route::post('/trips', [TripController::class, 'store'])->name('trips.store');
+Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
+Route::put('/trips/{trip}', [TripController::class, 'update'])->name('trips.update');
+Route::put('/trips/{trip}/delivery-result', [TripController::class, 'updateDeliveryResult'])->name('trips.delivery-result.update');
+Route::delete('/trips/{trip}', [TripController::class, 'destroy'])->name('trips.destroy');
+Route::post('/trips/{trip}/collections', [TripController::class, 'storeCollection'])->name('trips.collections.store');
+Route::put('/trips/{trip}/collections/{collection}', [TripController::class, 'updateCollection'])->name('trips.collections.update');
+Route::post('/trips/{trip}/expenses', [TripController::class, 'storeExpense'])->name('trips.expenses.store');
+Route::put('/trips/{trip}/expenses/{expense}', [TripController::class, 'updateExpense'])->name('trips.expenses.update');
+Route::post('/trips/{trip}/close', [TripController::class, 'close'])->name('trips.close');
 
 Route::get('/deliverymen', [DeliverymanController::class, 'index'])->name('deliverymen.index');
 Route::get('/deliverymen/{id}', [DeliverymanController::class, 'show'])->name('deliverymen.show');

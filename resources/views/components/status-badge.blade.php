@@ -12,6 +12,8 @@ $map = [
     'PARTIAL'               => ['bg'=>'#fefce8','color'=>'#854d0e','dot'=>'#eab308'],
     'NOT DELIVERED'         => ['bg'=>'#fff1f2','color'=>'#b91c1c','dot'=>'#ef4444'],
     'RESERVICE'             => ['bg'=>'#faf5ff','color'=>'#7e22ce','dot'=>'#a855f7'],
+    'DELAYED'               => ['bg'=>'#fff7ed','color'=>'#c2410c','dot'=>'#f97316'],
+    'OTHER'                 => ['bg'=>'#f1f5f9','color'=>'#475569','dot'=>'#94a3b8'],
     'PENDING'               => ['bg'=>'#fffbeb','color'=>'#b45309','dot'=>'#f59e0b'],
     'RESTOCKED'             => ['bg'=>'#f0fdf4','color'=>'#15803d','dot'=>'#22c55e'],
     'IN STOCK'              => ['bg'=>'#f0fdf4','color'=>'#15803d','dot'=>'#22c55e'],

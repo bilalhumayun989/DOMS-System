@@ -2,6 +2,12 @@
 @php $pageTitle = $pageTitle ?? 'Trips'; @endphp
 
 @section('content')
+@if(session('success'))
+<div class="mb-4 rounded-xl px-4 py-3 text-sm font-semibold bg-green-50 text-green-700 border border-green-200">{{ session('success') }}</div>
+@endif
+@if($errors->any())
+<div class="mb-4 rounded-xl px-4 py-3 text-sm bg-red-50 text-red-700 border border-red-200">{{ $errors->first() }}</div>
+@endif
 <div
     x-data="{
         open: false,
@@ -11,6 +17,7 @@
         formVehicle: '',
         formArea: '',
         formDriver: '',
+        collectMethod: 'Cash',
         dlfFileName: '',
         onDriverChange(name) {
             if (this.driverMap[name]) {
@@ -122,15 +129,14 @@
                                    style="background: #eff6ff; color: #3b82f6;">
                                     View →
                                 </a>
-                                @if($filter === 'open')
-                                <button
-                                    @click="openCollection({{ json_encode($trip) }})"
+                                @if($trip['status'] !== 'CLOSED')
+                                <a
+                                    href="{{ route('trips.show', $trip['id']) }}#trip-entry"
                                     class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
                                     style="background: #f0fdf4; color: #16a34a;"
                                 >
-                                    + Collect
-                                </button>
-                                @endif
+                                    + Collection / Expense
+                                </a>
                                 <button
                                     @click="openEdit({{ json_encode($trip) }})"
                                     class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
@@ -138,6 +144,8 @@
                                 >
                                     Edit
                                 </button>
+                                @endif
+                                @if($trip['status'] === 'DRAFT')
                                 <button
                                     @click="openDelete({{ json_encode($trip) }})"
                                     class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
@@ -145,6 +153,7 @@
                                 >
                                     Delete
                                 </button>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -194,7 +203,9 @@
                     </button>
                 </div>
 
-                <form @submit.prevent="close()">
+                <form method="POST" :action="mode === 'edit' ? '{{ url('/trips') }}/' + selected?.id : '{{ route('trips.store') }}'">
+                    @csrf
+                    <template x-if="mode === 'edit'"><input type="hidden" name="_method" value="PUT"></template>
                     <div class="grid grid-cols-2 gap-4">
 
                         {{-- Trip ID (full width) --}}
@@ -214,6 +225,7 @@
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Date <span class="text-red-400">*</span></label>
                             <input
                                 type="date"
+                                name="trip_date"
                                 required
                                 x-bind:value="selected?.date ?? new Date().toISOString().slice(0,10)"
                                 class="w-full text-sm"
@@ -224,7 +236,7 @@
                         {{-- Status (edit only) --}}
                         <div x-show="mode === 'edit'">
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Status</label>
-                            <select class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <select name="status" class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                                 @foreach(['DRAFT','READY','DISPATCHED','COMPLETED','SETTLEMENT PENDING','SETTLED','CLOSED'] as $st)
                                 <option :selected="selected?.status === '{{ $st }}'">{{ $st }}</option>
                                 @endforeach
@@ -235,6 +247,7 @@
                         <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Deliveryman <span class="text-red-400">*</span></label>
                             <select
+                                name="deliveryman_name"
                                 required
                                 x-model="formDriver"
                                 @change="onDriverChange($event.target.value)"
@@ -256,6 +269,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="vehicle"
                                 x-model="formVehicle"
                                 placeholder="Auto-fills on driver select"
                                 class="w-full text-sm"
@@ -271,6 +285,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="market_area"
                                 required
                                 x-model="formArea"
                                 placeholder="Auto-fills on driver select"
@@ -304,6 +319,21 @@
 
                     </div>
 
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="col-span-2">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Source DLF Reference</label>
+                            <input type="text" name="source_dlf" :value="selected?.source_dlf ?? dlfFileName" placeholder="e.g. DLF-10245" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Load Value (PKR)</label>
+                            <input type="number" name="load_value" min="0" step="0.01" required :value="selected?.load_value ?? 0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Expected Cash (PKR)</label>
+                            <input type="number" name="expected_cash" min="0" step="0.01" required :value="selected?.expected_cash ?? 0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
+                        </div>
+                    </div>
+
                     {{-- Actions --}}
                     <div class="flex items-center justify-end gap-3 mt-6 pt-4" style="border-top: 1px solid #f1f5f9;">
                         <button type="button" @click="close()" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background: #f1f5f9; color: #64748b;">Cancel</button>
@@ -330,30 +360,31 @@
                     Driver: <span class="font-semibold text-gray-700" x-text="selected?.deliveryman?.name"></span>
                 </p>
 
-                <form @submit.prevent="close()">
+                <form method="POST" :action="'{{ url('/trips') }}/' + selected?.id + '/collections'">
+                    @csrf
                     <div class="grid grid-cols-2 gap-4">
 
                         <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Customer / Market <span class="text-red-400">*</span></label>
-                            <input type="text" required placeholder="e.g. Al-Noor General Store" class="w-full text-sm"
+                            <input type="text" name="customer" required placeholder="e.g. Al-Noor General Store" class="w-full text-sm"
                                    style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Invoice Number <span class="text-red-400">*</span></label>
-                            <input type="text" required placeholder="e.g. INV-001" class="w-full text-sm"
+                            <input type="text" name="invoice_number" required placeholder="e.g. INV-001" class="w-full text-sm"
                                    style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Amount (PKR) <span class="text-red-400">*</span></label>
-                            <input type="number" required min="0" placeholder="0" class="w-full text-sm"
+                            <input type="number" name="amount" required min="0.01" step="0.01" placeholder="0" class="w-full text-sm"
                                    style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Payment Method <span class="text-red-400">*</span></label>
-                            <select required class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <select name="method" x-model="collectMethod" required class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                                 <option value="">— Select —</option>
                                 <option>Cash</option>
                                 <option>Cheque</option>
@@ -363,15 +394,20 @@
 
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Date <span class="text-red-400">*</span></label>
-                            <input type="date" required :value="new Date().toISOString().slice(0,10)" class="w-full text-sm"
+                            <input type="datetime-local" name="collected_at" required :value="new Date().toISOString().slice(0,16)" class="w-full text-sm"
                                    style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                         </div>
 
                         <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Notes <span class="text-gray-400 font-normal">(optional)</span></label>
-                            <textarea rows="2" placeholder="Any remarks..." class="w-full text-sm resize-none"
+                            <textarea name="notes" rows="2" placeholder="Any remarks..." class="w-full text-sm resize-none"
                                       style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"></textarea>
                         </div>
+
+                        <input name="cheque_number" placeholder="Cheque number (if cheque)" class="text-sm rounded-lg border-slate-200">
+                        <input name="bank_name" placeholder="Bank name (if cheque)" class="text-sm rounded-lg border-slate-200">
+                        <input type="date" name="instrument_date" class="text-sm rounded-lg border-slate-200">
+                        <input name="bank_reference" placeholder="Transfer reference" class="text-sm rounded-lg border-slate-200">
 
                     </div>
 
@@ -403,7 +439,11 @@
                 </p>
                 <div class="flex items-center justify-end gap-3">
                     <button @click="close()" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background: #f1f5f9; color: #64748b;">Cancel</button>
-                    <button @click="close()" class="text-sm font-semibold px-5 py-2 rounded-lg text-white" style="background: #ef4444;">Confirm Delete</button>
+                    <form method="POST" :action="'{{ url('/trips') }}/' + selected?.id">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-sm font-semibold px-5 py-2 rounded-lg text-white" style="background: #ef4444;">Confirm Delete</button>
+                    </form>
                 </div>
             </div>
         </template>
