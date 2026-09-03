@@ -50,16 +50,16 @@
         </div>
 
         {{-- Navigation --}}
-        <nav class="flex-1 px-3 pb-4 space-y-0.5" x-data="{ tripsOpen: {{ request()->routeIs('trips.*') ? 'true' : 'false' }} }">
+        <nav class="flex-1 px-3 pb-4 space-y-0.5">
     @php
     $navItems = [
         ['label'=>'Dashboard',   'route'=>'dashboard',         'pattern'=>'dashboard',       'tourId'=>'tour-nav-dashboard',   'icon'=>'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', 'badge'=>null],
+        ['label'=>'Banks',       'route'=>'banks.index',        'pattern'=>'banks.*',         'tourId'=>'tour-nav-banks',       'icon'=>'M3 10h18M5 10v9m4-9v9m6-9v9m4-9v9M3 19h18M12 3l9 5H3l9-5z', 'badge'=>null],
+        ['label'=>'Expenses',    'route'=>'expenses.index',     'pattern'=>'expenses.*',      'tourId'=>'tour-nav-expenses',    'icon'=>'M9 14l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z', 'badge'=>null],
         ['label'=>'Deliverymen', 'route'=>'deliverymen.index', 'pattern'=>'deliverymen.*',   'tourId'=>'tour-nav-deliverymen', 'icon'=>'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'badge'=>null],
         ['label'=>'Markets',     'route'=>'markets.index',     'pattern'=>'markets.*',       'tourId'=>'tour-nav-markets',     'icon'=>'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', 'badge'=>null],
-        ['label'=>'Invoices',    'route'=>'invoices.index',    'pattern'=>'invoices.*',      'tourId'=>'tour-nav-invoices',    'icon'=>'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', 'badge'=>null],
         ['label'=>'Stock',       'route'=>'stock.index',       'pattern'=>'stock.*',         'tourId'=>'tour-nav-stock',       'icon'=>'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', 'badge'=>'3'],
         ['label'=>'Returns',     'route'=>'returns.index',     'pattern'=>'returns.*',       'tourId'=>'tour-nav-returns',     'icon'=>'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6', 'badge'=>'4'],
-        ['label'=>'Collections', 'route'=>'collections.index', 'pattern'=>'collections.*',   'tourId'=>'tour-nav-collections', 'icon'=>'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z', 'badge'=>null],
         ['label'=>'Settlements', 'route'=>'settlements.index', 'pattern'=>'settlements.*',   'tourId'=>'tour-nav-settlements', 'icon'=>'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3', 'badge'=>'2'],
         ['label'=>'Ledgers',     'route'=>'ledgers.index',     'pattern'=>'ledgers.*',       'tourId'=>'tour-nav-ledgers',     'icon'=>'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', 'badge'=>null],
         ['label'=>'Reports',     'route'=>'reports.index',     'pattern'=>'reports.*',       'tourId'=>'tour-nav-reports',     'icon'=>'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'badge'=>null],
@@ -80,14 +80,10 @@
         </div>
     </a>
 
-    {{-- ── Trips expandable ── --}}
+    {{-- Trips --}}
     @php $tripsActive = request()->routeIs('trips.*'); @endphp
-    <div>
-        <button
-            id="tour-nav-trips"
-            @click="tripsOpen = !tripsOpen"
-            class="nav-link w-full {{ $tripsActive ? 'active' : '' }} flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ $tripsActive ? '' : 'text-slate-500' }}"
-        >
+    <a id="tour-nav-trips" href="{{ route('trips.index') }}"
+       class="nav-link w-full {{ $tripsActive ? 'active' : '' }} flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium {{ $tripsActive ? '' : 'text-slate-500' }}">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 {{ $tripsActive ? 'bg-blue-100' : 'bg-slate-50' }}">
                     <svg class="w-4 h-4 {{ $tripsActive ? 'text-blue-600' : 'text-slate-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,33 +92,8 @@
                 </div>
                 <span>Trips</span>
             </div>
-            <div class="flex items-center gap-1.5">
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $tripsActive ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-500' }}">8</span>
-                <svg class="w-3.5 h-3.5 transition-transform" :class="tripsOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </div>
-        </button>
-
-        {{-- Sub-items --}}
-        <div x-show="tripsOpen" x-cloak x-transition class="mt-0.5 ml-4 pl-3 space-y-0.5" style="border-left: 2px solid #e2e8f0;">
-            <a id="tour-nav-trips-all" href="{{ route('trips.index') }}"
-               class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors {{ request()->routeIs('trips.index') && !request()->has('filter') ? 'text-blue-600 bg-blue-50' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-                </svg>
-                All Trips
-            </a>
-            <a id="tour-nav-trips-open" href="{{ route('trips.index', ['filter' => 'open']) }}"
-               class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-colors {{ request()->get('filter') === 'open' ? 'text-orange-600 bg-orange-50' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50' }}">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Open Trips
-                <span class="ml-auto text-xs font-bold px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-600">3</span>
-            </a>
-        </div>
-    </div>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full {{ $tripsActive ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-500' }}">Trips</span>
+    </a>
 
     {{-- Remaining nav items (skip index 0 which is Dashboard) --}}
     @foreach(array_slice($navItems, 1) as $item)
@@ -325,36 +296,25 @@
                         onHighlightStarted: (el) => scrollSidebarToEl(el),
                         popover: {
                             title: 'Trips',
-                            description: 'Manage all delivery trips. This button expands a sub-menu with quick filters. The badge shows total trips recorded. Click Next to see the sub-menu options.',
-                            side: 'right', align: 'center',
-                            // Open the dropdown THEN advance — gives Alpine time to show sub-items
-                            onNextClick: () => {
-                                openTripsMenu();
-                                setTimeout(() => driverObj.moveNext(), 350);
-                            }
-                        }
-                    },
-                    {
-                        element: '#tour-nav-trips-all',
-                        onHighlightStarted: (el) => {
-                            openTripsMenu();                  // ensure open when going backwards
-                            setTimeout(() => scrollSidebarToEl(el), 100);
-                        },
-                        popover: {
-                            title: 'All Trips',
-                            description: 'View the complete list of every delivery trip regardless of status — open, closed, or settled. Search, sort, and manage them all from here.',
+                            description: 'Manage daily delivery trips. Use the month and year filters to find trips, then add, edit, delete, or view each trip sheet.',
                             side: 'right', align: 'center'
                         }
                     },
                     {
-                        element: '#tour-nav-trips-open',
-                        onHighlightStarted: (el) => {
-                            openTripsMenu();
-                            setTimeout(() => scrollSidebarToEl(el), 100);
-                        },
+                        element: '#tour-nav-banks',
+                        onHighlightStarted: (el) => scrollSidebarToEl(el),
                         popover: {
-                            title: 'Open Trips',
-                            description: 'A focused view showing only trips still in progress and not yet settled. The orange badge shows how many trips are currently open.',
+                            title: 'Banks',
+                            description: 'Review AAA Traders bank accounts, cash in hand, deposits, withdrawals, running balances, and account-specific transaction ledgers. Add Bank opens the account form.',
+                            side: 'right', align: 'center'
+                        }
+                    },
+                    {
+                        element: '#tour-nav-expenses',
+                        onHighlightStarted: (el) => scrollSidebarToEl(el),
+                        popover: {
+                            title: 'Expenses',
+                            description: 'Track vehicle, driver, warehouse, and office expenses. Add Expense opens the dedicated entry page, where categories and trip links can be selected.',
                             side: 'right', align: 'center'
                         }
                     },
@@ -398,17 +358,8 @@
                         element: '#tour-nav-returns',
                         onHighlightStarted: (el) => scrollSidebarToEl(el),
                         popover: {
-                            title: 'Returns',
-                            description: 'Record and manage goods returned by deliverymen or markets. The badge indicates the number of unresolved return entries awaiting review.',
-                            side: 'right', align: 'center'
-                        }
-                    },
-                    {
-                        element: '#tour-nav-collections',
-                        onHighlightStarted: (el) => scrollSidebarToEl(el),
-                        popover: {
-                            title: 'Collections',
-                            description: 'Record cash or payment collections made by deliverymen from markets. All collections are linked to their respective trips and invoices for full traceability.',
+                            title: 'Return Claims',
+                            description: 'Review returned goods as claims, including expiry, damage, market returns, distributor status, credit notes, and dedicated claim detail pages.',
                             side: 'right', align: 'center'
                         }
                     },
@@ -417,7 +368,7 @@
                         onHighlightStarted: (el) => scrollSidebarToEl(el),
                         popover: {
                             title: 'Settlements',
-                            description: 'Settle accounts with deliverymen after completing their trips. This section calculates the balance between goods dispatched, returned, and cash collected. The badge shows pending settlements.',
+                            description: 'Reconcile driver cash, stock, market credit, and shortages at end of day. Add Settlement selects an existing Trip ID and prepares its clearing sheet.',
                             side: 'right', align: 'start'
                         }
                     },
@@ -426,7 +377,7 @@
                         onHighlightStarted: (el) => scrollSidebarToEl(el),
                         popover: {
                             title: 'Ledgers',
-                            description: 'View detailed financial ledgers for each deliveryman and market. Get a complete running balance of all transactions, helping you keep your accounts accurate and up to date.',
+                            description: 'Review EBM and CFL supplier payables plus driver shortage receivables. Create entries with debit or credit values and open full voucher audit details.',
                             side: 'right', align: 'center'
                         }
                     },

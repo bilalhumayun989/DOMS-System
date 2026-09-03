@@ -1,254 +1,43 @@
 @extends('layouts.app')
-@php $pageTitle = 'Returns'; @endphp
+@php $pageTitle = 'Return Claims'; @endphp
 
 @section('content')
-<div
-    x-data="{
-        open: false,
-        mode: 'edit',
-        selected: null,
-        openEdit(r) { this.mode='edit'; this.selected=r; this.open=true; },
-        openDelete(r) { this.mode='delete'; this.selected=r; this.open=true; },
-        close() { this.open=false; }
-    }"
-    x-effect="document.body.style.overflow = open ? 'hidden' : ''"
-    @keydown.escape.window="close()"
->
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
-        <div class="px-6 py-5 flex items-center justify-between flex-wrap gap-3" style="border-bottom: 1px solid #f1f5f9;">
-            <div>
-                <h2 class="text-lg font-bold text-gray-900">Returns</h2>
-                <p class="text-xs mt-0.5 font-medium" style="color: #94a3b8;">{{ count($returns) }} records</p>
-            </div>
-            <div class="flex gap-2">
-                @foreach(['All', 'Pending', 'Restocked'] as $opt)
-                <a href="{{ route('returns.index', ['status' => $opt]) }}"
-                   class="px-4 py-2 rounded-xl text-xs font-semibold transition-colors"
-                   style="{{ $filter === $opt ? 'background:#3b82f6;color:#ffffff;' : 'background:#f1f5f9;color:#475569;' }}">
-                    {{ $opt }}
-                </a>
-                @endforeach
-            </div>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr style="background: #fafbfc;">
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Return ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Trip</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Driver</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">SKU</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Product</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Qty</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Reason</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Status</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($returns as $ret)
-                    <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                        <td class="px-6 py-4 font-mono text-xs font-bold text-gray-600">{{ $ret['return_ref'] }}</td>
-                        <td class="px-6 py-4 text-xs text-gray-500">{{ $ret['date'] }}</td>
-                        <td class="px-6 py-4"><a href="{{ route('trips.show', $ret['trip_id']) }}" class="font-mono text-xs font-bold" style="color:#3b82f6;">{{ $ret['trip_display'] }}</a></td>
-                        <td class="px-6 py-4 text-sm text-gray-700">{{ $ret['deliveryman'] }}</td>
-                        <td class="px-6 py-4 font-mono text-xs font-semibold text-gray-600">{{ $ret['sku'] }}</td>
-                        <td class="px-6 py-4 text-sm font-semibold text-gray-800">{{ $ret['product'] }}</td>
-                        <td class="px-6 py-4 text-center text-sm font-bold text-gray-800">{{ $ret['qty_returned'] }}</td>
-                        <td class="px-6 py-4"><span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-red-50 text-red-600">{{ $ret['reason'] }}</span></td>
-                        <td class="px-6 py-4"><x-status-badge :status="$ret['status']"/></td>
-                        <td class="px-6 py-4 text-center">
-                            <div class="inline-flex items-center gap-1">
-                                <button
-                                    @click="openEdit({{ json_encode($ret) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background:#f0fdf4;color:#16a34a;"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    @click="openDelete({{ json_encode($ret) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background:#fff1f2;color:#ef4444;"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+<div x-data="{ createOpen: false }">
+    <div class="mb-5 flex flex-wrap items-end justify-between gap-4"><div><p class="text-xs font-bold uppercase tracking-widest text-blue-600">AAA Traders</p><h2 class="mt-1 text-2xl font-black text-slate-900">Return Claims</h2><p class="mt-1 text-sm text-slate-500">Daily returns, expiry claims, damage reviews, and distributor credit notes.</p></div><a href="{{ route('returns.create') }}" class="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-bold text-white">+ New Return Claim</a></div>
+
+    <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @foreach([['Total Pending Returns Today',14500,'#b91c1c','#fff1f2'],['Total Expiry Claims (This Month)',85200,'#b45309','#fffbeb'],['Total Damaged Goods (This Month)',24100,'#c2410c','#fff7ed'],['Distributor Approved Claims (Cr Note Received)',65000,'#047857','#ecfdf5']] as [$label,$value,$color,$background])
+        <div class="min-h-32 rounded-xl border border-slate-200 p-5 shadow-sm" style="background:{{ $background }}"><p class="text-xs font-bold uppercase tracking-wide" style="color:{{ $color }};opacity:.75">{{ $label }}</p><p class="mt-2 text-2xl font-black" style="color:{{ $color }}">{{ pkr($value) }}</p></div>
+        @endforeach
     </div>
 
-    {{-- Backdrop --}}
-    <div
-        x-show="open"
-        x-cloak
-        x-transition
-        @click="close()"
-        style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:50;"
-    ></div>
+    <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white"><div class="border-b border-slate-100 px-6 py-5"><h3 class="text-lg font-black text-slate-900">Returns Main Table</h3><p class="mt-1 text-xs text-slate-500">Every return is tracked as a claim with distributor settlement status.</p></div><div class="overflow-x-auto"><table class="w-full min-w-[75rem] text-sm"><thead><tr class="bg-slate-50 text-left text-xs font-bold uppercase tracking-wide text-slate-400"><th class="px-5 py-3">Return ID / Claim No</th><th class="px-5 py-3">Date</th><th class="px-5 py-3">Market / Shop Name</th><th class="px-5 py-3">Distributor Name</th><th class="px-5 py-3">Driver / Salesman Name</th><th class="px-5 py-3">Return Type</th><th class="px-5 py-3">Total Cartons / Units Returned</th><th class="px-5 py-3 text-right">Total Return Value (PKR)</th><th class="px-5 py-3">Return Status</th><th class="px-5 py-3">Actions</th></tr></thead><tbody class="divide-y divide-slate-100">@foreach($returns as $return)<tr class="hover:bg-slate-50"><td class="px-5 py-4 font-mono text-xs font-black text-blue-700">{{ $return['return_ref'] }}</td><td class="px-5 py-4 whitespace-nowrap">{{ $return['date'] }}</td><td class="px-5 py-4"><p class="font-semibold text-slate-800">{{ $return['shop'] }}</p><p class="text-xs text-slate-500">{{ $return['market'] }}</p></td><td class="px-5 py-4">{{ $return['distributor'] }}</td><td class="px-5 py-4">{{ $return['deliveryman'] }}</td><td class="px-5 py-4">{{ $return['return_type'] }}</td><td class="px-5 py-4">{{ $return['units'] }}</td><td class="px-5 py-4 text-right font-black text-slate-800">{{ pkr($return['value']) }}</td><td class="px-5 py-4"><x-status-badge :status="$return['status']" /></td><td class="px-5 py-4"><div class="flex flex-wrap gap-2"><a href="{{ route('returns.show', $return['id']) }}" class="rounded-lg bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700 transition-colors hover:bg-blue-100">View</a><a href="{{ route('returns.edit', $return['id']) }}" class="rounded-lg bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700 transition-colors hover:bg-amber-100">Edit</a><form method="POST" action="{{ route('returns.destroy', $return['id']) }}" onsubmit="return confirm('Delete this return claim?')">@csrf @method('DELETE')<button type="submit" class="rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-red-700 transition-colors hover:bg-red-100">Delete</button></form></div></td></tr>@endforeach</tbody></table></div></section>
 
-    {{-- Edit Modal --}}
-    <div
-        x-show="open && mode === 'edit'"
-        x-cloak
-        x-transition
-        @click.stop
-        style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:0.75rem;box-shadow:0 4px 24px rgba(0,0,0,0.12);width:100%;max-width:28rem;padding:1.5rem;z-index:51;"
-    >
-        <h3 class="text-base font-bold text-gray-900 mb-4">Edit Return</h3>
-        <form method="POST" :action="'{{ url('returns') }}/' + selected?.id">
-            @csrf
-            <input type="hidden" name="_method" value="PUT">
+    @if(false)
+    <div x-show="open" x-cloak x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4" @click.self="close()"><div class="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl" @click.stop><div class="flex items-start justify-between border-b border-slate-100 pb-4"><div><p class="text-xs font-bold uppercase tracking-widest text-blue-600">Return Claim Detail</p><h3 class="mt-1 text-xl font-black text-slate-900" x-text="selected?.return_ref"></h3></div><button type="button" @click="close()" class="text-2xl text-slate-400">&times;</button></div>
+        <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2"><section class="rounded-xl border border-slate-200 p-5"><h4 class="font-black text-slate-800">A. Return Header &amp; Audit Info</h4><div class="mt-4 grid grid-cols-2 gap-4 text-sm"><div><span class="text-xs text-slate-400">Return Reference</span><p class="font-bold" x-text="selected?.return_ref"></p></div><div><span class="text-xs text-slate-400">Date &amp; Time</span><p class="font-bold" x-text="selected?.date"></p></div><div><span class="text-xs text-slate-400">Trip / Invoice Reference</span><p class="font-bold" x-text="(selected?.trip_display ?? '') + ' / ' + (selected?.invoice_ref ?? '')"></p></div><div><span class="text-xs text-slate-400">Shopkeeper / Market</span><p class="font-bold" x-text="(selected?.shop ?? '') + ' (' + (selected?.market ?? '') + ')' "></p></div><div><span class="text-xs text-slate-400">Deliveryman / Salesman</span><p class="font-bold" x-text="selected?.deliveryman"></p></div><div><span class="text-xs text-slate-400">Distributor</span><p class="font-bold" x-text="selected?.distributor"></p></div></div></section>
+        <section class="rounded-xl border border-slate-200 p-5"><h4 class="font-black text-slate-800">C. Reason &amp; Classification Analysis</h4><div class="mt-4 space-y-3 text-sm"><p><span class="text-slate-400">Main Reason Category</span><strong class="ml-2" x-text="selected?.main_reason"></strong></p><p><span class="text-slate-400">Detailed Remarks / Notes</span><strong class="ml-2" x-text="selected?.remarks"></strong></p><p><span class="text-slate-400">Physical Condition</span><strong class="ml-2" x-text="selected?.condition"></strong></p></div></section></div>
+        <section class="mt-5 rounded-xl border border-slate-200 p-5"><h4 class="mb-4 font-black text-slate-800">B. SKU-Wise Returned Items Breakdown</h4><div class="overflow-x-auto"><table class="w-full min-w-[48rem] text-sm"><thead><tr class="border-b border-slate-100 text-left text-xs font-bold uppercase tracking-wide text-slate-400"><th class="pb-3">SKU / Item Name</th><th class="pb-3">Batch No. / Expiry</th><th class="pb-3">Returned Qty</th><th class="pb-3 text-right">Unit Rate (PKR)</th><th class="pb-3 text-right">Line Total Value (PKR)</th><th class="pb-3">Primary Return Reason</th></tr></thead><tbody><template x-for="item in (selected?.items ?? [])" :key="item.sku"><tr class="border-b border-slate-50"><td class="py-3 font-semibold" x-text="item.sku"></td><td class="py-3 font-mono text-xs" x-text="item.batch"></td><td class="py-3" x-text="item.quantity"></td><td class="py-3 text-right" x-text="'PKR ' + Number(item.rate).toLocaleString('en-US', {minimumFractionDigits: 2})"></td><td class="py-3 text-right font-bold" x-text="'PKR ' + Number(item.line_total).toLocaleString('en-US', {minimumFractionDigits: 2})"></td><td class="py-3" x-text="item.reason"></td></tr></template></tbody></table></div></section>
+        <section class="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-5"><h4 class="mb-4 font-black text-slate-800">D. Financial &amp; Settlement Status</h4><div class="grid grid-cols-1 gap-4 text-sm md:grid-cols-2 lg:grid-cols-4"><div><span class="text-xs text-slate-400">Gross Returned Amount</span><p class="font-black text-red-600" x-text="'PKR ' + Number(selected?.value ?? 0).toLocaleString('en-US', {minimumFractionDigits: 2})"></p></div><div><span class="text-xs text-slate-400">Adjusted Against Invoice / Credit Note No</span><p class="font-bold" x-text="selected?.credit_note"></p></div><div><span class="text-xs text-slate-400">Impact on Salesman Cash</span><p class="font-bold" x-text="selected?.impact"></p></div><div><span class="text-xs text-slate-400">Distributor Claim Status</span><p class="font-bold" x-text="selected?.claim_status"></p></div></div></section>
+    </div></div>
+</div>
+    @endif
 
-            <div class="space-y-3">
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Return ID</label>
-                    <input
-                        type="text"
-                        name="return_ref"
-                        readonly
-                        :value="selected?.return_ref ?? ''"
-                        class="w-full text-sm"
-                        style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;color:#94a3b8;"
-                    >
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Trip ID</label>
-                    <input
-                        type="text"
-                        name="trip_display"
-                        :value="selected?.trip_display ?? ''"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Deliveryman</label>
-                    <input
-                        type="text"
-                        name="deliveryman"
-                        :value="selected?.deliveryman ?? ''"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">SKU</label>
-                    <input
-                        type="text"
-                        name="sku"
-                        :value="selected?.sku ?? ''"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Product Name</label>
-                    <input
-                        type="text"
-                        name="product"
-                        :value="selected?.product ?? ''"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Qty Returned</label>
-                    <input
-                        type="number"
-                        name="qty_returned"
-                        min="1"
-                        :value="selected?.qty_returned ?? 1"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Reason Code</label>
-                    <select
-                        name="reason"
-                        x-init="$watch('selected', v => { if (v) $el.value = v.reason ?? 'REFUSED'; })"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                        <option value="REFUSED">REFUSED</option>
-                        <option value="DAMAGED">DAMAGED</option>
-                        <option value="EXPIRED">EXPIRED</option>
-                        <option value="EXCESS">EXCESS</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold mb-1" style="color:#64748b;">Status</label>
-                    <select
-                        name="status"
-                        x-init="$watch('selected', v => { if (v) $el.value = v.status ?? 'Pending'; })"
-                        class="w-full text-sm"
-                        style="background:#fff;border:1px solid #e2e8f0;border-radius:0.375rem;padding:0.625rem 0.75rem;"
-                    >
-                        <option value="Pending">Pending</option>
-                        <option value="Restocked">Restocked</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="flex justify-end gap-2 mt-5">
-                <button
-                    type="button"
-                    @click="close()"
-                    class="text-xs font-semibold px-4 py-2 rounded-lg"
-                    style="background:#f1f5f9;color:#475569;"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    class="text-xs font-semibold px-4 py-2 rounded-lg"
-                    style="background:#3b82f6;color:#ffffff;"
-                >
-                    Save
-                </button>
-            </div>
-        </form>
-    </div>
-
-    {{-- Delete Confirmation Modal --}}
-    <div
-        x-show="open && mode === 'delete'"
-        x-cloak
-        x-transition
-        @click.stop
-        style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:0.75rem;box-shadow:0 4px 24px rgba(0,0,0,0.12);width:100%;max-width:28rem;padding:1.5rem;z-index:51;"
-    >
-        <h3 class="text-base font-bold text-gray-900 mb-3">Delete Return</h3>
-        <p class="text-sm text-gray-600 mb-5">
-            Are you sure you want to delete Return <span class="font-bold text-gray-900" x-text="selected?.return_ref"></span>?
-        </p>
-        <form method="POST" :action="'{{ url('returns') }}/' + selected?.id">
-            @csrf
-            <input type="hidden" name="_method" value="DELETE">
-            <div class="flex justify-end gap-2">
-                <button
-                    type="button"
-                    @click="close()"
-                    class="text-xs font-semibold px-4 py-2 rounded-lg"
-                    style="background:#f1f5f9;color:#475569;"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    class="text-xs font-semibold px-4 py-2 rounded-lg"
-                    style="background:#ef4444;color:#ffffff;"
-                >
-                    Confirm Delete
-                </button>
-            </div>
+<div x-show="createOpen" x-cloak x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4" @click.self="createOpen = false">
+    <div class="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl" @click.stop>
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4"><div><h3 class="text-xl font-black text-slate-900">New Return Claim</h3><p class="mt-1 text-xs text-slate-500">Enter the complete return and distributor claim record.</p></div><button type="button" @click="createOpen = false" class="text-2xl text-slate-400">&times;</button></div>
+        <form class="mt-5 space-y-6" @submit.prevent="createOpen = false">
+            <section><h4 class="mb-3 text-sm font-black text-slate-800">A. Return Header &amp; Audit Info</h4><div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div><label class="claim-label">Return Reference *</label><input required placeholder="RET-2026-09-004" class="claim-field"></div><div><label class="claim-label">Date *</label><input type="date" required class="claim-field"></div><div><label class="claim-label">Trip Reference *</label><input required placeholder="TR-2026-09-02-001" class="claim-field"></div><div><label class="claim-label">Invoice Reference *</label><input required placeholder="INV-8892" class="claim-field"></div><div><label class="claim-label">Shopkeeper / Market *</label><input required placeholder="Al-Noor General Store (Gulshan-e-Iqbal)" class="claim-field"></div><div><label class="claim-label">Deliveryman / Salesman *</label><input required placeholder="Ahmed Khan" class="claim-field"></div><div><label class="claim-label">Distributor *</label><input required value="AAA Traders" class="claim-field"></div><div><label class="claim-label">Return Type *</label><select required class="claim-field"><option>Market Return</option><option>Expiry Claim</option><option>Damage In Transit</option><option>Factory Defect</option></select></div>
+            </div></section>
+            <section><h4 class="mb-3 text-sm font-black text-slate-800">B. SKU-Wise Returned Items Breakdown</h4><div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div><label class="claim-label">SKU / Item Name *</label><select required class="claim-field"><option>Sooper FP</option><option>Rio Chocolate</option><option>Gluco Family</option><option>Pepsi 1.5L</option></select></div><div><label class="claim-label">Batch No. / Expiry *</label><input required placeholder="BATCH-2026-042" class="claim-field"></div><div><label class="claim-label">Returned Qty (Cartons/Packs) *</label><input required placeholder="2 Cartons" class="claim-field"></div><div><label class="claim-label">Unit Rate (PKR) *</label><input type="number" min="0" step="0.01" required placeholder="2400.00" class="claim-field"></div><div><label class="claim-label">Line Total Value (PKR) *</label><input type="number" min="0" step="0.01" required placeholder="4800.00" class="claim-field"></div><div><label class="claim-label">Primary Return Reason *</label><select required class="claim-field"><option>Expired Product</option><option>Damaged Packaging</option><option>Wrong Item Delivered</option><option>Market Refusal</option></select></div>
+            </div></section>
+            <section><h4 class="mb-3 text-sm font-black text-slate-800">C. Reason &amp; Classification Analysis</h4><div class="grid grid-cols-1 gap-4 md:grid-cols-2"><div><label class="claim-label">Main Reason Category *</label><select required class="claim-field"><option>Expiry</option><option>Damage</option><option>Market Refusal</option><option>Quality Defect</option></select></div><div><label class="claim-label">Physical Condition *</label><select required class="claim-field"><option>Good Condition [Re-stockable]</option><option>Damaged [Send to Distributor Claim]</option><option>Scrap</option></select></div><div class="md:col-span-2"><label class="claim-label">Detailed Remarks / Notes</label><textarea rows="3" placeholder="Explain the return condition and reason" class="claim-field"></textarea></div></div></section>
+            <section><h4 class="mb-3 text-sm font-black text-slate-800">D. Financial &amp; Settlement Status</h4><div class="grid grid-cols-1 gap-4 md:grid-cols-2"><div><label class="claim-label">Gross Returned Amount (PKR) *</label><input type="number" min="0" step="0.01" required placeholder="14500.00" class="claim-field"></div><div><label class="claim-label">Adjusted Against Invoice / Credit Note No</label><input placeholder="CN-2026-102" class="claim-field"></div><div><label class="claim-label">Impact on Salesman Cash *</label><select required class="claim-field"><option>Deducted from sales</option><option>Adjusted in shortage balance</option></select></div><div><label class="claim-label">Distributor Claim Status *</label><select required class="claim-field"><option>Pending Claim Submission to AAA Traders</option><option>Submitted to AAA Traders</option><option>Credit note received from AAA Traders</option></select></div></div></section>
+            <div class="flex justify-end gap-2 border-t border-slate-100 pt-4"><button type="button" @click="createOpen = false" class="rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-bold text-slate-600">Cancel</button><button class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-bold text-white">Save Return Claim</button></div>
         </form>
     </div>
 </div>
+<style>[x-cloak]{display:none!important}.claim-label{display:block;margin-bottom:.25rem;font-size:.75rem;font-weight:700;color:#475569}.claim-field{width:100%;border:1px solid #cbd5e1;border-radius:.5rem;background:#fff;padding:.625rem .75rem;font-size:.875rem}</style>
 @endsection

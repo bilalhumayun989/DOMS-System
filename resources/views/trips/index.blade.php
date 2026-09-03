@@ -17,6 +17,7 @@
         formVehicle: '',
         formArea: '',
         formDriver: '',
+        formDistributor: '',
         collectMethod: 'Cash',
         dlfFileName: '',
         onDriverChange(name) {
@@ -35,6 +36,7 @@
             this.formVehicle = '';
             this.formArea = '';
             this.formDriver = '';
+            this.formDistributor = '';
             this.dlfFileName = '';
             this.open = true;
         },
@@ -44,6 +46,7 @@
             this.formVehicle = r.vehicle ?? '';
             this.formArea    = r.market_area ?? '';
             this.formDriver  = r.deliveryman?.name ?? '';
+            this.formDistributor = r.distributor ?? 'Main Distributor';
             this.dlfFileName = r.source_dlf ?? '';
             this.open = true;
         },
@@ -64,17 +67,21 @@
                 <p class="text-xs mt-0.5 font-medium" style="color: #94a3b8;">{{ count($trips) }} trips</p>
             </div>
             <div class="flex items-center gap-3">
-                {{-- Filter tabs --}}
-                <a href="{{ route('trips.index') }}"
-                   class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-                   style="{{ ($filter !== 'open') ? 'background:#3b82f6;color:#fff;' : 'background:#f1f5f9;color:#475569;' }}">
-                    All Trips
-                </a>
-                <a href="{{ route('trips.index', ['filter' => 'open']) }}"
-                   class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-                   style="{{ ($filter === 'open') ? 'background:#f97316;color:#fff;' : 'background:#f1f5f9;color:#475569;' }}">
-                    Open Trips
-                </a>
+                        <form method="GET" action="{{ route('trips.index') }}" class="flex items-center gap-2">
+                            <select name="month" class="rounded-lg border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600">
+                                <option value="">Month</option>
+                                @foreach(range(1, 12) as $monthOption)
+                                <option value="{{ $monthOption }}" @selected($month === $monthOption)>{{ date('F', mktime(0, 0, 0, $monthOption, 1)) }}</option>
+                                @endforeach
+                            </select>
+                            <select name="year" class="rounded-lg border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600">
+                                <option value="">Year</option>
+                                @foreach(range(now()->year - 2, now()->year + 1) as $yearOption)
+                                <option value="{{ $yearOption }}" @selected($year === $yearOption)>{{ $yearOption }}</option>
+                                @endforeach
+                            </select>
+                            <button class="rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-600">Filter</button>
+                        </form>
                 <button
                     @click="openCreate()"
                     class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg"
@@ -100,7 +107,6 @@
                         <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Market / Area</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Status</th>
                         <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Load Value</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Expected Cash</th>
                         <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Actions</th>
                     </tr>
                 </thead>
@@ -121,7 +127,6 @@
                         <td class="px-6 py-4 text-sm text-gray-700">{{ $trip['market_area'] }}</td>
                         <td class="px-6 py-4"><x-status-badge :status="$trip['status']"/></td>
                         <td class="px-6 py-4 text-right text-sm font-bold text-gray-800">{{ $trip['load_value'] > 0 ? pkr($trip['load_value']) : '—' }}</td>
-                        <td class="px-6 py-4 text-right text-sm text-gray-600">{{ $trip['expected_cash'] > 0 ? pkr($trip['expected_cash']) : '—' }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-center gap-1.5 flex-wrap">
                                 <a href="{{ route('trips.show', $trip['id']) }}"
@@ -130,13 +135,6 @@
                                     View →
                                 </a>
                                 @if($trip['status'] !== 'CLOSED')
-                                <a
-                                    href="{{ route('trips.show', $trip['id']) }}#trip-entry"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background: #f0fdf4; color: #16a34a;"
-                                >
-                                    + Collection / Expense
-                                </a>
                                 <button
                                     @click="openEdit({{ json_encode($trip) }})"
                                     class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
@@ -233,15 +231,8 @@
                             >
                         </div>
 
-                        {{-- Status (edit only) --}}
-                        <div x-show="mode === 'edit'">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Status</label>
-                            <select name="status" class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
-                                @foreach(['DRAFT','READY','DISPATCHED','COMPLETED','SETTLEMENT PENDING','SETTLED','CLOSED'] as $st)
-                                <option :selected="selected?.status === '{{ $st }}'">{{ $st }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <input type="hidden" name="status" :value="selected?.status ?? 'DRAFT'">
+                        <input type="hidden" name="expected_cash" :value="selected?.expected_cash ?? 0">
 
                         {{-- Deliveryman (full width) — auto-fills Vehicle + Area --}}
                         <div class="col-span-2">
@@ -275,6 +266,16 @@
                                 class="w-full text-sm"
                                 style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"
                             >
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Day Number</label>
+                            <input type="number" min="1" max="31" readonly :value="selected?.date ? Number(selected.date.slice(-2)) : new Date().getDate()" class="w-full text-sm" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                        </div>
+
+                        <div class="col-span-2">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Distributor Name</label>
+                            <input type="text" name="distributor" x-model="formDistributor" value="Main Distributor" placeholder="e.g. AAA Traders" class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
                         </div>
 
                         {{-- Market / Area (auto-filled) --}}
@@ -319,6 +320,25 @@
 
                     </div>
 
+                    <div class="mt-5 rounded-xl border border-slate-200 p-4">
+                        <h4 class="text-sm font-black text-slate-800">Stock &amp; Issue Entry</h4>
+                        <div class="mt-3 overflow-x-auto">
+                            <table class="w-full min-w-[42rem] text-xs">
+                                <thead><tr class="text-left text-slate-400"><th class="pb-2">Product / SKU Name</th><th class="pb-2">Opening Stock</th><th class="pb-2">Fresh Issue</th><th class="pb-2">Total Issued</th><th class="pb-2">Returned</th><th class="pb-2">Damage / Expired</th><th class="pb-2">Net Sold</th></tr></thead>
+                                <tbody><tr><td class="pr-2"><select class="w-full rounded border-slate-200 text-xs"><option>Sooper FP</option><option>Rio</option><option>Pepsi 1.5L</option><option>Coca-Cola 1.5L</option></select></td><td class="pr-2"><input type="number" value="0" class="w-full rounded border-slate-200 text-xs"></td><td class="pr-2"><input type="number" value="0" class="w-full rounded border-slate-200 text-xs"></td><td class="pr-2"><input readonly value="0" class="w-full rounded border-slate-200 bg-slate-50 text-xs"></td><td class="pr-2"><input type="number" value="0" class="w-full rounded border-slate-200 text-xs"></td><td class="pr-2"><input type="number" value="0" class="w-full rounded border-slate-200 text-xs"></td><td><input readonly value="0" class="w-full rounded border-slate-200 bg-slate-50 text-xs"></td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 rounded-xl border border-slate-200 p-4">
+                        <h4 class="text-sm font-black text-slate-800">Sales &amp; Financial Cash Entry</h4>
+                        <div class="mt-3 grid grid-cols-2 gap-4">
+                            @foreach(['Total Gross Sales Amount (PKR)', 'Discount / Scheme Given (PKR)', 'Net Sales Amount (PKR)', 'Cash Collected (PKR)', 'Cheque Collected (PKR)', 'Online Bank Transfer (PKR)', 'Market Credit / Udhaar (PKR)'] as $financialField)
+                            <div class="{{ $loop->last ? 'col-span-2' : '' }}"><label class="block text-xs font-semibold text-gray-600 mb-1">{{ $financialField }}</label><input type="number" min="0" step="0.01" value="0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;"></div>
+                            @endforeach
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Source DLF Reference</label>
@@ -327,10 +347,6 @@
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Load Value (PKR)</label>
                             <input type="number" name="load_value" min="0" step="0.01" required :value="selected?.load_value ?? 0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Expected Cash (PKR)</label>
-                            <input type="number" name="expected_cash" min="0" step="0.01" required :value="selected?.expected_cash ?? 0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
                         </div>
                     </div>
 

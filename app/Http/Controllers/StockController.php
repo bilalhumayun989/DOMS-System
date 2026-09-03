@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class StockController extends Controller
@@ -36,16 +38,54 @@ class StockController extends Controller
     {
         $skus = array_map(function ($sku) {
             $sku['stock_status'] = stockStatus($sku['current_stock'], $sku['reorder_point']);
+
             return $sku;
         }, $this->skus());
 
         return view('stock.index', compact('skus'));
     }
 
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'sku_code' => ['required', 'string'],
+            'product_name' => ['required', 'string'],
+            'category' => ['required', 'string'],
+            'current_stock' => ['required', 'integer', 'min:0'],
+            'reorder_point' => ['required', 'integer', 'min:0'],
+        ]);
+
+        return redirect()->route('stock.index')->with('success', 'SKU added successfully.');
+    }
+
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        abort_unless(collect($this->skus())->contains('id', $id), 404);
+
+        $request->validate([
+            'sku_code' => ['required', 'string'],
+            'product_name' => ['required', 'string'],
+            'category' => ['required', 'string'],
+            'current_stock' => ['required', 'integer', 'min:0'],
+            'reorder_point' => ['required', 'integer', 'min:0'],
+        ]);
+
+        return redirect()->route('stock.index')->with('success', 'SKU updated successfully.');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        abort_unless(collect($this->skus())->contains('id', $id), 404);
+
+        return redirect()->route('stock.index')->with('success', 'SKU deleted successfully.');
+    }
+
     public function show(int $id): View
     {
         $sku = collect($this->skus())->firstWhere('id', $id);
-        if (! $sku) abort(404);
+        if (! $sku) {
+            abort(404);
+        }
 
         $sku['stock_status'] = stockStatus($sku['current_stock'], $sku['reorder_point']);
 

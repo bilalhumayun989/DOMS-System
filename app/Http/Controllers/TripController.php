@@ -16,16 +16,28 @@ class TripController extends Controller
 {
     public function index(Request $request): View
     {
-        $filter = $request->query('filter');
         $query = Trip::query()->latest('trip_date')->latest('id');
+        $month = $request->integer('month');
+        $year = $request->integer('year');
+        $filter = $request->input('filter');
+
+        if ($month >= 1 && $month <= 12) {
+            $query->whereMonth('trip_date', $month);
+        }
+        if ($year >= 2020 && $year <= 2100) {
+            $query->whereYear('trip_date', $year);
+        }
         if ($filter === 'open') {
             $query->where('status', '!=', 'CLOSED');
+        } elseif ($filter === 'closed') {
+            $query->where('status', 'CLOSED');
         }
+
         $trips = $query->get()->map(fn (Trip $trip) => $this->present($trip))->all();
-        $pageTitle = $filter === 'open' ? 'Open Trips' : 'All Trips';
+        $pageTitle = 'Trips';
         $deliverymen = $this->deliverymenWithVehicles();
 
-        return view('trips.index', compact('trips', 'filter', 'pageTitle', 'deliverymen'));
+        return view('trips.index', compact('trips', 'month', 'year', 'filter', 'pageTitle', 'deliverymen'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -40,7 +52,7 @@ class TripController extends Controller
             'status' => 'DRAFT',
         ]);
 
-        return to_route('trips.index', ['filter' => 'open'])->with('success', 'Trip created and added to Open Trips.');
+        return to_route('trips.index')->with('success', 'Trip created successfully.');
     }
 
     public function update(Request $request, Trip $trip): RedirectResponse
@@ -236,7 +248,7 @@ class TripController extends Controller
     {
         return ['id' => $trip->id, 'trip_id' => $trip->trip_number, 'date' => $trip->trip_date->format('Y-m-d'),
             'deliveryman' => ['id' => $trip->deliveryman_id ?? 1, 'name' => $trip->deliveryman_name], 'vehicle' => $trip->vehicle,
-            'market_area' => $trip->market_area, 'source_dlf' => $trip->source_dlf, 'status' => $trip->status,
+            'market_area' => $trip->market_area, 'distributor' => 'Main Distributor', 'source_dlf' => $trip->source_dlf, 'status' => $trip->status,
             'delivery_result' => $trip->delivery_result, 'follow_up_date' => $trip->follow_up_date?->format('Y-m-d'),
             'delivery_notes' => $trip->delivery_notes, 'load_value' => (float) $trip->load_value, 'expected_cash' => (float) $trip->expected_cash];
     }

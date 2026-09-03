@@ -63,26 +63,30 @@ $borderMap = [
             </div>
             <a href="{{ route('trips.index') }}" class="text-xs font-semibold text-blue-500 hover:text-blue-700">View All →</a>
         </div>
-        <div class="overflow-x-auto">
+        <div class="max-h-64 overflow-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="bg-gray-50">
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Trip ID</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Driver</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Market</th>
-                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
-                        <th class="px-5 py-3 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">Value</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Route ID / Trip ID</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Driver Name</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Distributor</th>
+                        <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Market / Area</th>
+                        <th class="px-5 py-3 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">Date</th>
                         <th class="px-5 py-3 text-center text-xs font-semibold text-gray-400 uppercase tracking-wider"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     @foreach($todaysTrips as $trip)
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-5 py-3.5 font-mono text-xs font-bold text-blue-600">{{ $trip['trip_id'] }}</td>
-                        <td class="px-5 py-3.5 font-medium text-gray-700">{{ $trip['deliveryman'] }}</td>
+                        <td class="px-5 py-3.5 font-mono text-xs font-bold text-blue-600">
+                            <a href="{{ route('trips.show', $trip['id']) }}" class="hover:text-blue-800">{{ $trip['route_id'] }}</a>
+                        </td>
+                        <td class="px-5 py-3.5 font-medium text-gray-700">
+                            <a href="{{ route('deliverymen.show', $trip['deliveryman_id']) }}" class="hover:text-blue-600">{{ $trip['deliveryman'] }}</a>
+                        </td>
+                        <td class="px-5 py-3.5 text-gray-500">{{ $trip['distributor'] }}</td>
                         <td class="px-5 py-3.5 text-gray-500">{{ $trip['market_area'] }}</td>
-                        <td class="px-5 py-3.5"><x-status-badge :status="$trip['status']"/></td>
-                        <td class="px-5 py-3.5 text-right font-semibold text-gray-800">{{ pkr($trip['load_value']) }}</td>
+                        <td class="px-5 py-3.5 text-right font-semibold text-gray-800">{{ $trip['date'] }}</td>
                         <td class="px-5 py-3.5 text-center">
                             <a href="{{ route('trips.show', $trip['id']) }}"
                                class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
@@ -96,29 +100,17 @@ $borderMap = [
         </div>
     </div>
 
-    {{-- Recent Collections --}}
+    {{-- Quick Day Selector --}}
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="px-6 py-4 flex items-center justify-between border-b border-gray-100">
-            <h3 class="font-semibold text-gray-800 text-base">Recent Collections</h3>
-            <a href="{{ route('collections.index') }}" class="text-xs font-semibold text-blue-500 hover:text-blue-700">View All →</a>
+        <div class="px-6 py-4 border-b border-gray-100">
+            <h3 class="font-semibold text-gray-800 text-base">Quick Day Selector (Days 1 – 31)</h3>
         </div>
-        <div>
-            @foreach($recentCollections as $col)
-            <div class="px-6 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
-                <div class="flex items-start justify-between gap-3">
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold text-gray-800 truncate">{{ $col['customer'] }}</p>
-                        <p class="text-xs text-gray-400 font-mono mt-0.5">{{ $col['trip_id'] }}</p>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-sm font-bold text-green-600">{{ pkr($col['amount']) }}</p>
-                        <span class="text-xs font-medium px-2 py-0.5 rounded-full mt-0.5 inline-block
-                            {{ $col['method']==='Cash' ? 'bg-green-50 text-green-600' : ($col['method']==='Cheque' ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600') }}">
-                            {{ $col['method'] }}
-                        </span>
-                    </div>
-                </div>
-            </div>
+        <div class="grid grid-cols-5 gap-1.5 p-4">
+            @foreach(range(1, 31) as $day)
+            <a href="{{ route('reports.trips', ['day' => $day]) }}"
+               class="flex min-h-9 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 px-1 py-1.5 text-xs font-bold text-blue-600 transition-colors hover:border-blue-300 hover:bg-blue-100">
+                Day {{ $day }}
+            </a>
             @endforeach
         </div>
     </div>
@@ -128,7 +120,7 @@ $borderMap = [
 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
     <div class="px-6 py-4 flex items-center justify-between border-b border-gray-100">
         <div class="flex items-center gap-2">
-            <h3 class="font-semibold text-gray-800 text-base">Open Shortages</h3>
+            <h3 class="font-semibold text-gray-800 text-base">Daily Shortages &amp; Recoveries</h3>
             <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-50 text-red-500">{{ count($topShortages) }}</span>
         </div>
         <a href="{{ route('settlements.index') }}" class="text-xs font-semibold text-blue-500 hover:text-blue-700">View All →</a>
@@ -137,22 +129,38 @@ $borderMap = [
         <table class="w-full text-sm">
             <thead>
                 <tr class="bg-gray-50">
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Deliveryman</th>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Trip ID</th>
-                    <th class="px-5 py-3 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">Amount</th>
-                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Classification</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Driver / Deliveryman Name</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Route ID / Trip ID</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Market / Area</th>
+                    <th class="px-5 py-3 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">Shortage Amount (PKR)</th>
+                    <th class="px-5 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Recovery Status</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-50">
                 @foreach($topShortages as $s)
                 <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-5 py-3.5 font-semibold text-gray-800">{{ $s['deliveryman'] }}</td>
-                    <td class="px-5 py-3.5 font-mono text-xs font-bold text-blue-600">{{ $s['trip_id'] }}</td>
+                    <td class="px-5 py-3.5 font-semibold text-gray-800">
+                        <a href="{{ route('deliverymen.show', $s['deliveryman_id']) }}" class="hover:text-blue-600">{{ $s['deliveryman'] }}</a>
+                    </td>
+                    <td class="px-5 py-3.5 font-mono text-xs font-bold text-blue-600">
+                        <a href="{{ route('trips.show', $s['id']) }}" class="hover:text-blue-800">{{ $s['trip_id'] }}</a>
+                    </td>
+                    <td class="px-5 py-3.5 text-gray-500">{{ $s['market_area'] }}</td>
                     <td class="px-5 py-3.5 text-right font-bold text-red-600">{{ pkr($s['amount']) }}</td>
-                    <td class="px-5 py-3.5"><x-status-badge :status="$s['classification']"/></td>
+                    <td class="px-5 py-3.5"><x-status-badge :status="$s['recovery_status']"/></td>
                 </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr class="border-t-2 border-gray-100 bg-gray-50">
+                    <td colspan="5" class="px-5 py-3 text-sm font-semibold text-gray-700">
+                        <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
+                            <span>Total Shortage Today: <strong class="text-red-600">{{ pkr(array_sum(array_column($topShortages, 'amount'))) }}</strong></span>
+                            <span>Total Recovered: <strong class="text-green-600">{{ pkr(array_sum(array_map(fn ($shortage) => $shortage['recovery_status'] === 'Recovered' ? $shortage['amount'] : 0, $topShortages))) }}</strong></span>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

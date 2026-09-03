@@ -1,0 +1,588 @@
+﻿﻿PHPUnit Started (PHPUnit 12.5.34 using PHP 8.4.3 (cli) on WINNT)
+Test Runner Configured
+Bootstrap Finished (D:\development\webdevlopment\full-stack\laravel\DOMS_system\vendor/autoload.php)
+Event Facade Sealed
+Test Suite Loaded (4 tests)
+Test Runner Started
+Test Suite Sorted
+Test Suite Filtered (1 test)
+Test Runner Execution Started (1 test)
+Test Suite Started (D:\development\webdevlopment\full-stack\laravel\DOMS_system\phpunit.xml, 1 test)
+Test Suite Started (Feature, 1 test)
+Test Suite Started (Tests\Feature\TripWorkflowTest, 1 test)
+Test Preparation Started (Tests\Feature\TripWorkflowTest::test_trip_moves_from_open_to_settlement_then_closes_and_locks)
+Before Test Method Called (Tests\Feature\TripWorkflowTest::setUp)
+Before Test Method Finished:
+- Tests\Feature\TripWorkflowTest::setUp
+Test Prepared (Tests\Feature\TripWorkflowTest::test_trip_moves_from_open_to_settlement_then_closes_and_locks)
+Test Failed (Tests\Feature\TripWorkflowTest::test_trip_moves_from_open_to_settlement_then_closes_and_locks)
+Failed asserting that '<!DOCTYPE html>\r\n
+<html lang="en">\r\n
+<head>\r\n
+ <meta charset="UTF-8">\r\n
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">\r\n
+ <title>DOMS ΓÇö TR-2026-08-31-099</title>\r\n
+ <link rel="preconnect" href="https://fonts.googleapis.com">\r\n
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\r\n
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\r\n
+ <link rel="preload" as="style" href="http://localhost:8000/build/assets/app-L_nLF-v8.css" /><link rel="stylesheet" href="http://localhost:8000/build/assets/app-L_nLF-v8.css" /> <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>\r\n
+ \r\n
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>\r\n
+ <style>\r\n
+ [x-cloak] { display: none !important; }\r\n
+ * { font-family: 'Inter', system-ui, sans-serif; }\r\n
+ ::-webkit-scrollbar { width: 5px; height: 5px; }\r\n
+ ::-webkit-scrollbar-track { background: #f1f5f9; }\r\n
+ ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }\r\n
+ ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }\r\n
+ aside.sidebar-nav::-webkit-scrollbar { display: none; }\r\n
+ aside.sidebar-nav { -ms-overflow-style: none; scrollbar-width: none; }\r\n
+ .nav-link { transition: all 0.15s ease; }\r\n
+ .nav-link.active { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); color: #1d4ed8; border-right: 3px solid #3b82f6; }\r\n
+ .nav-link:not(.active):hover { background: #f8fafc; color: #334155; }\r\n
+ .kpi-card { transition: all 0.2s ease; }\r\n
+ .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }\r\n
+ </style>\r\n
+</head>\r\n
+<body class="flex h-screen overflow-hidden" style="background: #f0f4f8;">\r\n
+\r\n
+ \r\n
+ <aside id="tour-sidebar" class="sidebar-nav w-64 flex flex-col flex-shrink-0 overflow-y-auto" style="background: #ffffff; border-right: 1px solid #e8edf2;">\r\n
+\r\n
+ \r\n
+ <div class="flex items-center gap-3 px-5 py-5" style="border-bottom: 1px solid #e8edf2;">\r\n
+ <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-base flex-shrink-0"\r\n
+ style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">\r\n
+ D\r\n
+ </div>\r\n
+ <div>\r\n
+ <div class="font-bold text-gray-900 text-sm tracking-wide">DOMS</div>\r\n
+ <div class="text-xs" style="color: #94a3b8;">Delivery Management</div>\r\n
+ </div>\r\n
+ </div>\r\n
+\r\n
+ \r\n
+ <div class="px-5 pt-5 pb-2">\r\n
+ <span class="text-xs font-semibold uppercase tracking-widest" style="color: #94a3b8;">Main Menu</span>\r\n
+ </div>\r\n
+\r\n
+ \r\n
+ <nav class="flex-1 px-3 pb-4 space-y-0.5">\r\n
+ \r\n
+ \r\n
+ <a id="tour-nav-dashboard" href="http://localhost:8000"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Dashboard</span>\r\n
+ </div>\r\n
+ </a>\r\n
+\r\n
+ \r\n
+ <a id="tour-nav-trips" href="http://localhost:8000/trips"\r\n
+ class="nav-link w-full active flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100">\r\n
+ <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Trips</span>\r\n
+ </div>\r\n
+ <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-500 text-white">Trips</span>\r\n
+ </a>\r\n
+\r\n
+ \r\n
+ <a id="tour-nav-banks" href="http://localhost:8000/banks"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M5 10v9m4-9v9m6-9v9m4-9v9M3 19h18M12 3l9 5H3l9-5z"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Banks</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ <a id="tour-nav-expenses" href="http://localhost:8000/expenses"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Expenses</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ <a id="tour-nav-deliverymen" href="http://localhost:8000/deliverymen"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Deliverymen</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ <a id="tour-nav-markets" href="http://localhost:8000/markets"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Markets</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ <a id="tour-nav-invoices" href="http://localhost:8000/invoices"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Invoices</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ <a id="tour-nav-stock" href="http://localhost:8000/stock"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Stock</span>\r\n
+ </div>\r\n
+ <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">3</span>\r\n
+ </a>\r\n
+ <a id="tour-nav-returns" href="http://localhost:8000/returns"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Returns</span>\r\n
+ </div>\r\n
+ <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">4</span>\r\n
+ </a>\r\n
+ <a id="tour-nav-settlements" href="http://localhost:8000/settlements"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Settlements</span>\r\n
+ </div>\r\n
+ <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">2</span>\r\n
+ </a>\r\n
+ <a id="tour-nav-ledgers" href="http://localhost:8000/ledgers"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Ledgers</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ <a id="tour-nav-reports" href="http://localhost:8000/reports"\r\n
+ class="nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50">\r\n
+ <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>\r\n
+ </svg>\r\n
+ </div>\r\n
+ <span>Reports</span>\r\n
+ </div>\r\n
+ </a>\r\n
+ </nav>\r\n
+\r\n
+ \r\n
+ <div id="tour-user-footer" class="px-4 py-4 mx-3 mb-3 rounded-xl" style="background: #f8fafc; border: 1px solid #e8edf2;">\r\n
+ <div class="flex items-center gap-3">\r\n
+ <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"\r\n
+ style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">A</div>\r\n
+ <div class="flex-1 min-w-0">\r\n
+ <div class="text-xs font-semibold text-gray-700 truncate">Admin / Owner</div>\r\n
+ <div class="text-xs truncate" style="color: #94a3b8;">DOMS v1.0</div>\r\n
+ </div>\r\n
+ </div>\r\n
+ </div>\r\n
+ </aside>\r\n
+\r\n
+ \r\n
+ <div class="flex flex-col flex-1 overflow-hidden">\r\n
+\r\n
+ \r\n
+ <header class="flex items-center justify-between px-8 py-4 flex-shrink-0"\r\n
+ style="background: #ffffff; border-bottom: 1px solid #e8edf2;">\r\n
+ <div>\r\n
+ <h1 class="text-xl font-bold text-gray-900">TR-2026-08-31-099</h1>\r\n
+ <p class="text-xs mt-0.5" style="color: #94a3b8;">Thursday, 03 September 2026</p>\r\n
+ </div>\r\n
+ <div class="flex items-center gap-3">\r\n
+ \r\n
+ <button id="start-tour-btn" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium hover:bg-blue-100" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; transition: all 0.2s;">\r\n
+ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />\r\n
+ </svg>\r\n
+ Start Tour\r\n
+ </button>\r\n
+ \r\n
+ <div id="tour-system-status" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium" style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;">\r\n
+ <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>\r\n
+ System Online\r\n
+ </div>\r\n
+ \r\n
+ <div class="px-3 py-2 rounded-xl text-xs font-medium" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0;">\r\n
+ 03 Sep 2026\r\n
+ </div>\r\n
+ </div>\r\n
+ </header>\r\n
+\r\n
+ \r\n
+ <main class="flex-1 overflow-y-auto px-8 py-6">\r\n
+\r\n
+ \r\n
+ <nav class="flex items-center gap-1.5 mb-5">\r\n
+ <a href="http://localhost:8000" class="text-xs font-medium text-blue-500 hover:text-blue-700">Dashboard</a>\r\n
+ <svg class="w-3.5 h-3.5" style="color: #cbd5e1;" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>\r\n
+ </svg>\r\n
+ <a href="http://localhost:8000/trips" class="text-xs font-medium text-blue-500 hover:text-blue-700">Trips</a>\r\n
+ <svg class="w-3.5 h-3.5" style="color: #cbd5e1;" fill="none" stroke="currentColor" viewBox="0 0 24 24">\r\n
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>\r\n
+ </svg>\r\n
+ <span class="text-xs font-semibold text-gray-700">TR-2026-08-31-099</span>\r\n
+ </nav>\r\n
+ \r\n
+ \n
+<div class="mb-5 rounded-2xl border border-slate-200 bg-white p-6">\n
+ <div class="flex flex-wrap items-start justify-between gap-4">\n
+ <div>\n
+ <div class="mb-2 flex items-center gap-3">\n
+ <span class="font-mono text-xl font-bold text-slate-900">TR-2026-08-31-099</span>\n
+ <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"\r\n
+ style="background: #fffbeb; color: #b45309;">\r\n
+ <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background: #f59e0b;"></span>\r\n
+ SETTLEMENT PENDING\r\n
+</span>\r\n
+ </div>\n
+ <p class="text-sm text-slate-500">Ahmed Khan ┬╖ Gulshan ┬╖ ABC-123</p>\n
+ <p class="mt-1 text-xs text-slate-400">DLF: Not provided ┬╖ 2026-08-31</p>\n
+ </div>\n
+ <a href="http://localhost:8000/trips" class="rounded-lg bg-slate-100 px-4 py-2 text-xs font-bold text-slate-600"> Trips</a>\n
+ </div>\n
+</div>\n
+\n
+<div class="mb-5 rounded-2xl border border-slate-200 bg-white p-6">\n
+ <h2 class="text-lg font-black text-slate-900">Daily Trip Sheet</h2>\n
+ <div class="mt-4 grid grid-cols-2 gap-4 text-sm lg:grid-cols-4">\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Date</p><p class="mt-1 font-semibold text-slate-800">31-08-2026</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Day Number</p><p class="mt-1 font-semibold text-slate-800">Day 31</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Driver / Deliveryman Name</p><p class="mt-1 font-semibold text-slate-800">Ahmed Khan</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Vehicle / Van Number</p><p class="mt-1 font-semibold text-slate-800">ABC-123</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Route / Market Name</p><p class="mt-1 font-semibold text-slate-800">Gulshan</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Distributor Name</p><p class="mt-1 font-semibold text-slate-800">Main Distributor</p></div>\n
+ </div>\n
+\n
+ <div class="mt-6 overflow-x-auto">\n
+ <h3 class="mb-3 text-sm font-black text-slate-800">Stock &amp; Issue Entry</h3>\n
+ <table class="w-full min-w-[42rem] text-sm">\n
+ <thead><tr class="border-b border-slate-100 text-left text-xs font-bold uppercase tracking-wide text-slate-400"><th class="pb-3">Product / SKU Name</th><th class="pb-3">Opening Stock</th><th class="pb-3">Fresh Issue</th><th class="pb-3">Total Issued</th><th class="pb-3">Returned</th><th class="pb-3">Damage / Expired</th><th class="pb-3">Net Sold</th></tr></thead>\n
+ <tbody><tr><td class="py-3 font-semibold text-slate-800">Sooper FP</td><td class="py-3">0</td><td class="py-3">0</td><td class="py-3">0</td><td class="py-3">0</td><td class="py-3">0</td><td class="py-3">0</td></tr></tbody>\n
+ </table>\n
+ </div>\n
+\n
+ <div class="mt-6">\n
+ <h3 class="mb-3 text-sm font-black text-slate-800">Sales &amp; Financial Cash Entry</h3>\n
+ <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Total Gross Sales Amount (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Discount / Scheme Given (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Net Sales Amount (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Cash Collected (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Cheque Collected (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Online Bank Transfer (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ <div><p class="text-xs font-bold uppercase tracking-wide text-slate-400">Market Credit / Udhaar (PKR)</p><p class="mt-1 font-black text-slate-800">PKR 0.00</p></div>\n
+ </div>\n
+ </div>\n
+</div>\n
+\n
+ </main>\r\n
+ </div>\r\n
+\r\n
+ \r\n
+ <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>\r\n
+ <style>\r\n
+ .driver-popover {\r\n
+ font-family: 'Inter', system-ui, sans-serif !important;\r\n
+ border-radius: 12px !important;\r\n
+ box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;\r\n
+ border: 1px solid #e2e8f0 !important;\r\n
+ }\r\n
+ .driver-popover-title {\r\n
+ font-size: 1.125rem !important;\r\n
+ font-weight: 600 !important;\r\n
+ color: #0f172a !important;\r\n
+ }\r\n
+ .driver-popover-description {\r\n
+ font-size: 0.875rem !important;\r\n
+ color: #475569 !important;\r\n
+ line-height: 1.5 !important;\r\n
+ margin-top: 0.5rem !important;\r\n
+ }\r\n
+ .driver-popover-footer button {\r\n
+ background-color: #3b82f6 !important;\r\n
+ color: white !important;\r\n
+ border-radius: 6px !important;\r\n
+ border: none !important;\r\n
+ padding: 6px 12px !important;\r\n
+ font-weight: 500 !important;\r\n
+ text-shadow: none !important;\r\n
+ transition: all 0.2s;\r\n
+ }\r\n
+ .driver-popover-footer button:hover {\r\n
+ background-color: #2563eb !important;\r\n
+ }\r\n
+ .driver-popover-footer button.driver-popover-prev-btn {\r\n
+ background-color: #f1f5f9 !important;\r\n
+ color: #475569 !important;\r\n
+ }\r\n
+ .driver-popover-footer button.driver-popover-prev-btn:hover {\r\n
+ background-color: #e2e8f0 !important;\r\n
+ }\r\n
+ .driver-popover-progress-text {\r\n
+ color: #64748b !important;\r\n
+ font-size: 0.75rem !important;\r\n
+ font-weight: 500 !important;\r\n
+ }\r\n
+ </style>\r\n
+ <script>\r\n
+ document.addEventListener('DOMContentLoaded', function() {\r\n
+ const driver = window.driver.js.driver;\r\n
+\r\n
+ /**\r\n
+ * Open the Trips expandable dropdown in the sidebar.\r\n
+ * Mutates Alpine's reactive data so x-show reacts immediately.\r\n
+ */\r\n
+ function openTripsMenu() {\r\n
+ const navEl = document.querySelector('nav[x-data]');\r\n
+ if (!navEl) return;\r\n
+ // Alpine v3 stores reactive data on _x_dataStack\r\n
+ const stack = navEl._x_dataStack;\r\n
+ if (stack) {\r\n
+ for (const data of stack) {\r\n
+ if (typeof data.tripsOpen !== 'undefined') {\r\n
+ data.tripsOpen = true;\r\n
+ return;\r\n
+ }\r\n
+ }\r\n
+ }\r\n
+ // Fallback: click the button to trigger Alpine's @click handler\r\n
+ const btn = document.getElementById('tour-nav-trips');\r\n
+ if (btn) {\r\n
+ const subMenu = btn.closest('div')?.querySelector('[x-show]');\r\n
+ if (!subMenu || getComputedStyle(subMenu).display === 'none') {\r\n
+ btn.click();\r\n
+ }\r\n
+ }\r\n
+ }\r\n
+\r\n
+ /**\r\n
+ * Scroll the sidebar so the given element is visible and centered.\r\n
+ * Uses 'instant' (not 'smooth') so scrolling completes synchronously\r\n
+ * before Driver.js measures the element's position for the overlay.\r\n
+ */\r\n
+ function scrollSidebarToEl(el) {\r\n
+ if (!el) return;\r\n
+ el.scrollIntoView({ behavior: 'instant', block: 'center' });\r\n
+ }\r\n
+\r\n
+ const driverObj = driver({\r\n
+ showProgress: true,\r\n
+ animate: true,\r\n
+ allowClose: true,\r\n
+ progressText: 'Step {{current}} of {{total}}',\r\n
+ steps: [\r\n
+ {\r\n
+ popover: {\r\n
+ title: 'Welcome to DOMS',\r\n
+ description: 'Welcome to DOMS ΓÇö the Delivery Order Management System. Click Next to take a guided tour of every section in the sidebar.'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-dashboard',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Dashboard',\r\n
+ description: 'Your command center. See a live overview of all key metrics ΓÇö total trips, active deliverymen, pending invoices, and today\'s activity at a glance.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-trips',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Trips',\r\n
+ description: 'Manage daily delivery trips. Use the month and year filters to find trips, then add, edit, delete, or view each trip sheet.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-banks',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Banks',\r\n
+ description: 'Review AAA Traders bank accounts, cash in hand, deposits, withdrawals, running balances, and account-specific transaction ledgers. Add Bank opens the account form.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-expenses',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Expenses',\r\n
+ description: 'Track vehicle, driver, warehouse, and office expenses. Add Expense opens the dedicated entry page, where categories and trip links can be selected.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-deliverymen',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Deliverymen',\r\n
+ description: 'Manage your delivery team. Add new deliverymen, view their trip history, track their active assignments, and update their information.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-markets',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Markets',\r\n
+ description: 'Manage all your market or shop locations. Each market is linked to trips and invoices so you can track deliveries and payments per location.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-invoices',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Invoices',\r\n
+ description: 'View and manage all delivery invoices. Create new invoices, attach them to trips, and track payment status for each market you serve.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-stock',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Stock',\r\n
+ description: 'Track your inventory and stock levels. Monitor items dispatched with deliverymen and reconcile what was sold versus what was returned. The badge shows pending stock entries.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-returns',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Return Claims',\r\n
+ description: 'Review returned goods as claims, including expiry, damage, market returns, distributor status, credit notes, and dedicated claim detail pages.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-settlements',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Settlements',\r\n
+ description: 'Reconcile driver cash, stock, market credit, and shortages at end of day. Add Settlement selects an existing Trip ID and prepares its clearing sheet.',\r\n
+ side: 'right', align: 'start'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-ledgers',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Ledgers',\r\n
+ description: 'Review EBM and CFL supplier payables plus driver shortage receivables. Create entries with debit or credit values and open full voucher audit details.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-nav-reports',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Reports',\r\n
+ description: 'Generate and view business reports ΓÇö sales summaries, trip performance, collection totals, and more. Use reports to make data-driven decisions for your delivery operations.',\r\n
+ side: 'right', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-user-footer',\r\n
+ onHighlightStarted: (el) => scrollSidebarToEl(el),\r\n
+ popover: {\r\n
+ title: 'Your Account',\r\n
+ description: 'Your account profile and the current DOMS system version are shown here at the bottom of the sidebar.',\r\n
+ side: 'top', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: '#tour-system-status',\r\n
+ popover: {\r\n
+ title: 'System Status',\r\n
+ description: 'This indicator shows whether the DOMS system is running normally. A green light means everything is online and operational.',\r\n
+ side: 'bottom', align: 'center'\r\n
+ }\r\n
+ },\r\n
+ {\r\n
+ element: 'main.flex-1',\r\n
+ popover: {\r\n
+ title: 'Main Working Area',\r\n
+ description: 'This is where all your content is displayed. Every section you navigate to will load its data and forms right here. That wraps up the tour ΓÇö you are all set!',\r\n
+ side: 'left', align: 'start'\r\n
+ }\r\n
+ }\r\n
+ ]\r\n
+ });\r\n
+\r\n
+ const startBtn = document.getElementById('start-tour-btn');\r\n
+ if (startBtn) {\r\n
+ startBtn.addEventListener('click', function() {\r\n
+ driverObj.drive();\r\n
+ });\r\n
+ }\r\n
+ });\r\n
+ </script>\r\n
+</body>\r\n
+</html>\r\n
+' [UTF-8](length: 33697) contains "Demo Market" [ASCII](length: 11).
+After Test Method Called (Tests\Feature\TripWorkflowTest::tearDown)
+After Test Method Finished:
+- Tests\Feature\TripWorkflowTest::tearDown
+Test Finished (Tests\Feature\TripWorkflowTest::test_trip_moves_from_open_to_settlement_then_closes_and_locks)
+After Last Test Method Called (Tests\Feature\TripWorkflowTest::tearDownAfterClass)
+After Last Test Method Finished:
+- Tests\Feature\TripWorkflowTest::tearDownAfterClass
+Test Suite Finished (Tests\Feature\TripWorkflowTest, 1 test)
+Test Suite Finished (Feature, 1 test)
+Test Suite Finished (D:\development\webdevlopment\full-stack\laravel\DOMS_system\phpunit.xml, 1 test)
+Test Runner Execution Finished
+Test Runner Finished
+PHPUnit Finished (Shell Exit Code: 1)
+{"tool":"phpunit","result":"failed","tests":1,"passed":0,"assertions":14,"duration_ms":977,"failed":1,"failures":[{"test":"Tests\\Feature\\TripWorkflowTest::test_trip_moves_from_open_to_settlement_then_closes_and_locks","file":"D:\\development\\webdevlopment\\full-stack\\laravel\\DOMS_system\\tests\\Feature\\TripWorkflowTest.php","line":13,"message":"Failed asserting that '<!DOCTYPE html>\\r\\n\n<html lang=\"en\">\\r\\n\n<head>\\r\\n\n <meta charset=\"UTF-8\">\\r\\n\n <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\\r\\n\n <title>DOMS \u2014 TR-2026-08-31-099</title>\\r\\n\n <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\\r\\n\n <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\\r\\n\n <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">\\r\\n\n <link rel=\"preload\" as=\"style\" href=\"http://localhost:8000/build/assets/app-L_nLF-v8.css\" /><link rel=\"stylesheet\" href=\"http://localhost:8000/build/assets/app-L_nLF-v8.css\" /> <script defer src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js\"></script>\\r\\n\n \\r\\n\n <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css\"/>\\r\\n\n <style>\\r\\n\n [x-cloak] { display: none !important; }\\r\\n\n * { font-family: 'Inter', system-ui, sans-serif; }\\r\\n\n ::-webkit-scrollbar { width: 5px; height: 5px; }\\r\\n\n ::-webkit-scrollbar-track { background: #f1f5f9; }\\r\\n\n ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }\\r\\n\n ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }\\r\\n\n aside.sidebar-nav::-webkit-scrollbar { display: none; }\\r\\n\n aside.sidebar-nav { -ms-overflow-style: none; scrollbar-width: none; }\\r\\n\n .nav-link { transition: all 0.15s ease; }\\r\\n\n .nav-link.active { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); color: #1d4ed8; border-right: 3px solid #3b82f6; }\\r\\n\n .nav-link:not(.active):hover { background: #f8fafc; color: #334155; }\\r\\n\n .kpi-card { transition: all 0.2s ease; }\\r\\n\n .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }\\r\\n\n </style>\\r\\n\n</head>\\r\\n\n<body class=\"flex h-screen overflow-hidden\" style=\"background: #f0f4f8;\">\\r\\n\n\\r\\n\n \\r\\n\n <aside id=\"tour-sidebar\" class=\"sidebar-nav w-64 flex flex-col flex-shrink-0 overflow-y-auto\" style=\"background: #ffffff; border-right: 1px solid #e8edf2;\">\\r\\n\n\\r\\n\n \\r\\n\n <div class=\"flex items-center gap-3 px-5 py-5\" style=\"border-bottom: 1px solid #e8edf2;\">\\r\\n\n <div class=\"w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-base flex-shrink-0\"\\r\\n\n style=\"background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);\">\\r\\n\n D\\r\\n\n </div>\\r\\n\n <div>\\r\\n\n <div class=\"font-bold text-gray-900 text-sm tracking-wide\">DOMS</div>\\r\\n\n <div class=\"text-xs\" style=\"color: #94a3b8;\">Delivery Management</div>\\r\\n\n </div>\\r\\n\n </div>\\r\\n\n\\r\\n\n \\r\\n\n <div class=\"px-5 pt-5 pb-2\">\\r\\n\n <span class=\"text-xs font-semibold uppercase tracking-widest\" style=\"color: #94a3b8;\">Main Menu</span>\\r\\n\n </div>\\r\\n\n\\r\\n\n \\r\\n\n <nav class=\"flex-1 px-3 pb-4 space-y-0.5\">\\r\\n\n \\r\\n\n \\r\\n\n <a id=\"tour-nav-dashboard\" href=\"http://localhost:8000\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Dashboard</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n\\r\\n\n \\r\\n\n <a id=\"tour-nav-trips\" href=\"http://localhost:8000/trips\"\\r\\n\n class=\"nav-link w-full active flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium \">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-blue-100\">\\r\\n\n <svg class=\"w-4 h-4 text-blue-600\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Trips</span>\\r\\n\n </div>\\r\\n\n <span class=\"text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-500 text-white\">Trips</span>\\r\\n\n </a>\\r\\n\n\\r\\n\n \\r\\n\n <a id=\"tour-nav-banks\" href=\"http://localhost:8000/banks\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 10h18M5 10v9m4-9v9m6-9v9m4-9v9M3 19h18M12 3l9 5H3l9-5z\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Banks</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-expenses\" href=\"http://localhost:8000/expenses\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 14l2 2 4-4m6-2a9 9 0 11-18 0 9 9 0 0118 0z\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Expenses</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-deliverymen\" href=\"http://localhost:8000/deliverymen\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Deliverymen</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-markets\" href=\"http://localhost:8000/markets\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Markets</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-invoices\" href=\"http://localhost:8000/invoices\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Invoices</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-stock\" href=\"http://localhost:8000/stock\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Stock</span>\\r\\n\n </div>\\r\\n\n <span class=\"text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500\">3</span>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-returns\" href=\"http://localhost:8000/returns\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Returns</span>\\r\\n\n </div>\\r\\n\n <span class=\"text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500\">4</span>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-settlements\" href=\"http://localhost:8000/settlements\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Settlements</span>\\r\\n\n </div>\\r\\n\n <span class=\"text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500\">2</span>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-ledgers\" href=\"http://localhost:8000/ledgers\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Ledgers</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n <a id=\"tour-nav-reports\" href=\"http://localhost:8000/reports\"\\r\\n\n class=\"nav-link flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-50\">\\r\\n\n <svg class=\"w-4 h-4 text-slate-400\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z\"/>\\r\\n\n </svg>\\r\\n\n </div>\\r\\n\n <span>Reports</span>\\r\\n\n </div>\\r\\n\n </a>\\r\\n\n </nav>\\r\\n\n\\r\\n\n \\r\\n\n <div id=\"tour-user-footer\" class=\"px-4 py-4 mx-3 mb-3 rounded-xl\" style=\"background: #f8fafc; border: 1px solid #e8edf2;\">\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n <div class=\"w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0\"\\r\\n\n style=\"background: linear-gradient(135deg, #3b82f6, #8b5cf6);\">A</div>\\r\\n\n <div class=\"flex-1 min-w-0\">\\r\\n\n <div class=\"text-xs font-semibold text-gray-700 truncate\">Admin / Owner</div>\\r\\n\n <div class=\"text-xs truncate\" style=\"color: #94a3b8;\">DOMS v1.0</div>\\r\\n\n </div>\\r\\n\n </div>\\r\\n\n </div>\\r\\n\n </aside>\\r\\n\n\\r\\n\n \\r\\n\n <div class=\"flex flex-col flex-1 overflow-hidden\">\\r\\n\n\\r\\n\n \\r\\n\n <header class=\"flex items-center justify-between px-8 py-4 flex-shrink-0\"\\r\\n\n style=\"background: #ffffff; border-bottom: 1px solid #e8edf2;\">\\r\\n\n <div>\\r\\n\n <h1 class=\"text-xl font-bold text-gray-900\">TR-2026-08-31-099</h1>\\r\\n\n <p class=\"text-xs mt-0.5\" style=\"color: #94a3b8;\">Thursday, 03 September 2026</p>\\r\\n\n </div>\\r\\n\n <div class=\"flex items-center gap-3\">\\r\\n\n \\r\\n\n <button id=\"start-tour-btn\" class=\"flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium hover:bg-blue-100\" style=\"background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; transition: all 0.2s;\">\\r\\n\n <svg class=\"w-4 h-4\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" />\\r\\n\n </svg>\\r\\n\n Start Tour\\r\\n\n </button>\\r\\n\n \\r\\n\n <div id=\"tour-system-status\" class=\"flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium\" style=\"background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;\">\\r\\n\n <span class=\"w-1.5 h-1.5 rounded-full bg-green-500 inline-block\"></span>\\r\\n\n System Online\\r\\n\n </div>\\r\\n\n \\r\\n\n <div class=\"px-3 py-2 rounded-xl text-xs font-medium\" style=\"background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0;\">\\r\\n\n 03 Sep 2026\\r\\n\n </div>\\r\\n\n </div>\\r\\n\n </header>\\r\\n\n\\r\\n\n \\r\\n\n <main class=\"flex-1 overflow-y-auto px-8 py-6\">\\r\\n\n\\r\\n\n \\r\\n\n <nav class=\"flex items-center gap-1.5 mb-5\">\\r\\n\n <a href=\"http://localhost:8000\" class=\"text-xs font-medium text-blue-500 hover:text-blue-700\">Dashboard</a>\\r\\n\n <svg class=\"w-3.5 h-3.5\" style=\"color: #cbd5e1;\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5l7 7-7 7\"/>\\r\\n\n </svg>\\r\\n\n <a href=\"http://localhost:8000/trips\" class=\"text-xs font-medium text-blue-500 hover:text-blue-700\">Trips</a>\\r\\n\n <svg class=\"w-3.5 h-3.5\" style=\"color: #cbd5e1;\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\\r\\n\n <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5l7 7-7 7\"/>\\r\\n\n </svg>\\r\\n\n <span class=\"text-xs font-semibold text-gray-700\">TR-2026-08-31-099</span>\\r\\n\n </nav>\\r\\n\n \\r\\n\n \\n\n<div class=\"mb-5 rounded-2xl border border-slate-200 bg-white p-6\">\\n\n <div class=\"flex flex-wrap items-start justify-between gap-4\">\\n\n <div>\\n\n <div class=\"mb-2 flex items-center gap-3\">\\n\n <span class=\"font-mono text-xl font-bold text-slate-900\">TR-2026-08-31-099</span>\\n\n <span class=\"inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold\"\\r\\n\n style=\"background: #fffbeb; color: #b45309;\">\\r\\n\n <span class=\"w-1.5 h-1.5 rounded-full flex-shrink-0\" style=\"background: #f59e0b;\"></span>\\r\\n\n SETTLEMENT PENDING\\r\\n\n</span>\\r\\n\n </div>\\n\n <p class=\"text-sm text-slate-500\">Ahmed Khan \u00b7 Gulshan \u00b7 ABC-123</p>\\n\n <p class=\"mt-1 text-xs text-slate-400\">DLF: Not provided \u00b7 2026-08-31</p>\\n\n </div>\\n\n <a href=\"http://localhost:8000/trips\" class=\"rounded-lg bg-slate-100 px-4 py-2 text-xs font-bold text-slate-600\">\u2190 Trips</a>\\n\n </div>\\n\n</div>\\n\n\\n\n<div class=\"mb-5 rounded-2xl border border-slate-200 bg-white p-6\">\\n\n <h2 class=\"text-lg font-black text-slate-900\">Daily Trip Sheet</h2>\\n\n <div class=\"mt-4 grid grid-cols-2 gap-4 text-sm lg:grid-cols-4\">\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Date</p><p class=\"mt-1 font-semibold text-slate-800\">31-08-2026</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Day Number</p><p class=\"mt-1 font-semibold text-slate-800\">Day 31</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Driver / Deliveryman Name</p><p class=\"mt-1 font-semibold text-slate-800\">Ahmed Khan</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Vehicle / Van Number</p><p class=\"mt-1 font-semibold text-slate-800\">ABC-123</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Route / Market Name</p><p class=\"mt-1 font-semibold text-slate-800\">Gulshan</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Distributor Name</p><p class=\"mt-1 font-semibold text-slate-800\">Main Distributor</p></div>\\n\n </div>\\n\n\\n\n <div class=\"mt-6 overflow-x-auto\">\\n\n <h3 class=\"mb-3 text-sm font-black text-slate-800\">Stock &amp; Issue Entry</h3>\\n\n <table class=\"w-full min-w-[42rem] text-sm\">\\n\n <thead><tr class=\"border-b border-slate-100 text-left text-xs font-bold uppercase tracking-wide text-slate-400\"><th class=\"pb-3\">Product / SKU Name</th><th class=\"pb-3\">Opening Stock</th><th class=\"pb-3\">Fresh Issue</th><th class=\"pb-3\">Total Issued</th><th class=\"pb-3\">Returned</th><th class=\"pb-3\">Damage / Expired</th><th class=\"pb-3\">Net Sold</th></tr></thead>\\n\n <tbody><tr><td class=\"py-3 font-semibold text-slate-800\">Sooper FP</td><td class=\"py-3\">0</td><td class=\"py-3\">0</td><td class=\"py-3\">0</td><td class=\"py-3\">0</td><td class=\"py-3\">0</td><td class=\"py-3\">0</td></tr></tbody>\\n\n </table>\\n\n </div>\\n\n\\n\n <div class=\"mt-6\">\\n\n <h3 class=\"mb-3 text-sm font-black text-slate-800\">Sales &amp; Financial Cash Entry</h3>\\n\n <div class=\"grid grid-cols-2 gap-4 lg:grid-cols-4\">\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Total Gross Sales Amount (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Discount / Scheme Given (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Net Sales Amount (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Cash Collected (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Cheque Collected (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Online Bank Transfer (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n <div><p class=\"text-xs font-bold uppercase tracking-wide text-slate-400\">Market Credit / Udhaar (PKR)</p><p class=\"mt-1 font-black text-slate-800\">PKR 0.00</p></div>\\n\n </div>\\n\n </div>\\n\n</div>\\n\n\\n\n </main>\\r\\n\n </div>\\r\\n\n\\r\\n\n \\r\\n\n <script src=\"https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js\"></script>\\r\\n\n <style>\\r\\n\n .driver-popover {\\r\\n\n font-family: 'Inter', system-ui, sans-serif !important;\\r\\n\n border-radius: 12px !important;\\r\\n\n box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;\\r\\n\n border: 1px solid #e2e8f0 !important;\\r\\n\n }\\r\\n\n .driver-popover-title {\\r\\n\n font-size: 1.125rem !important;\\r\\n\n font-weight: 600 !important;\\r\\n\n color: #0f172a !important;\\r\\n\n }\\r\\n\n .driver-popover-description {\\r\\n\n font-size: 0.875rem !important;\\r\\n\n color: #475569 !important;\\r\\n\n line-height: 1.5 !important;\\r\\n\n margin-top: 0.5rem !important;\\r\\n\n }\\r\\n\n .driver-popover-footer button {\\r\\n\n background-color: #3b82f6 !important;\\r\\n\n color: white !important;\\r\\n\n border-radius: 6px !important;\\r\\n\n border: none !important;\\r\\n\n padding: 6px 12px !important;\\r\\n\n font-weight: 500 !important;\\r\\n\n text-shadow: none !important;\\r\\n\n transition: all 0.2s;\\r\\n\n }\\r\\n\n .driver-popover-footer button:hover {\\r\\n\n background-color: #2563eb !important;\\r\\n\n }\\r\\n\n .driver-popover-footer button.driver-popover-prev-btn {\\r\\n\n background-color: #f1f5f9 !important;\\r\\n\n color: #475569 !important;\\r\\n\n }\\r\\n\n .driver-popover-footer button.driver-popover-prev-btn:hover {\\r\\n\n background-color: #e2e8f0 !important;\\r\\n\n }\\r\\n\n .driver-popover-progress-text {\\r\\n\n color: #64748b !important;\\r\\n\n font-size: 0.75rem !important;\\r\\n\n font-weight: 500 !important;\\r\\n\n }\\r\\n\n </style>\\r\\n\n <script>\\r\\n\n document.addEventListener('DOMContentLoaded', function() {\\r\\n\n const driver = window.driver.js.driver;\\r\\n\n\\r\\n\n /**\\r\\n\n * Open the Trips expandable dropdown in the sidebar.\\r\\n\n * Mutates Alpine's reactive data so x-show reacts immediately.\\r\\n\n */\\r\\n\n function openTripsMenu() {\\r\\n\n const navEl = document.querySelector('nav[x-data]');\\r\\n\n if (!navEl) return;\\r\\n\n // Alpine v3 stores reactive data on _x_dataStack\\r\\n\n const stack = navEl._x_dataStack;\\r\\n\n if (stack) {\\r\\n\n for (const data of stack) {\\r\\n\n if (typeof data.tripsOpen !== 'undefined') {\\r\\n\n data.tripsOpen = true;\\r\\n\n return;\\r\\n\n }\\r\\n\n }\\r\\n\n }\\r\\n\n // Fallback: click the button to trigger Alpine's @click handler\\r\\n\n const btn = document.getElementById('tour-nav-trips');\\r\\n\n if (btn) {\\r\\n\n const subMenu = btn.closest('div')?.querySelector('[x-show]');\\r\\n\n if (!subMenu || getComputedStyle(subMenu).display === 'none') {\\r\\n\n btn.click();\\r\\n\n }\\r\\n\n }\\r\\n\n }\\r\\n\n\\r\\n\n /**\\r\\n\n * Scroll the sidebar so the given element is visible and centered.\\r\\n\n * Uses 'instant' (not 'smooth') so scrolling completes synchronously\\r\\n\n * before Driver.js measures the element's position for the overlay.\\r\\n\n */\\r\\n\n function scrollSidebarToEl(el) {\\r\\n\n if (!el) return;\\r\\n\n el.scrollIntoView({ behavior: 'instant', block: 'center' });\\r\\n\n }\\r\\n\n\\r\\n\n const driverObj = driver({\\r\\n\n showProgress: true,\\r\\n\n animate: true,\\r\\n\n allowClose: true,\\r\\n\n progressText: 'Step {{current}} of {{total}}',\\r\\n\n steps: [\\r\\n\n {\\r\\n\n popover: {\\r\\n\n title: 'Welcome to DOMS',\\r\\n\n description: 'Welcome to DOMS \u2014 the Delivery Order Management System. Click Next to take a guided tour of every section in the sidebar.'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-dashboard',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Dashboard',\\r\\n\n description: 'Your command center. See a live overview of all key metrics \u2014 total trips, active deliverymen, pending invoices, and today\\'s activity at a glance.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-trips',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Trips',\\r\\n\n description: 'Manage daily delivery trips. Use the month and year filters to find trips, then add, edit, delete, or view each trip sheet.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-banks',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Banks',\\r\\n\n description: 'Review AAA Traders bank accounts, cash in hand, deposits, withdrawals, running balances, and account-specific transaction ledgers. Add Bank opens the account form.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-expenses',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Expenses',\\r\\n\n description: 'Track vehicle, driver, warehouse, and office expenses. Add Expense opens the dedicated entry page, where categories and trip links can be selected.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-deliverymen',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Deliverymen',\\r\\n\n description: 'Manage your delivery team. Add new deliverymen, view their trip history, track their active assignments, and update their information.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-markets',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Markets',\\r\\n\n description: 'Manage all your market or shop locations. Each market is linked to trips and invoices so you can track deliveries and payments per location.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-invoices',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Invoices',\\r\\n\n description: 'View and manage all delivery invoices. Create new invoices, attach them to trips, and track payment status for each market you serve.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-stock',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Stock',\\r\\n\n description: 'Track your inventory and stock levels. Monitor items dispatched with deliverymen and reconcile what was sold versus what was returned. The badge shows pending stock entries.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-returns',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Return Claims',\\r\\n\n description: 'Review returned goods as claims, including expiry, damage, market returns, distributor status, credit notes, and dedicated claim detail pages.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-settlements',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Settlements',\\r\\n\n description: 'Reconcile driver cash, stock, market credit, and shortages at end of day. Add Settlement selects an existing Trip ID and prepares its clearing sheet.',\\r\\n\n side: 'right', align: 'start'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-ledgers',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Ledgers',\\r\\n\n description: 'Review EBM and CFL supplier payables plus driver shortage receivables. Create entries with debit or credit values and open full voucher audit details.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-nav-reports',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Reports',\\r\\n\n description: 'Generate and view business reports \u2014 sales summaries, trip performance, collection totals, and more. Use reports to make data-driven decisions for your delivery operations.',\\r\\n\n side: 'right', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-user-footer',\\r\\n\n onHighlightStarted: (el) => scrollSidebarToEl(el),\\r\\n\n popover: {\\r\\n\n title: 'Your Account',\\r\\n\n description: 'Your account profile and the current DOMS system version are shown here at the bottom of the sidebar.',\\r\\n\n side: 'top', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: '#tour-system-status',\\r\\n\n popover: {\\r\\n\n title: 'System Status',\\r\\n\n description: 'This indicator shows whether the DOMS system is running normally. A green light means everything is online and operational.',\\r\\n\n side: 'bottom', align: 'center'\\r\\n\n }\\r\\n\n },\\r\\n\n {\\r\\n\n element: 'main.flex-1',\\r\\n\n popover: {\\r\\n\n title: 'Main Working Area',\\r\\n\n description: 'This is where all your content is displayed. Every section you navigate to will load its data and forms right here. That wraps up the tour \u2014 you are all set!',\\r\\n\n side: 'left', align: 'start'\\r\\n\n }\\r\\n\n }\\r\\n\n ]\\r\\n\n });\\r\\n\n\\r\\n\n const startBtn = document.getElementById('start-tour-btn');\\r\\n\n if (startBtn) {\\r\\n\n startBtn.addEventListener('click', function() {\\r\\n\n driverObj.drive();\\r\\n\n });\\r\\n\n }\\r\\n\n });\\r\\n\n </script>\\r\\n\n</body>\\r\\n\n</html>\\r\\n\n' [UTF-8](length: 33697) contains \"Demo Market\" [ASCII](length: 11)."}]}

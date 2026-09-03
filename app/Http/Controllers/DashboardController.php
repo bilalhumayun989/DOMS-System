@@ -9,22 +9,22 @@ class DashboardController extends Controller
     public function index(): View
     {
         $kpiCards = [
-            ['title' => "Today's Active Trips", 'value' => '8', 'icon' => 'truck', 'color' => 'blue', 'route' => route('trips.index')],
-            ['title' => 'Total Sales Value', 'value' => pkr(487500), 'icon' => 'currency', 'color' => 'green', 'route' => route('trips.index')],
-            ['title' => 'Total Collections', 'value' => pkr(312000), 'icon' => 'banknotes', 'color' => 'green', 'route' => route('collections.index')],
-            ['title' => 'Outstanding Shortages', 'value' => pkr(24500), 'icon' => 'warning', 'color' => 'red', 'route' => route('settlements.index')],
-            ['title' => 'Pending Returns', 'value' => '4', 'icon' => 'return', 'color' => 'amber', 'route' => route('returns.index')],
-            ['title' => 'Active Deliverymen', 'value' => '5', 'icon' => 'users', 'color' => 'blue', 'route' => route('deliverymen.index')],
-            ['title' => 'Stock Alerts', 'value' => '3', 'icon' => 'cube', 'color' => 'amber', 'route' => route('stock.index')],
-            ['title' => 'Pending Settlements', 'value' => '2', 'icon' => 'scale', 'color' => 'amber', 'route' => route('settlements.index')],
+            ['title' => 'Total Investment', 'value' => pkr(24905962.43), 'icon' => 'currency', 'color' => 'blue', 'route' => route('banks.index')],
+            ['title' => 'Bank Balance', 'value' => pkr(15328288), 'icon' => 'banknotes', 'color' => 'green', 'route' => route('banks.index')],
+            ['title' => 'Distribution Credit (Cr)', 'value' => pkr(9577674.43), 'icon' => 'currency', 'color' => 'amber', 'route' => route('ledgers.index')],
+            ['title' => 'Cash In Hand', 'value' => pkr(0), 'icon' => 'banknotes', 'color' => 'blue', 'route' => route('banks.index')],
+            ['title' => 'Stock In Cash', 'value' => pkr(0), 'icon' => 'cube', 'color' => 'green', 'route' => route('stock.index')],
+            ['title' => 'Market Credit (Cr)', 'value' => pkr(0), 'icon' => 'currency', 'color' => 'red', 'route' => route('collections.index')],
+            ['title' => 'Pending Claims', 'value' => pkr(0), 'icon' => 'warning', 'color' => 'amber', 'route' => route('settlements.index')],
+            ['title' => 'Total Stock Summary', 'value' => pkr(0), 'icon' => 'cube', 'color' => 'blue', 'route' => route('stock.index')],
         ];
 
         $todaysTrips = [
-            ['id' => 1, 'trip_id' => 'TR-2025-07-15-001', 'deliveryman' => 'Ahmed Khan', 'market_area' => 'Gulshan-e-Iqbal', 'status' => 'DISPATCHED', 'load_value' => 125400],
-            ['id' => 2, 'trip_id' => 'TR-2025-07-15-002', 'deliveryman' => 'Bilal Raza', 'market_area' => 'North Nazimabad', 'status' => 'COMPLETED', 'load_value' => 98700],
-            ['id' => 3, 'trip_id' => 'TR-2025-07-15-003', 'deliveryman' => 'Usman Tariq', 'market_area' => 'Orangi Town', 'status' => 'DISPATCHED', 'load_value' => 87300],
-            ['id' => 4, 'trip_id' => 'TR-2025-07-15-004', 'deliveryman' => 'Zubair Malik', 'market_area' => 'Liaquatabad', 'status' => 'READY', 'load_value' => 112000],
-            ['id' => 5, 'trip_id' => 'TR-2025-07-15-005', 'deliveryman' => 'Kashif Hussain', 'market_area' => 'Saddar', 'status' => 'SETTLEMENT PENDING', 'load_value' => 64100],
+            ['id' => 1, 'route_id' => 'TR-001', 'deliveryman' => 'Ahmed Khan', 'deliveryman_id' => 1, 'distributor' => 'AAA Traders', 'market_area' => 'Gulshan-e-Iqbal', 'date' => '02-09-2026'],
+            ['id' => 2, 'route_id' => 'TR-002', 'deliveryman' => 'Bilal Raza', 'deliveryman_id' => 2, 'distributor' => 'Main Distributor', 'market_area' => 'North Nazimabad', 'date' => '02-09-2026'],
+            ['id' => 3, 'route_id' => 'TR-003', 'deliveryman' => 'Usman Tariq', 'deliveryman_id' => 3, 'distributor' => 'AAA Traders', 'market_area' => 'Orangi Town', 'date' => '02-09-2026'],
+            ['id' => 4, 'route_id' => 'TR-004', 'deliveryman' => 'Zubair Malik', 'deliveryman_id' => 4, 'distributor' => 'Main Distributor', 'market_area' => 'Liaquatabad', 'date' => '02-09-2026'],
+            ['id' => 5, 'route_id' => 'TR-005', 'deliveryman' => 'Kashif Hussain', 'deliveryman_id' => 5, 'distributor' => 'AAA Traders', 'market_area' => 'Saddar', 'date' => '02-09-2026'],
         ];
 
         $recentCollections = [
@@ -36,9 +36,9 @@ class DashboardController extends Controller
         ];
 
         $topShortages = [
-            ['deliveryman' => 'Ahmed Khan', 'trip_id' => 'TR-2025-07-12-001', 'amount' => 12500, 'classification' => 'Deliveryman Short'],
-            ['deliveryman' => 'Bilal Raza', 'trip_id' => 'TR-2025-07-10-002', 'amount' => 8000, 'classification' => 'Market Short'],
-            ['deliveryman' => 'Usman Tariq', 'trip_id' => 'TR-2025-07-09-003', 'amount' => 4000, 'classification' => 'Pending Investigation'],
+            ['id' => 1, 'deliveryman' => 'Ahmed Khan', 'deliveryman_id' => 1, 'trip_id' => 'TR-2025-07-12-001', 'market_area' => 'Gulshan-e-Iqbal', 'amount' => 12500, 'recovery_status' => 'Pending'],
+            ['id' => 2, 'deliveryman' => 'Bilal Raza', 'deliveryman_id' => 2, 'trip_id' => 'TR-2025-07-10-002', 'market_area' => 'North Nazimabad', 'amount' => 8000, 'recovery_status' => 'Recovered'],
+            ['id' => 3, 'deliveryman' => 'Usman Tariq', 'deliveryman_id' => 3, 'trip_id' => 'TR-2025-07-09-003', 'market_area' => 'Orangi Town', 'amount' => 4000, 'recovery_status' => 'Deducted'],
         ];
 
         return view('dashboard.index', compact('kpiCards', 'todaysTrips', 'recentCollections', 'topShortages'));

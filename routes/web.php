@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliverymanController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LedgerController;
 use App\Http\Controllers\MarketController;
@@ -16,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
+Route::get('/banks', [BankController::class, 'index'])->name('banks.index');
+Route::get('/banks/{bank}', [BankController::class, 'show'])->name('banks.show');
+Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
+Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
+Route::get('/expenses/{expense}', [ExpenseController::class, 'show'])->name('expenses.show');
 Route::post('/trips', [TripController::class, 'store'])->name('trips.store');
 Route::get('/trips/{trip}', [TripController::class, 'show'])->name('trips.show');
 Route::put('/trips/{trip}', [TripController::class, 'update'])->name('trips.update');
@@ -37,12 +44,29 @@ Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.ind
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
 
 Route::get('/stock', [StockController::class, 'index'])->name('stock.index');
+Route::post('/stock', [StockController::class, 'store'])->name('stock.store');
 Route::get('/stock/{id}', [StockController::class, 'show'])->name('stock.show');
+Route::put('/stock/{id}', [StockController::class, 'update'])->name('stock.update');
+Route::delete('/stock/{id}', [StockController::class, 'destroy'])->name('stock.destroy');
 
 Route::get('/returns', [ReturnController::class, 'index'])->name('returns.index');
+Route::get('/returns/create', [ReturnController::class, 'create'])->name('returns.create');
+Route::post('/returns', [ReturnController::class, 'store'])->name('returns.store');
+Route::get('/returns/{return}', [ReturnController::class, 'show'])->name('returns.show');
+Route::get('/returns/{return}/edit', [ReturnController::class, 'edit'])->name('returns.edit');
+Route::put('/returns/{return}', [ReturnController::class, 'update'])->name('returns.update');
+Route::delete('/returns/{return}', [ReturnController::class, 'destroy'])->name('returns.destroy');
 Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');
 Route::get('/settlements', [SettlementController::class, 'index'])->name('settlements.index');
+Route::get('/settlements/create', [SettlementController::class, 'create'])->name('settlements.create');
+Route::get('/settlements/{settlement}', [SettlementController::class, 'show'])->name('settlements.show');
 Route::get('/ledgers', [LedgerController::class, 'index'])->name('ledgers.index');
+Route::get('/ledgers/create', [LedgerController::class, 'create'])->name('ledgers.create');
+Route::post('/ledgers', [LedgerController::class, 'store'])->name('ledgers.store');
+Route::get('/ledgers/{id}', [LedgerController::class, 'show'])->name('ledgers.show');
+Route::get('/ledgers/{id}/edit', [LedgerController::class, 'edit'])->name('ledgers.edit');
+Route::put('/ledgers/{id}', [LedgerController::class, 'update'])->name('ledgers.update');
+Route::delete('/ledgers/{id}', [LedgerController::class, 'destroy'])->name('ledgers.destroy');
 
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/reports/trips', [ReportController::class, 'trips'])->name('reports.trips');

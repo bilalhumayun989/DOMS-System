@@ -11,7 +11,7 @@
 <div class="rounded-2xl overflow-hidden" style="background:#ffffff;border:1px solid #e8edf2;">
     <div class="px-6 py-5 flex items-center gap-2" style="border-bottom:1px solid #f1f5f9;">
         <div class="w-1 h-5 rounded-full bg-blue-500"></div>
-        <h2 class="text-lg font-bold text-gray-900">Trip Report — Current Month</h2>
+        <h2 class="text-lg font-bold text-gray-900">{{ $selectedDay ? 'Daily Sheet — Day '.$selectedDay : 'Trip Report — Current Month' }}</h2>
     </div>
     <table class="w-full">
         <thead><tr style="background:#fafbfc;">
@@ -22,6 +22,11 @@
             <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Shortage</th>
         </tr></thead>
         <tbody>
+            @if(count($rows) === 0)
+            <tr>
+                <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-500">No trip sheet entries for this day.</td>
+            </tr>
+            @endif
             @foreach($rows as $row)
             <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color:#f1f5f9;">
                 <td class="px-6 py-4 text-sm font-semibold text-gray-700">{{ $row['date'] }}</td>

@@ -1,66 +1,10 @@
 @extends('layouts.app')
-@php $pageTitle = 'Ledgers'; @endphp
+@php $pageTitle = 'Company & Driver Ledgers'; @endphp
 
 @section('content')
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
-        <div class="px-6 py-4 flex items-center gap-2" style="border-bottom: 1px solid #f1f5f9;">
-            <div class="w-1 h-5 rounded-full bg-blue-500"></div>
-            <div>
-                <h3 class="font-bold text-gray-800">Market Ledgers</h3>
-                <p class="text-xs" style="color:#94a3b8;">Outstanding balances per customer</p>
-            </div>
-        </div>
-        <table class="w-full">
-            <thead><tr style="background: #fafbfc;">
-                <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Customer</th>
-                <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Market</th>
-                <th class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Debit</th>
-                <th class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Credit</th>
-                <th class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Balance</th>
-            </tr></thead>
-            <tbody>
-                @foreach($marketLedgers as $ml)
-                <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                    <td class="px-5 py-3.5"><a href="{{ route('markets.show',$ml['market_id']) }}" class="text-sm font-semibold text-blue-600 hover:text-blue-800">{{ $ml['name'] }}</a></td>
-                    <td class="px-5 py-3.5 text-xs text-gray-500">{{ $ml['market'] }}</td>
-                    <td class="px-5 py-3.5 text-right text-sm font-semibold" style="color:#ef4444;">{{ pkr($ml['total_debit']) }}</td>
-                    <td class="px-5 py-3.5 text-right text-sm font-semibold" style="color:#16a34a;">{{ pkr($ml['total_credit']) }}</td>
-                    <td class="px-5 py-3.5 text-right text-sm font-bold {{ $ml['balance']>0?'text-red-500':'text-green-600' }}">{{ pkr($ml['balance']) }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
-        <div class="px-6 py-4 flex items-center gap-2" style="border-bottom: 1px solid #f1f5f9;">
-            <div class="w-1 h-5 rounded-full bg-purple-500"></div>
-            <div>
-                <h3 class="font-bold text-gray-800">Deliveryman Ledgers</h3>
-                <p class="text-xs" style="color:#94a3b8;">Outstanding balances per driver</p>
-            </div>
-        </div>
-        <table class="w-full">
-            <thead><tr style="background: #fafbfc;">
-                <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Name</th>
-                <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">EMP ID</th>
-                <th class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Debit</th>
-                <th class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Credit</th>
-                <th class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color:#94a3b8;">Balance</th>
-            </tr></thead>
-            <tbody>
-                @foreach($deliverymanLedgers as $dl)
-                <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                    <td class="px-5 py-3.5"><a href="{{ route('deliverymen.show',$dl['deliveryman_id']) }}" class="text-sm font-semibold text-blue-600 hover:text-blue-800">{{ $dl['name'] }}</a></td>
-                    <td class="px-5 py-3.5 font-mono text-xs font-semibold text-gray-500">{{ $dl['employee_id'] }}</td>
-                    <td class="px-5 py-3.5 text-right text-sm font-semibold" style="color:#ef4444;">{{ pkr($dl['total_debit']) }}</td>
-                    <td class="px-5 py-3.5 text-right text-sm font-semibold" style="color:#16a34a;">{{ pkr($dl['total_credit']) }}</td>
-                    <td class="px-5 py-3.5 text-right text-sm font-bold {{ $dl['balance']>0?'text-red-500':'text-green-600' }}">{{ pkr($dl['balance']) }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+<div class="mb-5 flex flex-wrap items-end justify-between gap-4"><div><p class="text-xs font-bold uppercase tracking-widest text-blue-600">AAA Traders</p><h2 class="mt-1 text-2xl font-black text-slate-900">Company &amp; Driver Ledger System</h2><p class="mt-1 text-sm text-slate-500">Supplier payables and driver shortage receivables in one audit trail.</p></div><a href="{{ route('ledgers.create') }}" class="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-bold text-white">+ Create Ledger Entry</a></div>
+<div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">@foreach([['EBM Total Outstanding Balance (Payable)',$ebmBalance,'#b45309','#fffbeb'],['CFL Total Outstanding Balance (Payable)',$cflBalance,'#b45309','#fff7ed'],['Total Drivers Shortage Balance (Receivable)',$driverBalance,'#b91c1c','#fff1f2'],['Total Ledger Transactions (This Month)',$transactionCount,'#1d4ed8','#eff6ff']] as [$label,$value,$color,$background])<div class="min-h-32 rounded-xl border border-slate-200 p-5 shadow-sm" style="background:{{ $background }}"><p class="text-xs font-bold uppercase tracking-wide" style="color:{{ $color }};opacity:.75">{{ $label }}</p><p class="mt-2 text-2xl font-black" style="color:{{ $color }}">{{ is_numeric($value) && !str_contains($label, 'Transactions') ? pkr($value) : $value }}</p></div>@endforeach</div>
+<div x-data="{ tab: 'ebm' }" class="rounded-2xl border border-slate-200 bg-white"><div class="flex flex-wrap gap-2 border-b border-slate-100 p-4"><button @click="tab='ebm'" :class="tab === 'ebm' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="rounded-lg px-4 py-2 text-sm font-bold">EBM Ledger</button><button @click="tab='cfl'" :class="tab === 'cfl' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="rounded-lg px-4 py-2 text-sm font-bold">CFL Ledger</button><button @click="tab='drivers'" :class="tab === 'drivers' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="rounded-lg px-4 py-2 text-sm font-bold">Driver &amp; Deliverymen Ledgers</button></div>
+<div x-show="tab !== 'drivers'" class="overflow-x-auto"><table class="w-full min-w-[72rem] text-sm"><thead><tr class="bg-slate-50 text-left text-xs font-bold uppercase tracking-wide text-slate-400"><th class="px-5 py-3">Date</th><th class="px-5 py-3">Invoice / Reference No.</th><th class="px-5 py-3">Transaction Type</th><th class="px-5 py-3">Description / Particulars</th><th class="px-5 py-3 text-right">Debit [Dr]</th><th class="px-5 py-3 text-right">Credit [Cr]</th><th class="px-5 py-3 text-right">Running Balance (PKR)</th><th class="px-5 py-3">Actions</th></tr></thead><tbody class="divide-y divide-slate-100">@foreach($supplierLedgers as $entry)<tr x-show="tab === '{{ strtolower($entry['entity']) }}'" class="hover:bg-slate-50"><td class="px-5 py-4">{{ $entry['date'] }}</td><td class="px-5 py-4 font-mono text-xs font-bold text-blue-700">{{ $entry['reference'] }}</td><td class="px-5 py-4">{{ $entry['type'] }}</td><td class="px-5 py-4 text-slate-600">{{ $entry['description'] }}</td><td class="px-5 py-4 text-right font-bold text-red-600">{{ $entry['debit'] ? pkr($entry['debit']) : 'PKR 0.00' }}</td><td class="px-5 py-4 text-right font-bold text-green-600">{{ $entry['credit'] ? pkr($entry['credit']) : 'PKR 0.00' }}</td><td class="px-5 py-4 text-right font-black text-slate-800">{{ pkr($entry['balance']) }}</td><td class="px-5 py-4"><div class="flex flex-wrap gap-2"><a href="{{ route('ledgers.show', $entry['id']) }}" class="rounded-lg bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700">View</a><a href="{{ route('ledgers.edit', $entry['id']) }}" class="rounded-lg bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700">Edit</a><form method="POST" action="{{ route('ledgers.destroy', $entry['id']) }}" onsubmit="return confirm('Delete this ledger entry?')">@csrf @method('DELETE')<button type="submit" class="rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-red-700">Delete</button></form></div></td></tr>@endforeach</tbody></table></div>
+<div x-show="tab === 'drivers'" x-cloak class="overflow-x-auto"><table class="w-full min-w-[65rem] text-sm"><thead><tr class="bg-slate-50 text-left text-xs font-bold uppercase tracking-wide text-slate-400"><th class="px-5 py-3">Date</th><th class="px-5 py-3">Driver Name &amp; ID</th><th class="px-5 py-3">Trip / Route ID</th><th class="px-5 py-3">Market / Area</th><th class="px-5 py-3">Expected Cash vs. Actual Cash</th><th class="px-5 py-3 text-right">Cash Shortage (Dr) / Excess (Cr)</th><th class="px-5 py-3 text-right">Driver Running Shortage Balance</th><th class="px-5 py-3">Actions</th></tr></thead><tbody class="divide-y divide-slate-100">@foreach($driverLedgers as $entry)<tr class="hover:bg-slate-50"><td class="px-5 py-4">{{ $entry['date'] }}</td><td class="px-5 py-4 font-semibold">{{ $entry['driver'] }}<span class="block text-xs text-slate-400">{{ $entry['employee_id'] }}</span></td><td class="px-5 py-4 font-mono text-xs">{{ $entry['trip'] }}</td><td class="px-5 py-4">{{ $entry['market'] }}</td><td class="px-5 py-4">{{ pkr($entry['expected']) }} / {{ pkr($entry['actual']) }}</td><td class="px-5 py-4 text-right font-bold text-red-600">{{ pkr($entry['shortage']) }}</td><td class="px-5 py-4 text-right font-black">{{ pkr($entry['balance']) }}</td><td class="px-5 py-4"><div class="flex flex-wrap gap-2"><a href="{{ route('ledgers.show', $entry['id']) }}" class="rounded-lg bg-blue-50 px-3 py-2 text-xs font-bold text-blue-700">View</a><a href="{{ route('ledgers.edit', $entry['id']) }}" class="rounded-lg bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700">Edit</a><form method="POST" action="{{ route('ledgers.destroy', $entry['id']) }}" onsubmit="return confirm('Delete this ledger entry?')">@csrf @method('DELETE')<button type="submit" class="rounded-lg bg-red-50 px-3 py-2 text-xs font-bold text-red-700">Delete</button></form></div></td></tr>@endforeach</tbody></table></div></div>
 @endsection
