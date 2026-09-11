@@ -21,27 +21,41 @@
         aside.sidebar-nav::-webkit-scrollbar { display: none; }
         aside.sidebar-nav { -ms-overflow-style: none; scrollbar-width: none; }
         .nav-link { transition: all 0.15s ease; }
-        .nav-link.active { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); color: #1d4ed8; border-right: 3px solid #3b82f6; }
+        .nav-link.active {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            font-weight: 700 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08) !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 0.75rem !important;
+        }
+        .nav-link.active svg { color: #0f172a !important; }
         .nav-link:not(.active):hover { background: #f8fafc; color: #334155; }
         .kpi-card { transition: all 0.2s ease; }
         .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden" style="background: #f0f4f8;">
+<body class="flex h-screen overflow-hidden" style="background: #f4f5f7;">
 
     {{-- ===== SIDEBAR ===== --}}
     <aside id="tour-sidebar" class="sidebar-nav w-64 flex flex-col flex-shrink-0 overflow-y-auto" style="background: #ffffff; border-right: 1px solid #e8edf2;">
 
-        {{-- Logo --}}
-        <div class="flex items-center gap-3 px-5 py-5" style="border-bottom: 1px solid #e8edf2;">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-base flex-shrink-0"
-                 style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
-                D
+        {{-- Logo & Collapse Icon --}}
+        <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center text-white font-black text-base flex-shrink-0 bg-slate-900 shadow-sm">
+                    K
+                </div>
+                <div>
+                    <div class="font-extrabold text-slate-900 text-sm tracking-tight">Kravio / DOMS</div>
+                    <div class="text-[10px] font-semibold text-slate-400">Delivery Ops</div>
+                </div>
             </div>
-            <div>
-                <div class="font-bold text-gray-900 text-sm tracking-wide">DOMS</div>
-                <div class="text-xs" style="color: #94a3b8;">Delivery Management</div>
-            </div>
+            <button class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors" title="Toggle Sidebar">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+            </button>
         </div>
 
         {{-- Nav Label --}}
@@ -116,14 +130,25 @@
         </nav>
 
         {{-- User Footer --}}
-        <div id="tour-user-footer" class="px-4 py-4 mx-3 mb-3 rounded-xl" style="background: #f8fafc; border: 1px solid #e8edf2;">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                     style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">A</div>
-                <div class="flex-1 min-w-0">
-                    <div class="text-xs font-semibold text-gray-700 truncate">Admin / Owner</div>
-                    <div class="text-xs truncate" style="color: #94a3b8;">DOMS v1.0</div>
+        <div id="tour-user-footer" class="px-4 py-3.5 mx-3 mb-3 rounded-2xl bg-slate-50 border border-slate-200/80">
+            <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black flex-shrink-0 bg-slate-900 shadow-sm">
+                        A
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-xs font-bold text-slate-800 truncate">Admin / Owner</div>
+                        <div class="text-[10px] font-semibold text-slate-400 truncate">admin@gmail.com</div>
+                    </div>
                 </div>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors" title="Sign Out">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                    </button>
+                </form>
             </div>
         </div>
     </aside>
@@ -132,28 +157,44 @@
     <div class="flex flex-col flex-1 overflow-hidden">
 
         {{-- TOP HEADER --}}
-        <header class="flex items-center justify-between px-8 py-4 flex-shrink-0"
-                style="background: #ffffff; border-bottom: 1px solid #e8edf2;">
-            <div>
-                <h1 class="text-xl font-bold text-gray-900">{{ $pageTitle ?? 'Dashboard' }}</h1>
-                <p class="text-xs mt-0.5" style="color: #94a3b8;">{{ now()->format('l, d F Y') }}</p>
+        <header class="flex items-center justify-between px-8 py-3.5 flex-shrink-0 bg-white border-b border-slate-100">
+            <div class="flex items-center gap-6">
+                <div>
+                    <h1 class="text-lg font-extrabold text-slate-800 tracking-tight">{{ $pageTitle ?? 'Dashboard' }}</h1>
+                    <p class="text-[11px] font-semibold text-slate-400 mt-0.5">{{ now()->format('l, d F Y') }}</p>
+                </div>
+                
+                {{-- Search Bar --}}
+                <div class="hidden md:flex items-center relative w-72">
+                    <input type="text" placeholder="Search anything" class="w-full bg-slate-50 border border-slate-200 text-xs text-slate-700 rounded-xl pl-9 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium transition-all">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <span class="absolute right-3 top-2 px-1.5 py-0.5 text-[10px] font-extrabold text-slate-400 bg-slate-200/60 rounded border border-slate-200">⌘K</span>
+                </div>
             </div>
+
             <div class="flex items-center gap-3">
+                {{-- Notifications Icon --}}
+                <button class="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors relative">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                    <span class="w-2 h-2 rounded-full bg-blue-600 absolute top-2 right-2"></span>
+                </button>
+
                 {{-- Start Tour Button --}}
-                <button id="start-tour-btn" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium hover:bg-blue-100" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; transition: all 0.2s;">
+                <button id="start-tour-btn" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-blue-100" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; transition: all 0.2s;">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     Start Tour
                 </button>
+
                 {{-- Status pill --}}
-                <div id="tour-system-status" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium" style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;">
+                <div id="tour-system-status" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold" style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;">
                     <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
                     System Online
-                </div>
-                {{-- Date pill --}}
-                <div class="px-3 py-2 rounded-xl text-xs font-medium" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0;">
-                    {{ now()->format('d M Y') }}
                 </div>
             </div>
         </header>

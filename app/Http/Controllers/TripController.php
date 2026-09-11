@@ -219,7 +219,7 @@ class TripController extends Controller
             $trip->update(['status' => 'CLOSED', 'closed_at' => now()]);
         });
 
-        return to_route('trips.show', $trip)->with('success', 'Trip settled, closed, and locked from further editing.');
+        return to_route('trips.show', $trip)->with('success', 'Trip settled. This trip is CLOSED and locked from further editing.');
     }
 
     private function validateTrip(Request $request, bool $editing = false): array

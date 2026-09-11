@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 @php $pageTitle = $trip['trip_id']; @endphp
 
 @section('content')
@@ -18,6 +18,9 @@
             <div class="mb-2 flex items-center gap-3">
                 <span class="font-mono text-xl font-bold text-slate-900">{{ $trip['trip_id'] }}</span>
                 <x-status-badge :status="$trip['status']"/>
+                @if(($trip['status'] ?? '') === 'CLOSED')
+                <span class="text-xs font-semibold text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200">trip is CLOSED</span>
+                @endif
             </div>
             <p class="text-sm text-slate-500">
                 <a href="{{ route('deliverymen.show', $trip['deliveryman']['id']) }}" class="font-semibold text-slate-700 hover:text-blue-600">{{ $trip['deliveryman']['name'] }}</a>
