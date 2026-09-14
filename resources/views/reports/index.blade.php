@@ -13,13 +13,13 @@ $iconPaths = [
     'shield'   => 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
 ];
 $colorMap = [
-    'blue'   => ['bg'=>'#eff6ff','icon_bg'=>'#3b82f6','color'=>'#1d4ed8','border'=>'#bfdbfe'],
-    'indigo' => ['bg'=>'#eef2ff','icon_bg'=>'#6366f1','color'=>'#4338ca','border'=>'#c7d2fe'],
-    'teal'   => ['bg'=>'#f0fdfa','icon_bg'=>'#14b8a6','color'=>'#0f766e','border'=>'#99f6e4'],
-    'amber'  => ['bg'=>'#fffbeb','icon_bg'=>'#f59e0b','color'=>'#b45309','border'=>'#fde68a'],
-    'purple' => ['bg'=>'#faf5ff','icon_bg'=>'#a855f7','color'=>'#7e22ce','border'=>'#e9d5ff'],
-    'green'  => ['bg'=>'#f0fdf4','icon_bg'=>'#22c55e','color'=>'#15803d','border'=>'#bbf7d0'],
-    'red'    => ['bg'=>'#fff1f2','icon_bg'=>'#ef4444','color'=>'#b91c1c','border'=>'#fecdd3'],
+    'blue'   => ['bg'=>'#efefef','icon_bg'=>'#444444','color'=>'#111111','border'=>'#cccccc'],
+    'indigo' => ['bg'=>'#efefef','icon_bg'=>'#444444','color'=>'#333333','border'=>'#cccccc'],
+    'teal'   => ['bg'=>'#f0f0f0','icon_bg'=>'#444444','color'=>'#333333','border'=>'#cccccc'],
+    'amber'  => ['bg'=>'#ececec','icon_bg'=>'#444444','color'=>'#444444','border'=>'#cccccc'],
+    'purple' => ['bg'=>'#f0f0f0','icon_bg'=>'#444444','color'=>'#333333','border'=>'#cccccc'],
+    'green'  => ['bg'=>'#f0f0f0','icon_bg'=>'#444444','color'=>'#222222','border'=>'#cccccc'],
+    'red'    => ['bg'=>'#e8e8e8','icon_bg'=>'#444444','color'=>'#222222','border'=>'#cccccc'],
 ];
 @endphp
 

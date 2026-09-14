@@ -1,10 +1,10 @@
 @props(['title', 'value', 'icon', 'color' => 'blue', 'route' => '#'])
 @php
 $colorClasses = [
-    'blue'  => ['icon' => 'text-blue-500',  'bg' => 'bg-blue-50',  'border' => 'border-blue-200'],
-    'green' => ['icon' => 'text-green-500', 'bg' => 'bg-green-50', 'border' => 'border-green-200'],
-    'red'   => ['icon' => 'text-red-500',   'bg' => 'bg-red-50',   'border' => 'border-red-200'],
-    'amber' => ['icon' => 'text-amber-500', 'bg' => 'bg-amber-50', 'border' => 'border-amber-200'],
+    'blue'  => ['icon' => 'text-gray-700',  'bg' => 'bg-gray-100',  'border' => 'border-gray-300'],
+    'green' => ['icon' => 'text-gray-700',  'bg' => 'bg-gray-100',  'border' => 'border-gray-300'],
+    'red'   => ['icon' => 'text-gray-800',  'bg' => 'bg-gray-100',  'border' => 'border-gray-300'],
+    'amber' => ['icon' => 'text-gray-700',  'bg' => 'bg-gray-100',  'border' => 'border-gray-300'],
 ];
 $c = $colorClasses[$color] ?? $colorClasses['blue'];
 @endphp

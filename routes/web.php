@@ -5,6 +5,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeliverymanController;
+use App\Http\Controllers\DemoController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LedgerController;
@@ -81,3 +82,69 @@ Route::get('/reports/markets', [ReportController::class, 'markets'])->name('repo
 Route::get('/reports/stock', [ReportController::class, 'stock'])->name('reports.stock');
 Route::get('/reports/sku-movement', [ReportController::class, 'skuMovement'])->name('reports.sku-movement');
 Route::get('/reports/audit-trail', [ReportController::class, 'auditTrail'])->name('reports.audit-trail');
+
+// ─── Demo Mode ────────────────────────────────────────────────────────────────
+Route::get('/demo', [DemoController::class, 'enter'])->name('demo.enter');
+Route::post('/demo/exit', [DemoController::class, 'exit'])->name('demo.exit');
+
+Route::prefix('demo')->name('demo.')->group(function () {
+    Route::get('/dashboard', [DemoController::class, 'dashboard'])->name('dashboard');
+
+    Route::get('/trips', [DemoController::class, 'trips'])->name('trips');
+    Route::post('/trips', [DemoController::class, 'storeTrip'])->name('trips.store');
+    Route::put('/trips/{id}', [DemoController::class, 'updateTrip'])->name('trips.update');
+    Route::delete('/trips/{id}', [DemoController::class, 'destroyTrip'])->name('trips.destroy');
+    Route::get('/trips/{id}', [DemoController::class, 'tripShow'])->name('trips.show');
+
+    Route::get('/deliverymen', [DemoController::class, 'deliverymen'])->name('deliverymen');
+    Route::post('/deliverymen', [DemoController::class, 'storeDeliveryman'])->name('deliverymen.store');
+    Route::put('/deliverymen/{id}', [DemoController::class, 'updateDeliveryman'])->name('deliverymen.update');
+    Route::delete('/deliverymen/{id}', [DemoController::class, 'destroyDeliveryman'])->name('deliverymen.destroy');
+
+    Route::get('/markets', [DemoController::class, 'markets'])->name('markets');
+    Route::post('/markets', [DemoController::class, 'storeMarket'])->name('markets.store');
+    Route::put('/markets/{id}', [DemoController::class, 'updateMarket'])->name('markets.update');
+    Route::delete('/markets/{id}', [DemoController::class, 'destroyMarket'])->name('markets.destroy');
+
+    Route::get('/banks', [DemoController::class, 'banks'])->name('banks');
+    Route::post('/banks', [DemoController::class, 'storeBank'])->name('banks.store');
+    Route::put('/banks/{id}', [DemoController::class, 'updateBank'])->name('banks.update');
+    Route::delete('/banks/{id}', [DemoController::class, 'destroyBank'])->name('banks.destroy');
+
+    Route::get('/invoices', [DemoController::class, 'invoices'])->name('invoices');
+    Route::post('/invoices', [DemoController::class, 'storeInvoice'])->name('invoices.store');
+    Route::put('/invoices/{id}', [DemoController::class, 'updateInvoice'])->name('invoices.update');
+    Route::delete('/invoices/{id}', [DemoController::class, 'destroyInvoice'])->name('invoices.destroy');
+
+    Route::get('/expenses', [DemoController::class, 'expenses'])->name('expenses');
+    Route::post('/expenses', [DemoController::class, 'storeExpense'])->name('expenses.store');
+    Route::put('/expenses/{id}', [DemoController::class, 'updateExpense'])->name('expenses.update');
+    Route::delete('/expenses/{id}', [DemoController::class, 'destroyExpense'])->name('expenses.destroy');
+
+    Route::get('/stock', [DemoController::class, 'stock'])->name('stock');
+    Route::post('/stock', [DemoController::class, 'storeStock'])->name('stock.store');
+    Route::put('/stock/{id}', [DemoController::class, 'updateStock'])->name('stock.update');
+    Route::delete('/stock/{id}', [DemoController::class, 'destroyStock'])->name('stock.destroy');
+
+    Route::get('/returns', [DemoController::class, 'returns'])->name('returns');
+    Route::post('/returns', [DemoController::class, 'storeReturn'])->name('returns.store');
+    Route::put('/returns/{id}', [DemoController::class, 'updateReturn'])->name('returns.update');
+    Route::delete('/returns/{id}', [DemoController::class, 'destroyReturn'])->name('returns.destroy');
+
+    Route::get('/settlements', [DemoController::class, 'settlements'])->name('settlements');
+    Route::post('/settlements', [DemoController::class, 'storeSettlement'])->name('settlements.store');
+    Route::put('/settlements/{id}', [DemoController::class, 'updateSettlement'])->name('settlements.update');
+    Route::delete('/settlements/{id}', [DemoController::class, 'destroySettlement'])->name('settlements.destroy');
+
+    Route::get('/collections', [DemoController::class, 'collections'])->name('collections');
+    Route::post('/collections', [DemoController::class, 'storeCollection'])->name('collections.store');
+    Route::put('/collections/{id}', [DemoController::class, 'updateCollection'])->name('collections.update');
+    Route::delete('/collections/{id}', [DemoController::class, 'destroyCollection'])->name('collections.destroy');
+
+    Route::get('/ledgers', [DemoController::class, 'ledgers'])->name('ledgers');
+    Route::post('/ledgers', [DemoController::class, 'storeLedger'])->name('ledgers.store');
+    Route::put('/ledgers/{id}', [DemoController::class, 'updateLedger'])->name('ledgers.update');
+    Route::delete('/ledgers/{id}', [DemoController::class, 'destroyLedger'])->name('ledgers.destroy');
+
+    Route::get('/reports', [DemoController::class, 'reports'])->name('reports');
+});

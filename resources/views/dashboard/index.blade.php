@@ -39,16 +39,16 @@ $iconPaths = [
     'cube'     => 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
 ];
 $iconBgMap = [
-    'blue'  => 'bg-blue-50 text-blue-600 border-blue-200',
-    'green' => 'bg-emerald-50 text-emerald-600 border-emerald-200',
-    'red'   => 'bg-rose-50 text-rose-600 border-rose-200',
-    'amber' => 'bg-amber-50 text-amber-600 border-amber-200',
+    'blue'  => 'bg-gray-100 text-gray-700 border-gray-300',
+    'green' => 'bg-gray-100 text-gray-700 border-gray-300',
+    'red'   => 'bg-gray-100 text-gray-700 border-gray-300',
+    'amber' => 'bg-gray-100 text-gray-700 border-gray-300',
 ];
 $borderLeftMap = [
-    'blue'  => 'border-l-4 border-l-blue-500',
-    'green' => 'border-l-4 border-l-emerald-500',
-    'red'   => 'border-l-4 border-l-rose-500',
-    'amber' => 'border-l-4 border-l-amber-500',
+    'blue'  => 'border-l-4 border-l-gray-500',
+    'green' => 'border-l-4 border-l-gray-500',
+    'red'   => 'border-l-4 border-l-gray-500',
+    'amber' => 'border-l-4 border-l-gray-500',
 ];
 @endphp
 
@@ -83,9 +83,9 @@ $borderLeftMap = [
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <h3 class="font-black text-slate-900 text-base">Today's Trips</h3>
-                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">{{ count($todaysTrips) }}</span>
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-700">{{ count($todaysTrips) }}</span>
                 </div>
-                <a href="{{ route('trips.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">View All →</a>
+                <a href="{{ route('trips.index') }}" class="text-xs font-bold text-gray-700 hover:text-gray-900 transition-colors">View All →</a>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-xs text-left">
@@ -102,18 +102,18 @@ $borderLeftMap = [
                     <tbody class="divide-y divide-slate-100 font-semibold text-slate-700">
                         @foreach($todaysTrips as $trip)
                         <tr class="hover:bg-slate-50/60 transition-colors">
-                            <td class="px-5 py-3.5 font-mono font-bold text-blue-600">
+                            <td class="px-5 py-3.5 font-mono font-bold text-gray-800">
                                 <a href="{{ route('trips.show', $trip['id']) }}" class="hover:underline">{{ $trip['route_id'] }}</a>
                             </td>
                             <td class="px-5 py-3.5 font-bold text-slate-900">
-                                <a href="{{ route('deliverymen.show', $trip['deliveryman_id']) }}" class="hover:text-blue-600">{{ $trip['deliveryman'] }}</a>
+                                <a href="{{ route('deliverymen.show', $trip['deliveryman_id']) }}" class="hover:text-gray-700">{{ $trip['deliveryman'] }}</a>
                             </td>
                             <td class="px-5 py-3.5 text-slate-500 font-medium">{{ $trip['distributor'] }}</td>
                             <td class="px-5 py-3.5 text-slate-500 font-medium">{{ $trip['market_area'] }}</td>
                             <td class="px-5 py-3.5 text-right font-bold text-slate-800">{{ $trip['date'] }}</td>
                             <td class="px-5 py-3.5 text-center">
                                 <a href="{{ route('trips.show', $trip['id']) }}"
-                                   class="text-xs font-bold px-3 py-1.5 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors inline-block">
+                                   class="text-xs font-bold px-3 py-1.5 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors inline-block">
                                     View →
                                 </a>
                             </td>
@@ -133,7 +133,7 @@ $borderLeftMap = [
             <div class="grid grid-cols-5 gap-2">
                 @foreach(range(1, 31) as $day)
                 <a href="{{ route('reports.trips', ['day' => $day]) }}"
-                   class="flex h-9 items-center justify-center rounded-xl border border-blue-100 bg-blue-50/70 text-xs font-bold text-blue-600 transition-all hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:shadow-sm">
+                   class="flex h-9 items-center justify-center rounded-xl border border-gray-200 bg-gray-100 text-xs font-bold text-gray-700 transition-all hover:bg-gray-300 hover:border-gray-400 hover:shadow-sm">
                     Day {{ $day }}
                 </a>
                 @endforeach
@@ -147,9 +147,9 @@ $borderLeftMap = [
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <h3 class="font-black text-slate-900 text-base">Daily Shortages &amp; Recoveries</h3>
-                <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-500">{{ count($topShortages) }}</span>
+                <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{{ count($topShortages) }}</span>
             </div>
-            <a href="{{ route('settlements.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">View All →</a>
+            <a href="{{ route('settlements.index') }}" class="text-xs font-bold text-gray-700 hover:text-gray-900 transition-colors">View All →</a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-xs text-left">
@@ -166,13 +166,13 @@ $borderLeftMap = [
                     @foreach($topShortages as $s)
                     <tr class="hover:bg-slate-50/60 transition-colors">
                         <td class="px-5 py-3.5 font-bold text-slate-900">
-                            <a href="{{ route('deliverymen.show', $s['deliveryman_id']) }}" class="hover:text-blue-600">{{ $s['deliveryman'] }}</a>
+                            <a href="{{ route('deliverymen.show', $s['deliveryman_id']) }}" class="hover:text-gray-700">{{ $s['deliveryman'] }}</a>
                         </td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-blue-600">
+                        <td class="px-5 py-3.5 font-mono font-bold text-gray-800">
                             <a href="{{ route('trips.show', $s['id']) }}" class="hover:underline">{{ $s['trip_id'] }}</a>
                         </td>
                         <td class="px-5 py-3.5 text-slate-500 font-medium">{{ $s['market_area'] }}</td>
-                        <td class="px-5 py-3.5 text-right font-black text-rose-600 text-sm">{{ pkr($s['amount']) }}</td>
+                        <td class="px-5 py-3.5 text-right font-black text-gray-800 text-sm">{{ pkr($s['amount']) }}</td>
                         <td class="px-5 py-3.5"><x-status-badge :status="$s['recovery_status']"/></td>
                     </tr>
                     @endforeach
@@ -181,8 +181,8 @@ $borderLeftMap = [
                     <tr class="border-t-2 border-slate-100 bg-slate-50/80 font-bold text-slate-800">
                         <td colspan="5" class="px-5 py-3.5">
                             <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
-                                <span>Total Shortage Today: <strong class="text-rose-600 font-black text-sm">{{ pkr(array_sum(array_column($topShortages, 'amount'))) }}</strong></span>
-                                <span>Total Recovered: <strong class="text-emerald-600 font-black text-sm">{{ pkr(array_sum(array_map(fn ($shortage) => $shortage['recovery_status'] === 'Recovered' ? $shortage['amount'] : 0, $topShortages))) }}</strong></span>
+                                <span>Total Shortage Today: <strong class="text-gray-800 font-black text-sm">{{ pkr(array_sum(array_column($topShortages, 'amount'))) }}</strong></span>
+                                <span>Total Recovered: <strong class="text-gray-700 font-black text-sm">{{ pkr(array_sum(array_map(fn ($shortage) => $shortage['recovery_status'] === 'Recovered' ? $shortage['amount'] : 0, $topShortages))) }}</strong></span>
                             </div>
                         </td>
                     </tr>
@@ -208,7 +208,7 @@ $borderLeftMap = [
                     </div>
                     <span class="text-2xl font-black text-slate-900 mt-2 block tracking-tight">4,790 Trips</span>
                 </div>
-                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">+8% vs last week</span>
+                <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">+8% vs last week</span>
             </div>
             <div id="trip-volume-chart" class="w-full min-h-[260px]"></div>
         </div>
@@ -218,7 +218,7 @@ $borderLeftMap = [
             <div class="flex items-center justify-between mb-4">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="p-1 rounded-md bg-emerald-50 text-emerald-600">
+                        <span class="p-1 rounded-md bg-gray-100 text-gray-700">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 8v1"/>
                             </svg>
@@ -227,7 +227,7 @@ $borderLeftMap = [
                     </div>
                     <span class="text-2xl font-black text-slate-900 mt-2 block tracking-tight">PKR 174,500.00</span>
                 </div>
-                <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">Weekly Summary</span>
+                <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">Weekly Summary</span>
             </div>
             <div id="collections-trend-chart" class="w-full min-h-[260px]"></div>
         </div>
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
             toolbar: { show: false },
             fontFamily: 'Inter, sans-serif'
         },
-        colors: ['#10B981'],
+        colors: ['#555555'],
         fill: {
             type: 'gradient',
             gradient: {

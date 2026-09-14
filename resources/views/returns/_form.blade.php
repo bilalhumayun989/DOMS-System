@@ -1,4 +1,4 @@
-@php
+﻿@php
     $isEdit = isset($claim);
     $field = fn (string $name, mixed $default = '') => old($name, $claim[$name] ?? $default);
     $item = $claim['items'][0] ?? [];
@@ -37,6 +37,6 @@
         <div class="md:col-span-2"><label class="claim-label">Distributor Claim Status *</label><input name="claim_status" required value="{{ $field('claim_status', 'Pending Claim Submission to AAA Traders') }}" class="claim-field"></div>
     </div></section>
 
-    <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ $isEdit ? route('returns.show', $claim['id']) : route('returns.index') }}" class="rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-bold text-slate-600">Cancel</a><button type="submit" class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-bold text-white">{{ $isEdit ? 'Update Return Claim' : 'Save Return Claim' }}</button></div>
+    <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ $isEdit ? route('returns.show', $claim['id']) : route('returns.index') }}" class="rounded-lg bg-slate-100 px-4 py-2.5 text-sm font-bold text-slate-600">Cancel</a><button type="submit" class="rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-bold text-white">{{ $isEdit ? 'Update Return Claim' : 'Save Return Claim' }}</button></div>
 </form>
 <style>.claim-label{display:block;margin-bottom:.25rem;font-size:.75rem;font-weight:700;color:#475569}.claim-field{width:100%;border:1px solid #cbd5e1;border-radius:.5rem;background:#fff;padding:.625rem .75rem;font-size:.875rem}</style>

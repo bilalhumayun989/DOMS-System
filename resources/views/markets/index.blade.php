@@ -17,19 +17,15 @@
 >
 
     {{-- ── Page card ── --}}
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
+    <div class="page-card">
 
         {{-- Header --}}
-        <div class="px-6 py-5 flex items-center justify-between" style="border-bottom: 1px solid #f1f5f9;">
+        <div class="page-card-header">
             <div>
-                <h2 class="text-lg font-bold text-gray-900">All Markets</h2>
-                <p class="text-xs mt-0.5 font-medium" style="color: #94a3b8;">{{ count($markets) }} markets</p>
+                <h2 class="page-card-title">All Markets</h2>
+                <p class="page-card-sub">{{ count($markets) }} markets</p>
             </div>
-            <button
-                @click="openCreate()"
-                class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg text-white"
-                style="background: #3b82f6;"
-            >
+            <button @click="openCreate()" class="btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -39,52 +35,42 @@
 
         {{-- Table --}}
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="w-full doms-table">
                 <thead>
-                    <tr style="background: #fafbfc;">
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Market Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Area</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Invoices</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Total Value</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Collected</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Outstanding</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;"></th>
+                    <tr>
+                        <th class="text-left">Market Name</th>
+                        <th class="text-left">Area</th>
+                        <th class="text-center">Invoices</th>
+                        <th class="text-right">Total Value</th>
+                        <th class="text-right">Collected</th>
+                        <th class="text-right">Outstanding</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($markets as $market)
-                    <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                        <td class="px-6 py-4 text-sm font-semibold text-gray-800">{{ $market['name'] }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $market['area'] }}</td>
-                        <td class="px-6 py-4 text-center text-sm font-bold text-gray-800">{{ $market['total_invoices'] }}</td>
-                        <td class="px-6 py-4 text-right text-sm font-bold text-gray-800">{{ pkr($market['total_value']) }}</td>
-                        <td class="px-6 py-4 text-right text-sm font-semibold" style="color: #16a34a;">{{ pkr($market['total_collected']) }}</td>
-                        <td class="px-6 py-4 text-right">
+                    <tr>
+                        <td class="text-sm font-semibold text-gray-800">{{ $market['name'] }}</td>
+                        <td class="text-sm text-gray-500">{{ $market['area'] }}</td>
+                        <td class="text-center text-sm font-bold text-gray-800">{{ $market['total_invoices'] }}</td>
+                        <td class="text-right text-sm font-bold text-gray-800">{{ pkr($market['total_value']) }}</td>
+                        <td class="text-right text-sm font-semibold" style="color: #333333;">{{ pkr($market['total_collected']) }}</td>
+                        <td class="text-right">
                             @if($market['outstanding_balance'] > 0)
-                                <span class="text-sm font-bold" style="color: #ef4444;">{{ pkr($market['outstanding_balance']) }}</span>
+                                <span class="text-sm font-bold" style="color: #222222;">{{ pkr($market['outstanding_balance']) }}</span>
                             @else
                                 <span class="text-gray-300">—</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4">
+                        <td>
                             <div class="flex items-center justify-center gap-1.5">
-                                <a href="{{ route('markets.show', $market['id']) }}"
-                                   class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                   style="background: #eff6ff; color: #3b82f6;">
+                                <a href="{{ route('markets.show', $market['id']) }}" class="btn-row btn-view">
                                     View →
                                 </a>
-                                <button
-                                    @click="openEdit({{ json_encode($market) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background: #f0fdf4; color: #16a34a;"
-                                >
+                                <button @click="openEdit({{ json_encode($market) }})" class="btn-row btn-edit">
                                     Edit
                                 </button>
-                                <button
-                                    @click="openDelete({{ json_encode($market) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background: #fff1f2; color: #ef4444;"
-                                >
+                                <button @click="openDelete({{ json_encode($market) }})" class="btn-row btn-delete">
                                     Delete
                                 </button>
                             </div>
@@ -102,7 +88,7 @@
         x-cloak
         x-transition.duration.200ms
         @click="close()"
-        style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50;"
+        class="modal-backdrop"
     ></div>
 
     {{-- ── Modal panel ── --}}
@@ -111,7 +97,8 @@
         x-cloak
         x-transition.duration.200ms
         @click.stop
-        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 0.75rem; box-shadow: 0 4px 24px rgba(0,0,0,0.12); width: 100%; max-width: 28rem; padding: 1.5rem; z-index: 51;"
+        class="modal-panel"
+        style="max-width: 28rem;"
     >
 
         {{-- ── Create / Edit form ── --}}
@@ -124,76 +111,62 @@
                     <div class="space-y-3">
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Market Name <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Market Name <span style="color:#222222;">*</span></label>
                             <input
                                 type="text"
                                 required
                                 :value="selected?.name ?? ''"
                                 placeholder="e.g. Gulshan-e-Iqbal Market"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Area / Region <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Area / Region <span style="color:#222222;">*</span></label>
                             <input
                                 type="text"
                                 required
                                 :value="selected?.area ?? ''"
                                 placeholder="e.g. Gulshan-e-Iqbal"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Contact Person</label>
+                            <label class="modal-label">Contact Person</label>
                             <input
                                 type="text"
                                 :value="selected?.contact_person ?? ''"
                                 placeholder="e.g. Ali Hassan"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Contact Phone</label>
+                            <label class="modal-label">Contact Phone</label>
                             <input
                                 type="text"
                                 :value="selected?.contact_phone ?? ''"
                                 placeholder="e.g. 0300-0000000"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Outstanding Balance</label>
+                            <label class="modal-label">Outstanding Balance</label>
                             <input
                                 type="number"
                                 min="0"
                                 :value="selected?.outstanding_balance ?? 0"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                     </div>
 
                     <div class="flex justify-end gap-2 mt-5">
-                        <button
-                            type="button"
-                            @click="close()"
-                            class="text-xs font-semibold px-4 py-2 rounded-lg"
-                            style="background: #f1f5f9; color: #64748b;"
-                        >Cancel</button>
-                        <button
-                            type="submit"
-                            class="text-xs font-semibold px-4 py-2 rounded-lg text-white"
-                            style="background: #3b82f6;"
-                        >Save</button>
+                        <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
+                        <button type="submit" class="btn-modal-save">Save</button>
                     </div>
                 </form>
             </div>
@@ -208,18 +181,8 @@
                     This action cannot be undone.
                 </p>
                 <div class="flex justify-end gap-2">
-                    <button
-                        type="button"
-                        @click="close()"
-                        class="text-xs font-semibold px-4 py-2 rounded-lg"
-                        style="background: #f1f5f9; color: #64748b;"
-                    >Cancel</button>
-                    <button
-                        type="button"
-                        @click="close()"
-                        class="text-xs font-semibold px-4 py-2 rounded-lg text-white"
-                        style="background: #ef4444;"
-                    >Confirm Delete</button>
+                    <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
+                    <button type="button" @click="close()" class="btn-modal-delete">Confirm Delete</button>
                 </div>
             </div>
         </template>

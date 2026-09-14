@@ -9,7 +9,7 @@
                     </svg>
                 @endif
                 @if($item['route'] && $index < count($items) - 1)
-                    <a href="{{ $item['route'] }}" class="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline">
+                    <a href="{{ $item['route'] }}" class="text-sm font-medium text-gray-700 hover:text-gray-900 hover:underline">
                         {{ $item['label'] }}
                     </a>
                 @else

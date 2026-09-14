@@ -58,18 +58,17 @@ $driverAreas = [
     @keydown.escape.window="close()"
 >
     {{-- ── Page card ─────────────────────────────────────────────────── --}}
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
+    <div class="page-card">
 
         {{-- Header --}}
-        <div class="px-6 py-5 flex items-center justify-between" style="border-bottom: 1px solid #f1f5f9;">
+        <div class="page-card-header">
             <div>
-                <h2 class="text-lg font-bold text-gray-900">All Deliverymen</h2>
-                <p class="text-xs mt-0.5 font-medium" style="color: #94a3b8;">{{ count($deliverymen) }} drivers registered</p>
+                <h2 class="page-card-title">All Deliverymen</h2>
+                <p class="page-card-sub">{{ count($deliverymen) }} drivers registered</p>
             </div>
             <button
                 @click="openCreate()"
-                class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg transition-opacity hover:opacity-90"
-                style="background: #3b82f6; color: #fff;"
+                class="btn-primary"
             >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -80,79 +79,76 @@ $driverAreas = [
 
         {{-- Table --}}
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="w-full doms-table">
                 <thead>
-                    <tr style="background: #fafbfc;">
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Employee ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Phone</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Assigned Areas</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Total Trips</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Active</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Collected Today</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Shortages</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;"></th>
+                    <tr>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">Employee ID</th>
+                        <th class="text-left">Phone</th>
+                        <th class="text-left">Assigned Areas</th>
+                        <th class="text-center">Total Trips</th>
+                        <th class="text-center">Active</th>
+                        <th class="text-right">Collected Today</th>
+                        <th class="text-right">Shortages</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($deliverymen as $dm)
                     @php $areas = $driverAreas[$dm['id']] ?? []; @endphp
-                    <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                        <td class="px-6 py-4">
+                    <tr>
+                        <td>
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                                     style="background: linear-gradient(135deg,#3b82f6,#8b5cf6);">
+                                     style="background: linear-gradient(135deg,#444444,#666666);">
                                     {{ strtoupper(substr($dm['name'],0,1)) }}
                                 </div>
                                 <span class="text-sm font-semibold text-gray-800">{{ $dm['name'] }}</span>
                             </div>
                         </td>
-                        <td class="px-6 py-4 font-mono text-xs font-semibold text-gray-500">{{ $dm['employee_id'] }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">{{ $dm['phone'] }}</td>
-                        <td class="px-6 py-4">
+                        <td class="font-mono text-xs font-semibold text-gray-500">{{ $dm['employee_id'] }}</td>
+                        <td class="text-sm text-gray-600">{{ $dm['phone'] }}</td>
+                        <td>
                             @if(count($areas) > 0)
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($areas as $area)
-                                        <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background:#eff6ff;color:#3b82f6;">{{ $area }}</span>
+                                        <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background:#efefef;color:#222222;">{{ $area }}</span>
                                     @endforeach
                                 </div>
                             @else
                                 <span class="text-gray-300 text-xs">—</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-center text-sm font-bold text-gray-800">{{ $dm['total_trips'] }}</td>
-                        <td class="px-6 py-4 text-center">
+                        <td class="text-center text-sm font-bold text-gray-800">{{ $dm['total_trips'] }}</td>
+                        <td class="text-center">
                             <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold
-                                {{ $dm['active_trips']>0?'bg-green-100 text-green-700':'bg-gray-100 text-gray-400' }}">
+                                {{ $dm['active_trips']>0?'bg-gray-100 text-gray-700':'bg-gray-100 text-gray-400' }}">
                                 {{ $dm['active_trips'] }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-right text-sm font-bold text-gray-800">{{ pkr($dm['total_collected']) }}</td>
-                        <td class="px-6 py-4 text-right">
+                        <td class="text-right text-sm font-bold text-gray-800">{{ pkr($dm['total_collected']) }}</td>
+                        <td class="text-right">
                             @if($dm['outstanding_shortages'] > 0)
-                            <span class="text-sm font-bold" style="color: #ef4444;">{{ pkr($dm['outstanding_shortages']) }}</span>
+                            <span class="text-sm font-bold" style="color: #222222;">{{ pkr($dm['outstanding_shortages']) }}</span>
                             @else
                             <span class="text-sm text-gray-300">—</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4">
+                        <td>
                             <div class="flex items-center justify-center gap-1.5">
                                 <a href="{{ route('deliverymen.show', $dm['id']) }}"
-                                   class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                   style="background: #eff6ff; color: #3b82f6;">
+                                   class="btn-row btn-view">
                                     View →
                                 </a>
                                 <button
                                     @click="openEdit({{ json_encode(array_merge($dm, ['areas' => $areas])) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-                                    style="background: #f0fdf4; color: #16a34a;"
+                                    class="btn-row btn-edit"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     @click="openDelete({{ json_encode($dm) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-                                    style="background: #fff1f2; color: #ef4444;"
+                                    class="btn-row btn-delete"
                                 >
                                     Delete
                                 </button>
@@ -175,8 +171,7 @@ $driverAreas = [
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         @click="close()"
-        class="fixed inset-0"
-        style="background: rgba(0,0,0,0.5); z-index: 50;"
+        class="modal-backdrop"
         x-cloak
     ></div>
 
@@ -190,8 +185,8 @@ $driverAreas = [
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
         @click.stop
-        class="fixed rounded-xl shadow-2xl p-6"
-        style="top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; max-width: 34rem; width: calc(100% - 2rem); max-height: 90vh; overflow-y: auto; z-index: 51;"
+        class="modal-panel"
+        style="max-width: 34rem; width: calc(100% - 2rem); max-height: 90vh; overflow-y: auto; padding: 1.5rem;"
         x-cloak
     >
         {{-- ── Create / Edit form ───────────────────────────── --}}
@@ -205,66 +200,61 @@ $driverAreas = [
 
                         {{-- Name --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Name <span class="text-red-400">*</span></label>
+                            <label class="modal-label">Name <span class="text-gray-400">*</span></label>
                             <input
                                 type="text"
                                 required
                                 x-bind:value="selected?.name ?? ''"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         {{-- Employee ID --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Employee ID <span class="text-red-400">*</span></label>
+                            <label class="modal-label">Employee ID <span class="text-gray-400">*</span></label>
                             <input
                                 type="text"
                                 required
                                 x-bind:value="selected?.employee_id ?? ''"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         {{-- Phone --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Phone <span class="text-red-400">*</span></label>
+                            <label class="modal-label">Phone <span class="text-gray-400">*</span></label>
                             <input
                                 type="text"
                                 required
                                 x-bind:value="selected?.phone ?? ''"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         {{-- Vehicle --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Vehicle</label>
+                            <label class="modal-label">Vehicle</label>
                             <input
                                 type="text"
                                 x-bind:value="selected?.vehicle ?? ''"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         {{-- Join Date --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Join Date <span class="text-red-400">*</span></label>
+                            <label class="modal-label">Join Date <span class="text-gray-400">*</span></label>
                             <input
                                 type="date"
                                 required
                                 x-bind:value="selected?.joined_at ?? ''"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         {{-- Assigned Areas --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-2">
+                            <label class="modal-label">
                                 Assigned Areas
                                 <span class="text-xs font-normal text-gray-400 ml-1">(select one or more)</span>
                             </label>
@@ -272,7 +262,7 @@ $driverAreas = [
                             {{-- Selected count badge --}}
                             <div class="mb-2">
                                 <span class="text-xs font-medium px-2 py-0.5 rounded-full"
-                                      style="background:#eff6ff;color:#3b82f6;"
+                                      style="background:#efefef;color:#222222;"
                                       x-text="selectedAreas.length + ' area' + (selectedAreas.length !== 1 ? 's' : '') + ' selected'">
                                 </span>
                             </div>
@@ -285,11 +275,11 @@ $driverAreas = [
                                         @click="toggleArea(area)"
                                         class="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all text-left"
                                         :style="isAreaSelected(area)
-                                            ? 'background:#eff6ff;color:#3b82f6;border:1.5px solid #93c5fd;'
+                                            ? 'background:#efefef;color:#222222;border:1.5px solid #aaaaaa;'
                                             : 'background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;'"
                                     >
                                         <span class="w-4 h-4 rounded flex items-center justify-center flex-shrink-0 transition-all"
-                                              :style="isAreaSelected(area) ? 'background:#3b82f6;' : 'background:#e2e8f0;'">
+                                              :style="isAreaSelected(area) ? 'background:#222222;' : 'background:#e2e8f0;'">
                                             <svg x-show="isAreaSelected(area)" class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                                             </svg>
@@ -307,13 +297,11 @@ $driverAreas = [
                         <button
                             type="button"
                             @click="close()"
-                            class="text-sm font-semibold px-4 py-2 rounded-lg"
-                            style="background: #f1f5f9; color: #64748b;"
+                            class="btn-modal-cancel"
                         >Cancel</button>
                         <button
                             type="submit"
-                            class="text-sm font-semibold px-5 py-2 rounded-lg text-white"
-                            style="background: #3b82f6;"
+                            class="btn-modal-save"
                         >Save</button>
                     </div>
                 </form>
@@ -324,8 +312,8 @@ $driverAreas = [
         <template x-if="mode === 'delete'">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: #fff1f2;">
-                        <svg class="w-5 h-5" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: #e8e8e8;">
+                        <svg class="w-5 h-5" style="color: #222222;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
                         </svg>
                     </div>
@@ -341,13 +329,11 @@ $driverAreas = [
                 <div class="flex items-center justify-end gap-3">
                     <button
                         @click="close()"
-                        class="text-sm font-semibold px-4 py-2 rounded-lg"
-                        style="background: #f1f5f9; color: #64748b;"
+                        class="btn-modal-cancel"
                     >Cancel</button>
                     <button
                         @click="close()"
-                        class="text-sm font-semibold px-5 py-2 rounded-lg text-white"
-                        style="background: #ef4444;"
+                        class="btn-modal-delete"
                     >Confirm Delete</button>
                 </div>
             </div>

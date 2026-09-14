@@ -1,12 +1,12 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @php $pageTitle = $trip['trip_id']; @endphp
 
 @section('content')
 @if(session('success'))
-<div class="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">{{ session('success') }}</div>
+<div class="mb-4 rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-sm font-semibold text-gray-700">{{ session('success') }}</div>
 @endif
 @if($errors->any())
-<div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+<div class="mb-4 rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-sm text-gray-800">
     <p class="font-bold">Please fix this:</p>
     <ul class="mt-1 list-disc pl-5">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
 </div>
@@ -19,11 +19,11 @@
                 <span class="font-mono text-xl font-bold text-slate-900">{{ $trip['trip_id'] }}</span>
                 <x-status-badge :status="$trip['status']"/>
                 @if(($trip['status'] ?? '') === 'CLOSED')
-                <span class="text-xs font-semibold text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200">trip is CLOSED</span>
+                <span class="text-xs font-semibold text-gray-800 bg-gray-100 px-2.5 py-0.5 rounded-full border border-gray-300">trip is CLOSED</span>
                 @endif
             </div>
             <p class="text-sm text-slate-500">
-                <a href="{{ route('deliverymen.show', $trip['deliveryman']['id']) }}" class="font-semibold text-slate-700 hover:text-blue-600">{{ $trip['deliveryman']['name'] }}</a>
+                <a href="{{ route('deliverymen.show', $trip['deliveryman']['id']) }}" class="font-semibold text-slate-700 hover:text-gray-700">{{ $trip['deliveryman']['name'] }}</a>
                 · {{ $trip['market_area'] }} · {{ $trip['vehicle'] }}
             </p>
             <p class="mt-1 text-xs text-slate-400">DLF: {{ $trip['source_dlf'] ?: 'Not provided' }} · {{ $trip['date'] }}</p>
@@ -50,15 +50,15 @@
     </div>
     <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Collected</p>
-        <p class="mt-2 text-xl font-bold text-emerald-600">{{ pkr($tripCollected) }}</p>
+        <p class="mt-2 text-xl font-bold text-gray-700">{{ pkr($tripCollected) }}</p>
     </div>
     <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Expenses</p>
-        <p class="mt-2 text-xl font-bold text-amber-600">{{ pkr($tripExpenseTotal) }}</p>
+        <p class="mt-2 text-xl font-bold text-gray-700">{{ pkr($tripExpenseTotal) }}</p>
     </div>
     <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Shortage / Excess</p>
-        <p class="mt-2 text-xl font-bold {{ $tripShortage >= 0 ? 'text-red-600' : 'text-green-600' }}">{{ pkr(abs($tripShortage)) }}</p>
+        <p class="mt-2 text-xl font-bold {{ $tripShortage >= 0 ? 'text-gray-800' : 'text-gray-700' }}">{{ pkr(abs($tripShortage)) }}</p>
     </div>
 </div>
 
@@ -68,7 +68,7 @@
         <div class="grid gap-4 text-sm md:grid-cols-2">
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Deliveryman</p>
-                <a href="{{ route('deliverymen.show', $trip['deliveryman']['id']) }}" class="mt-1 inline-block font-semibold text-slate-800 hover:text-blue-600">{{ $trip['deliveryman']['name'] }}</a>
+                <a href="{{ route('deliverymen.show', $trip['deliveryman']['id']) }}" class="mt-1 inline-block font-semibold text-slate-800 hover:text-gray-700">{{ $trip['deliveryman']['name'] }}</a>
             </div>
             <div>
                 <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Vehicle</p>
@@ -108,7 +108,7 @@
                                 <p class="font-semibold text-slate-800">{{ $collection['customer'] }}</p>
                                 <p class="text-xs text-slate-500">{{ $collection['invoice_number'] }} · {{ $collection['method'] }}</p>
                             </div>
-                            <span class="text-sm font-bold text-emerald-600">{{ pkr($collection['amount']) }}</span>
+                            <span class="text-sm font-bold text-gray-700">{{ pkr($collection['amount']) }}</span>
                         </div>
                     </div>
                 @endforeach
@@ -122,7 +122,7 @@
 <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
     <div class="mb-4 flex items-center justify-between gap-3">
         <h3 class="text-lg font-black text-slate-900">Collections</h3>
-        <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">{{ count($collections ?? []) }} records</span>
+        <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-700">{{ count($collections ?? []) }} records</span>
     </div>
 
     <div class="overflow-x-auto">
@@ -142,7 +142,7 @@
                         <td class="px-4 py-3 font-semibold text-slate-800">{{ $collection['customer'] }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $collection['invoice_number'] }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $collection['method'] }}</td>
-                        <td class="px-4 py-3 text-right font-bold text-emerald-600">{{ pkr($collection['amount']) }}</td>
+                        <td class="px-4 py-3 text-right font-bold text-gray-700">{{ pkr($collection['amount']) }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $collection['collected_at'] }}</td>
                     </tr>
                 @empty
@@ -158,7 +158,7 @@
 <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
     <div class="mb-4 flex items-center justify-between gap-3">
         <h3 class="text-lg font-black text-slate-900">Expenses</h3>
-        <span class="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700">{{ count($expenses ?? []) }} records</span>
+        <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-bold text-gray-700">{{ count($expenses ?? []) }} records</span>
     </div>
 
     <div class="overflow-x-auto">
@@ -176,7 +176,7 @@
                     <tr>
                         <td class="px-4 py-3 font-semibold text-slate-800">{{ $expense['category'] }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $expense['description'] ?: '—' }}</td>
-                        <td class="px-4 py-3 text-right font-bold text-amber-600">{{ pkr($expense['amount']) }}</td>
+                        <td class="px-4 py-3 text-right font-bold text-gray-700">{{ pkr($expense['amount']) }}</td>
                         <td class="px-4 py-3 text-slate-600">{{ $expense['expense_date'] }}</td>
                     </tr>
                 @empty

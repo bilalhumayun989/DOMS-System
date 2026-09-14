@@ -17,19 +17,15 @@
 >
 
     {{-- ── Page card ── --}}
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
+    <div class="page-card">
 
         {{-- Header --}}
-        <div class="px-6 py-5 flex items-center justify-between" style="border-bottom: 1px solid #f1f5f9;">
+        <div class="page-card-header">
             <div>
-                <h2 class="text-lg font-bold text-gray-900">All Invoices</h2>
-                <p class="text-xs mt-0.5 font-medium" style="color: #94a3b8;">{{ count($invoices) }} invoices</p>
+                <h2 class="page-card-title">All Invoices</h2>
+                <p class="page-card-sub">{{ count($invoices) }} invoices</p>
             </div>
-            <button
-                @click="openCreate()"
-                class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg text-white"
-                style="background: #3b82f6;"
-            >
+            <button @click="openCreate()" class="btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -39,52 +35,42 @@
 
         {{-- Table --}}
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="w-full doms-table">
                 <thead>
-                    <tr style="background: #fafbfc;">
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Invoice #</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Customer</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Trip</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Date</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Value</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Status</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;"></th>
+                    <tr>
+                        <th class="text-left">Invoice #</th>
+                        <th class="text-left">Customer</th>
+                        <th class="text-left">Trip</th>
+                        <th class="text-left">Date</th>
+                        <th class="text-right">Value</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($invoices as $inv)
-                    <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                        <td class="px-6 py-4">
-                            <span class="font-mono text-xs font-bold" style="color: #3b82f6;">{{ $inv['invoice_number'] }}</span>
+                    <tr>
+                        <td>
+                            <span class="font-mono text-xs font-bold" style="color: #222222;">{{ $inv['invoice_number'] }}</span>
                         </td>
-                        <td class="px-6 py-4 text-sm font-semibold text-gray-800">{{ $inv['customer'] }}</td>
-                        <td class="px-6 py-4">
-                            <a href="{{ route('trips.show', $inv['trip_id']) }}" class="font-mono text-xs font-semibold" style="color: #3b82f6;">
+                        <td class="text-sm font-semibold text-gray-800">{{ $inv['customer'] }}</td>
+                        <td>
+                            <a href="{{ route('trips.show', $inv['trip_id']) }}" class="font-mono text-xs font-semibold" style="color: #222222;">
                                 {{ $inv['trip_id_display'] }}
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-xs text-gray-500">{{ $inv['date'] }}</td>
-                        <td class="px-6 py-4 text-right text-sm font-bold text-gray-800">{{ pkr($inv['total_value']) }}</td>
-                        <td class="px-6 py-4"><x-status-badge :status="$inv['status']"/></td>
-                        <td class="px-6 py-4">
+                        <td class="text-xs text-gray-500">{{ $inv['date'] }}</td>
+                        <td class="text-right text-sm font-bold text-gray-800">{{ pkr($inv['total_value']) }}</td>
+                        <td><x-status-badge :status="$inv['status']"/></td>
+                        <td>
                             <div class="flex items-center justify-center gap-1.5">
-                                <a href="{{ route('invoices.show', $inv['id']) }}"
-                                   class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                   style="background: #eff6ff; color: #3b82f6;">
+                                <a href="{{ route('invoices.show', $inv['id']) }}" class="btn-row btn-view">
                                     View →
                                 </a>
-                                <button
-                                    @click="openEdit({{ json_encode($inv) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background: #f0fdf4; color: #16a34a;"
-                                >
+                                <button @click="openEdit({{ json_encode($inv) }})" class="btn-row btn-edit">
                                     Edit
                                 </button>
-                                <button
-                                    @click="openDelete({{ json_encode($inv) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background: #fff1f2; color: #ef4444;"
-                                >
+                                <button @click="openDelete({{ json_encode($inv) }})" class="btn-row btn-delete">
                                     Delete
                                 </button>
                             </div>
@@ -102,7 +88,7 @@
         x-cloak
         x-transition.duration.200ms
         @click="close()"
-        style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50;"
+        class="modal-backdrop"
     ></div>
 
     {{-- ── Modal panel ── --}}
@@ -111,7 +97,8 @@
         x-cloak
         x-transition.duration.200ms
         @click.stop
-        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 0.75rem; box-shadow: 0 4px 24px rgba(0,0,0,0.12); width: 100%; max-width: 28rem; padding: 1.5rem; z-index: 51;"
+        class="modal-panel"
+        style="max-width: 28rem;"
     >
 
         {{-- ── Create / Edit form ── --}}
@@ -124,71 +111,65 @@
                     <div class="space-y-3">
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Invoice Number <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Invoice Number <span style="color:#222222;">*</span></label>
                             <input
                                 type="text"
                                 required
                                 :value="selected?.invoice_number ?? ''"
                                 placeholder="e.g. INV-2025-001"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Customer / Market <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Customer / Market <span style="color:#222222;">*</span></label>
                             <input
                                 type="text"
                                 required
                                 :value="selected?.customer ?? ''"
                                 placeholder="e.g. Gulshan-e-Iqbal Market"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Trip ID <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Trip ID <span style="color:#222222;">*</span></label>
                             <input
                                 type="text"
                                 required
                                 :value="selected?.trip_id_display ?? ''"
                                 placeholder="e.g. TR-2025-07-01-001"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Date <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Date <span style="color:#222222;">*</span></label>
                             <input
                                 type="date"
                                 required
                                 :value="selected?.date ?? ''"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Total Value <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Total Value <span style="color:#222222;">*</span></label>
                             <input
                                 type="number"
                                 required
                                 min="0"
                                 :value="selected?.total_value ?? ''"
                                 placeholder="0"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold mb-1" style="color: #64748b;">Status <span style="color:#ef4444;">*</span></label>
+                            <label class="modal-label">Status <span style="color:#222222;">*</span></label>
                             <select
                                 required
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                                 x-init="$el.value = selected?.status ?? 'NOT DELIVERED'"
                             >
                                 <option value="DELIVERED">DELIVERED</option>
@@ -201,17 +182,8 @@
                     </div>
 
                     <div class="flex justify-end gap-2 mt-5">
-                        <button
-                            type="button"
-                            @click="close()"
-                            class="text-xs font-semibold px-4 py-2 rounded-lg"
-                            style="background: #f1f5f9; color: #64748b;"
-                        >Cancel</button>
-                        <button
-                            type="submit"
-                            class="text-xs font-semibold px-4 py-2 rounded-lg text-white"
-                            style="background: #3b82f6;"
-                        >Save</button>
+                        <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
+                        <button type="submit" class="btn-modal-save">Save</button>
                     </div>
                 </form>
             </div>
@@ -226,18 +198,8 @@
                     This action cannot be undone.
                 </p>
                 <div class="flex justify-end gap-2">
-                    <button
-                        type="button"
-                        @click="close()"
-                        class="text-xs font-semibold px-4 py-2 rounded-lg"
-                        style="background: #f1f5f9; color: #64748b;"
-                    >Cancel</button>
-                    <button
-                        type="button"
-                        @click="close()"
-                        class="text-xs font-semibold px-4 py-2 rounded-lg text-white"
-                        style="background: #ef4444;"
-                    >Confirm Delete</button>
+                    <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
+                    <button type="button" @click="close()" class="btn-modal-delete">Confirm Delete</button>
                 </div>
             </div>
         </template>

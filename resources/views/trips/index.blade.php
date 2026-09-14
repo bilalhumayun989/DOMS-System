@@ -3,10 +3,10 @@
 
 @section('content')
 @if(session('success'))
-<div class="mb-4 rounded-xl px-4 py-3 text-sm font-semibold bg-green-50 text-green-700 border border-green-200">{{ session('success') }}</div>
+<div class="mb-4 rounded-xl px-4 py-3 text-sm font-semibold bg-gray-100 text-gray-700 border border-green-200">{{ session('success') }}</div>
 @endif
 @if($errors->any())
-<div class="mb-4 rounded-xl px-4 py-3 text-sm bg-red-50 text-red-700 border border-red-200">{{ $errors->first() }}</div>
+<div class="mb-4 rounded-xl px-4 py-3 text-sm bg-gray-100 text-gray-900 border border-red-200">{{ $errors->first() }}</div>
 @endif
 <div
     x-data="{
@@ -58,13 +58,13 @@
     @keydown.escape.window="close()"
 >
     {{-- ── Page card ── --}}
-    <div class="rounded-2xl overflow-hidden" style="background: #ffffff; border: 1px solid #e8edf2;">
+    <div class="page-card">
 
         {{-- Header --}}
-        <div class="px-6 py-5 flex items-center justify-between" style="border-bottom: 1px solid #f1f5f9;">
+        <div class="page-card-header">
             <div>
-                <h2 class="text-lg font-bold text-gray-900">{{ $pageTitle }}</h2>
-                <p class="text-xs mt-0.5 font-medium" style="color: #94a3b8;">{{ count($trips) }} trips</p>
+                <h2 class="page-card-title">{{ $pageTitle }}</h2>
+                <p class="page-card-sub">{{ count($trips) }} trips</p>
             </div>
             <div class="flex items-center gap-3">
                         <form method="GET" action="{{ route('trips.index') }}" class="flex items-center gap-2">
@@ -84,8 +84,7 @@
                         </form>
                 <button
                     @click="openCreate()"
-                    class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg"
-                    style="background: #3b82f6; color: #fff;"
+                    class="btn-primary"
                 >
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -97,41 +96,40 @@
 
         {{-- Table --}}
         <div class="overflow-x-auto">
-            <table class="w-full">
+            <table class="w-full doms-table">
                 <thead>
-                    <tr style="background: #fafbfc;">
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Trip ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Deliveryman</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Vehicle</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Market / Area</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Load Value</th>
-                        <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wide" style="color: #94a3b8;">Actions</th>
+                    <tr>
+                        <th class="text-left">Trip ID</th>
+                        <th class="text-left">Date</th>
+                        <th class="text-left">Deliveryman</th>
+                        <th class="text-left">Vehicle</th>
+                        <th class="text-left">Market / Area</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-right">Load Value</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($trips as $trip)
-                    <tr class="border-t hover:bg-slate-50 transition-colors" style="border-color: #f1f5f9;">
-                        <td class="px-6 py-4">
-                            <span class="font-mono text-xs font-bold" style="color: #3b82f6;">{{ $trip['trip_id'] }}</span>
+                    <tr>
+                        <td>
+                            <span class="font-mono text-xs font-bold" style="color: #222222;">{{ $trip['trip_id'] }}</span>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-600">{{ $trip['date'] }}</td>
-                        <td class="px-6 py-4">
+                        <td class="text-sm text-gray-600">{{ $trip['date'] }}</td>
+                        <td>
                             <a href="{{ route('deliverymen.show', $trip['deliveryman']['id']) }}"
-                               class="text-sm font-semibold text-gray-800 hover:text-blue-600 transition-colors">
+                               class="text-sm font-semibold text-gray-800 transition-colors">
                                 {{ $trip['deliveryman']['name'] }}
                             </a>
                         </td>
-                        <td class="px-6 py-4 text-xs text-gray-500">{{ $trip['vehicle'] }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-700">{{ $trip['market_area'] }}</td>
-                        <td class="px-6 py-4"><x-status-badge :status="$trip['status']"/></td>
-                        <td class="px-6 py-4 text-right text-sm font-bold text-gray-800">{{ $trip['load_value'] > 0 ? pkr($trip['load_value']) : '—' }}</td>
-                        <td class="px-6 py-4">
+                        <td class="text-xs text-gray-500">{{ $trip['vehicle'] }}</td>
+                        <td class="text-sm text-gray-700">{{ $trip['market_area'] }}</td>
+                        <td><x-status-badge :status="$trip['status']"/></td>
+                        <td class="text-right text-sm font-bold text-gray-800">{{ $trip['load_value'] > 0 ? pkr($trip['load_value']) : '—' }}</td>
+                        <td>
                             <div class="flex items-center justify-center gap-1.5 flex-wrap">
                                 <a href="{{ route('trips.show', $trip['id']) }}"
-                                   class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                   style="background: #eff6ff; color: #3b82f6;">
+                                   class="btn-row btn-view">
                                     View →
                                 </a>
                                 @if($trip['status'] !== 'CLOSED')
@@ -146,8 +144,7 @@
                                 @if($trip['status'] === 'DRAFT')
                                 <button
                                     @click="openDelete({{ json_encode($trip) }})"
-                                    class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                                    style="background: #fff1f2; color: #ef4444;"
+                                    class="btn-row btn-delete"
                                 >
                                     Delete
                                 </button>
@@ -172,8 +169,7 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         @click="close()"
-        class="fixed inset-0"
-        style="background: rgba(0,0,0,0.5); z-index: 50;"
+        class="modal-backdrop"
     ></div>
 
     {{-- ── Modal panel ── --}}
@@ -187,8 +183,8 @@
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
         @click.stop
-        class="fixed rounded-xl shadow-2xl overflow-y-auto"
-        style="top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; max-width: 34rem; width: calc(100% - 2rem); max-height: 90vh; z-index: 51; padding: 1.5rem;"
+        class="modal-panel overflow-y-auto"
+        style="max-width: 34rem; width: calc(100% - 2rem); max-height: 90vh; padding: 1.5rem;"
     >
 
         {{-- ── Create / Edit Trip form ── --}}
@@ -208,26 +204,24 @@
 
                         {{-- Trip ID (full width) --}}
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-500 mb-1">Trip ID <span class="text-gray-400 font-normal">(auto-generated)</span></label>
+                            <label class="modal-label">Trip ID <span class="text-gray-400 font-normal">(auto-generated)</span></label>
                             <input
                                 type="text"
                                 readonly
                                 x-bind:value="mode === 'edit' ? selected?.trip_id : 'TR-' + new Date().toISOString().slice(0,10) + '-NEW'"
-                                class="w-full text-sm font-mono"
-                                style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem; color: #64748b;"
+                                class="modal-input font-mono"
                             >
                         </div>
 
                         {{-- Date --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Date <span class="text-red-400">*</span></label>
+                            <label class="modal-label">Date <span class="text-gray-400">*</span></label>
                             <input
                                 type="date"
                                 name="trip_date"
                                 required
                                 x-bind:value="selected?.date ?? new Date().toISOString().slice(0,10)"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
@@ -236,14 +230,13 @@
 
                         {{-- Deliveryman (full width) — auto-fills Vehicle + Area --}}
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Deliveryman <span class="text-red-400">*</span></label>
+                            <label class="modal-label">Deliveryman <span class="text-gray-400">*</span></label>
                             <select
                                 name="deliveryman_name"
                                 required
                                 x-model="formDriver"
                                 @change="onDriverChange($event.target.value)"
-                                class="w-full text-sm"
-                                style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                                 <option value="">— Select Driver —</option>
                                 @foreach($deliverymen as $dm)
@@ -254,35 +247,34 @@
 
                         {{-- Vehicle (auto-filled) --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">
+                            <label class="modal-label">
                                 Vehicle
-                                <span class="text-xs font-normal text-blue-500 ml-1">auto-filled</span>
+                                <span class="text-xs font-normal text-gray-500 ml-1">auto-filled</span>
                             </label>
                             <input
                                 type="text"
                                 name="vehicle"
                                 x-model="formVehicle"
                                 placeholder="Auto-fills on driver select"
-                                class="w-full text-sm"
-                                style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Day Number</label>
-                            <input type="number" min="1" max="31" readonly :value="selected?.date ? Number(selected.date.slice(-2)) : new Date().getDate()" class="w-full text-sm" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Day Number</label>
+                            <input type="number" min="1" max="31" readonly :value="selected?.date ? Number(selected.date.slice(-2)) : new Date().getDate()" class="modal-input">
                         </div>
 
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Distributor Name</label>
-                            <input type="text" name="distributor" x-model="formDistributor" value="Main Distributor" placeholder="e.g. AAA Traders" class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Distributor Name</label>
+                            <input type="text" name="distributor" x-model="formDistributor" value="Main Distributor" placeholder="e.g. AAA Traders" class="modal-input">
                         </div>
 
                         {{-- Market / Area (auto-filled) --}}
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">
-                                Market / Area <span class="text-red-400">*</span>
-                                <span class="text-xs font-normal text-blue-500 ml-1">auto-filled</span>
+                            <label class="modal-label">
+                                Market / Area <span class="text-gray-400">*</span>
+                                <span class="text-xs font-normal text-gray-500 ml-1">auto-filled</span>
                             </label>
                             <input
                                 type="text"
@@ -290,17 +282,16 @@
                                 required
                                 x-model="formArea"
                                 placeholder="Auto-fills on driver select"
-                                class="w-full text-sm"
-                                style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"
+                                class="modal-input"
                             >
                         </div>
 
                         {{-- Source DLF — file upload (full width) --}}
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Source DLF <span class="text-gray-400 font-normal">(Delivery Load Form)</span></label>
+                            <label class="modal-label">Source DLF <span class="text-gray-400 font-normal">(Delivery Load Form)</span></label>
                             <div class="flex items-center gap-3">
                                 <label class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer"
-                                       style="background: #eff6ff; color: #3b82f6; border: 1px solid #bfdbfe;">
+                                       style="background: #efefef; color: #222222; border: 1px solid #cccccc;">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                                     </svg>
@@ -310,7 +301,7 @@
                                 </label>
                                 <span class="text-xs text-gray-500 truncate flex-1" x-text="dlfFileName || 'No file selected'"></span>
                                 <template x-if="dlfFileName">
-                                    <button type="button" @click="dlfFileName = ''" class="text-gray-400 hover:text-red-400">
+                                    <button type="button" @click="dlfFileName = ''" class="text-gray-400 hover:text-gray-600">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                     </button>
                                 </template>
@@ -334,26 +325,26 @@
                         <h4 class="text-sm font-black text-slate-800">Sales &amp; Financial Cash Entry</h4>
                         <div class="mt-3 grid grid-cols-2 gap-4">
                             @foreach(['Total Gross Sales Amount (PKR)', 'Discount / Scheme Given (PKR)', 'Net Sales Amount (PKR)', 'Cash Collected (PKR)', 'Cheque Collected (PKR)', 'Online Bank Transfer (PKR)', 'Market Credit / Udhaar (PKR)'] as $financialField)
-                            <div class="{{ $loop->last ? 'col-span-2' : '' }}"><label class="block text-xs font-semibold text-gray-600 mb-1">{{ $financialField }}</label><input type="number" min="0" step="0.01" value="0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;"></div>
+                            <div class="{{ $loop->last ? 'col-span-2' : '' }}"><label class="modal-label">{{ $financialField }}</label><input type="number" min="0" step="0.01" value="0" class="modal-input"></div>
                             @endforeach
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Source DLF Reference</label>
-                            <input type="text" name="source_dlf" :value="selected?.source_dlf ?? dlfFileName" placeholder="e.g. DLF-10245" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
+                            <label class="modal-label">Source DLF Reference</label>
+                            <input type="text" name="source_dlf" :value="selected?.source_dlf ?? dlfFileName" placeholder="e.g. DLF-10245" class="modal-input">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Load Value (PKR)</label>
-                            <input type="number" name="load_value" min="0" step="0.01" required :value="selected?.load_value ?? 0" class="w-full text-sm" style="border:1px solid #e2e8f0;border-radius:.5rem;padding:.625rem .75rem;">
+                            <label class="modal-label">Load Value (PKR)</label>
+                            <input type="number" name="load_value" min="0" step="0.01" required :value="selected?.load_value ?? 0" class="modal-input">
                         </div>
                     </div>
 
                     {{-- Actions --}}
                     <div class="flex items-center justify-end gap-3 mt-6 pt-4" style="border-top: 1px solid #f1f5f9;">
-                        <button type="button" @click="close()" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background: #f1f5f9; color: #64748b;">Cancel</button>
-                        <button type="submit" class="text-sm font-semibold px-5 py-2 rounded-lg text-white" style="background: #3b82f6;">
+                        <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
+                        <button type="submit" class="btn-modal-save">
                             <span x-text="mode === 'create' ? 'Create Trip' : 'Save Changes'"></span>
                         </button>
                     </div>
@@ -371,7 +362,7 @@
                     </button>
                 </div>
                 <p class="text-xs text-gray-500 mb-5">
-                    Trip: <span class="font-semibold text-blue-600 font-mono" x-text="selected?.trip_id"></span>
+                    Trip: <span class="font-semibold text-gray-800 font-mono" x-text="selected?.trip_id"></span>
                     &nbsp;·&nbsp;
                     Driver: <span class="font-semibold text-gray-700" x-text="selected?.deliveryman?.name"></span>
                 </p>
@@ -381,26 +372,23 @@
                     <div class="grid grid-cols-2 gap-4">
 
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Customer / Market <span class="text-red-400">*</span></label>
-                            <input type="text" name="customer" required placeholder="e.g. Al-Noor General Store" class="w-full text-sm"
-                                   style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Customer / Market <span class="text-gray-400">*</span></label>
+                            <input type="text" name="customer" required placeholder="e.g. Al-Noor General Store" class="modal-input">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Invoice Number <span class="text-red-400">*</span></label>
-                            <input type="text" name="invoice_number" required placeholder="e.g. INV-001" class="w-full text-sm"
-                                   style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Invoice Number <span class="text-gray-400">*</span></label>
+                            <input type="text" name="invoice_number" required placeholder="e.g. INV-001" class="modal-input">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Amount (PKR) <span class="text-red-400">*</span></label>
-                            <input type="number" name="amount" required min="0.01" step="0.01" placeholder="0" class="w-full text-sm"
-                                   style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Amount (PKR) <span class="text-gray-400">*</span></label>
+                            <input type="number" name="amount" required min="0.01" step="0.01" placeholder="0" class="modal-input">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Payment Method <span class="text-red-400">*</span></label>
-                            <select name="method" x-model="collectMethod" required class="w-full text-sm" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Payment Method <span class="text-gray-400">*</span></label>
+                            <select name="method" x-model="collectMethod" required class="modal-input">
                                 <option value="">— Select —</option>
                                 <option>Cash</option>
                                 <option>Cheque</option>
@@ -409,15 +397,13 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Date <span class="text-red-400">*</span></label>
-                            <input type="datetime-local" name="collected_at" required :value="new Date().toISOString().slice(0,16)" class="w-full text-sm"
-                                   style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;">
+                            <label class="modal-label">Date <span class="text-gray-400">*</span></label>
+                            <input type="datetime-local" name="collected_at" required :value="new Date().toISOString().slice(0,16)" class="modal-input">
                         </div>
 
                         <div class="col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Notes <span class="text-gray-400 font-normal">(optional)</span></label>
-                            <textarea name="notes" rows="2" placeholder="Any remarks..." class="w-full text-sm resize-none"
-                                      style="background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.625rem 0.75rem;"></textarea>
+                            <label class="modal-label">Notes <span class="text-gray-400 font-normal">(optional)</span></label>
+                            <textarea name="notes" rows="2" placeholder="Any remarks..." class="modal-input resize-none"></textarea>
                         </div>
 
                         <input name="cheque_number" placeholder="Cheque number (if cheque)" class="text-sm rounded-lg border-slate-200">
@@ -428,8 +414,8 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-3 mt-6 pt-4" style="border-top: 1px solid #f1f5f9;">
-                        <button type="button" @click="close()" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background: #f1f5f9; color: #64748b;">Cancel</button>
-                        <button type="submit" class="text-sm font-semibold px-5 py-2 rounded-lg text-white" style="background: #16a34a;">
+                        <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
+                        <button type="submit" class="btn-modal-save">
                             Record Collection
                         </button>
                     </div>
@@ -441,8 +427,8 @@
         <template x-if="mode === 'delete'">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: #fff1f2;">
-                        <svg class="w-5 h-5" style="color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background: #e8e8e8;">
+                        <svg class="w-5 h-5" style="color: #222222;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
                         </svg>
                     </div>
@@ -454,11 +440,11 @@
                     This action cannot be undone.
                 </p>
                 <div class="flex items-center justify-end gap-3">
-                    <button @click="close()" class="text-sm font-semibold px-4 py-2 rounded-lg" style="background: #f1f5f9; color: #64748b;">Cancel</button>
+                    <button @click="close()" class="btn-modal-cancel">Cancel</button>
                     <form method="POST" :action="'{{ url('/trips') }}/' + selected?.id">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-sm font-semibold px-5 py-2 rounded-lg text-white" style="background: #ef4444;">Confirm Delete</button>
+                        <button type="submit" class="btn-modal-delete">Confirm Delete</button>
                     </form>
                 </div>
             </div>

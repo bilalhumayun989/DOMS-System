@@ -30,31 +30,31 @@
             </div>
 
             {{-- Demo Hint Banner --}}
-            <div class="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-100 flex items-center justify-between gap-3">
+            <div class="p-3.5 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center flex-shrink-0 text-xs">
-                        🔑
+                    <div class="w-7 h-7 rounded-xl bg-gray-800 text-white flex items-center justify-center flex-shrink-0">
+                        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
                     </div>
                     <div>
-                        <div class="text-[11px] font-bold text-blue-900">Demo Account Credentials</div>
-                        <div class="text-[10px] font-mono text-blue-700">admin@gmail.com · 12345678</div>
+                        <div class="text-[11px] font-bold text-gray-900">Demo Account Credentials</div>
+                        <div class="text-[10px] font-mono text-gray-700">admin@gmail.com · 12345678</div>
                     </div>
                 </div>
                 <button type="button" @click="document.getElementById('email').value='admin@gmail.com'; document.getElementById('password').value='12345678';"
-                        class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[10px] font-bold hover:bg-blue-700 transition-colors shadow-sm">
+                        class="px-2.5 py-1 rounded-lg bg-gray-800 text-white text-[10px] font-bold hover:bg-gray-900 transition-colors shadow-sm">
                     Fill Form
                 </button>
             </div>
 
             {{-- Validation Error Alerts --}}
             @if(session('success'))
-            <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-700 text-center">
+            <div class="p-3 rounded-xl bg-gray-100 border border-gray-300 text-xs font-bold text-gray-700 text-center">
                 {{ session('success') }}
             </div>
             @endif
 
             @if($errors->any())
-            <div class="p-3 rounded-xl bg-red-50 border border-red-200 text-xs font-semibold text-red-600 space-y-1">
+            <div class="p-3 rounded-xl bg-gray-100 border border-gray-300 text-xs font-semibold text-gray-700 space-y-1">
                 @foreach($errors->all() as $error)
                 <p>• {{ $error }}</p>
                 @endforeach
@@ -69,8 +69,8 @@
                 <div class="space-y-1">
                     <label for="email" class="block text-xs font-bold text-slate-700">Email Address</label>
                     <div class="relative">
-                        <input type="email" id="email" name="email" value="{{ old('email', 'admin@gmail.com') }}" required
-                               class="w-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl pl-9 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                               class="w-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl pl-9 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-400/20 focus:border-gray-500 transition-all"
                                placeholder="admin@gmail.com">
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
@@ -82,11 +82,11 @@
                 <div class="space-y-1">
                     <div class="flex items-center justify-between">
                         <label for="password" class="block text-xs font-bold text-slate-700">Password</label>
-                        <a href="#" class="text-[11px] font-semibold text-blue-600 hover:text-blue-800">Forgot?</a>
+                        <a href="#" class="text-[11px] font-semibold text-gray-700 hover:text-gray-900">Forgot?</a>
                     </div>
                     <div class="relative">
-                        <input :type="showPass ? 'text' : 'password'" id="password" name="password" value="12345678" required
-                               class="w-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl pl-9 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                        <input :type="showPass ? 'text' : 'password'" id="password" name="password" required
+                               class="w-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl pl-9 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-gray-400/20 focus:border-gray-500 transition-all"
                                placeholder="••••••••">
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -106,7 +106,7 @@
                 {{-- Remember Me --}}
                 <div class="flex items-center justify-between pt-1">
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="remember" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500/20">
+                        <input type="checkbox" name="remember" class="w-4 h-4 rounded border-slate-300 text-gray-600 focus:ring-gray-400/20">
                         <span class="text-xs font-semibold text-slate-600">Remember me</span>
                     </label>
                 </div>
