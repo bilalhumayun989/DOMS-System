@@ -29,23 +29,6 @@
                 <p class="text-xs font-semibold text-slate-400">Delivery Order Management System</p>
             </div>
 
-            {{-- Demo Hint Banner --}}
-            <div class="p-3.5 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-7 h-7 rounded-xl bg-gray-800 text-white flex items-center justify-center flex-shrink-0">
-                        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-                    </div>
-                    <div>
-                        <div class="text-[11px] font-bold text-gray-900">Demo Account Credentials</div>
-                        <div class="text-[10px] font-mono text-gray-700">admin@gmail.com · 12345678</div>
-                    </div>
-                </div>
-                <button type="button" @click="document.getElementById('email').value='admin@gmail.com'; document.getElementById('password').value='12345678';"
-                        class="px-2.5 py-1 rounded-lg bg-gray-800 text-white text-[10px] font-bold hover:bg-gray-900 transition-colors shadow-sm">
-                    Fill Form
-                </button>
-            </div>
-
             {{-- Validation Error Alerts --}}
             @if(session('success'))
             <div class="p-3 rounded-xl bg-gray-100 border border-gray-300 text-xs font-bold text-gray-700 text-center">
@@ -62,16 +45,16 @@
             @endif
 
             {{-- Login Form --}}
-            <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
+            <form action="{{ route('login.post') }}" method="POST" autocomplete="off" class="space-y-4">
                 @csrf
 
                 {{-- Email Input --}}
                 <div class="space-y-1">
                     <label for="email" class="block text-xs font-bold text-slate-700">Email Address</label>
                     <div class="relative">
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required autocomplete="off"
                                class="w-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl pl-9 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-400/20 focus:border-gray-500 transition-all"
-                               placeholder="admin@gmail.com">
+                               placeholder="your.email@example.com">
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
                         </svg>
@@ -85,7 +68,7 @@
                         <a href="#" class="text-[11px] font-semibold text-gray-700 hover:text-gray-900">Forgot?</a>
                     </div>
                     <div class="relative">
-                        <input :type="showPass ? 'text' : 'password'" id="password" name="password" required
+                        <input :type="showPass ? 'text' : 'password'" id="password" name="password" required autocomplete="off"
                                class="w-full bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl pl-9 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-gray-400/20 focus:border-gray-500 transition-all"
                                placeholder="••••••••">
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
