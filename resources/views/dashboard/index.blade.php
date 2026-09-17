@@ -78,11 +78,11 @@ $borderLeftMap = [
     {{-- SECTION 2: TODAY'S TRIPS + QUICK DAY SELECTOR --}}
     <div class="doms-middle-grid">
 
-        {{-- Today's Trips Table --}}
+        {{-- Recent Trips Table --}}
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden min-w-0">
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <h3 class="font-black text-slate-900 text-base">Today's Trips</h3>
+                    <h3 class="font-black text-slate-900 text-base">Recent Trips</h3>
                     <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-700">{{ count($todaysTrips) }}</span>
                 </div>
                 <a href="{{ route('trips.index') }}" class="text-xs font-bold text-gray-700 hover:text-gray-900 transition-colors">View All →</a>
@@ -106,7 +106,7 @@ $borderLeftMap = [
                                 <a href="{{ route('trips.show', $trip['id']) }}" class="hover:underline">{{ $trip['route_id'] }}</a>
                             </td>
                             <td class="px-5 py-3.5 font-bold text-slate-900">
-                                <a href="{{ route('deliverymen.show', $trip['deliveryman_id']) }}" class="hover:text-gray-700">{{ $trip['deliveryman'] }}</a>
+                                <a href="{{ $trip['deliveryman_id'] ? route('deliverymen.show', $trip['deliveryman_id']) : route('deliverymen.index') }}" class="hover:text-gray-700">{{ $trip['deliveryman'] }}</a>
                             </td>
                             <td class="px-5 py-3.5 text-slate-500 font-medium">{{ $trip['distributor'] }}</td>
                             <td class="px-5 py-3.5 text-slate-500 font-medium">{{ $trip['market_area'] }}</td>
@@ -166,7 +166,7 @@ $borderLeftMap = [
                     @foreach($topShortages as $s)
                     <tr class="hover:bg-slate-50/60 transition-colors">
                         <td class="px-5 py-3.5 font-bold text-slate-900">
-                            <a href="{{ route('deliverymen.show', $s['deliveryman_id']) }}" class="hover:text-gray-700">{{ $s['deliveryman'] }}</a>
+                            <a href="{{ $s['deliveryman_id'] ? route('deliverymen.show', $s['deliveryman_id']) : route('deliverymen.index') }}" class="hover:text-gray-700">{{ $s['deliveryman'] }}</a>
                         </td>
                         <td class="px-5 py-3.5 font-mono font-bold text-gray-800">
                             <a href="{{ route('trips.show', $s['id']) }}" class="hover:underline">{{ $s['trip_id'] }}</a>
@@ -206,9 +206,9 @@ $borderLeftMap = [
                         </span>
                         <h3 class="text-base font-extrabold text-slate-900">Trip &amp; Delivery Volume Trend</h3>
                     </div>
-                    <span class="text-2xl font-black text-slate-900 mt-2 block tracking-tight">4,790 Trips</span>
+                    <span class="text-2xl font-black text-slate-900 mt-2 block tracking-tight">{{ array_sum($chartData) }} Trips</span>
                 </div>
-                <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">+8% vs last week</span>
+                <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">Last 7 days</span>
             </div>
             <div id="trip-volume-chart" class="w-full min-h-[260px]"></div>
         </div>
@@ -225,7 +225,7 @@ $borderLeftMap = [
                         </span>
                         <h3 class="text-base font-extrabold text-slate-900">Collections &amp; Revenue Analytics</h3>
                     </div>
-                    <span class="text-2xl font-black text-slate-900 mt-2 block tracking-tight">PKR 174,500.00</span>
+                    <span class="text-2xl font-black text-slate-900 mt-2 block tracking-tight">{{ pkr(array_sum($collectionChartData)) }}</span>
                 </div>
                 <span class="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">Weekly Summary</span>
             </div>
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const volumeChartOptions = {
         series: [{
             name: 'Trips',
-            data: [320, 450, 584, 490, 610, 530, 410]
+            data: @json($chartData)
         }],
         chart: {
             type: 'bar',
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dataLabels: { enabled: false },
         legend: { show: false },
         xaxis: {
-            categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            categories: @json($chartDays),
             axisBorder: { show: false },
             axisTicks: { show: false },
             labels: { style: { colors: '#94A3B8', fontSize: '12px', fontWeight: 600 } }
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const collectionsChartOptions = {
         series: [{
             name: 'Collection (PKR)',
-            data: [45000, 72000, 95000, 110000, 145000, 160000, 174500]
+            data: @json($collectionChartData)
         }],
         chart: {
             type: 'area',
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
         stroke: { curve: 'smooth', width: 3 },
         dataLabels: { enabled: false },
         xaxis: {
-            categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            categories: @json($chartDays),
             axisBorder: { show: false },
             axisTicks: { show: false },
             labels: { style: { colors: '#94A3B8', fontSize: '12px', fontWeight: 600 } }

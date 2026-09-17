@@ -107,7 +107,9 @@
                 <h3 class="text-base font-bold text-gray-900 mb-4"
                     x-text="mode === 'create' ? 'Add Market' : 'Edit Market'"></h3>
 
-                <form @submit.prevent="close()">
+                <form method="POST" :action="mode === 'create' ? '{{ route('markets.store') }}' : '{{ url('markets') }}/' + selected.id">
+                    @csrf
+                    <input type="hidden" name="_method" :value="mode === 'edit' ? 'PUT' : 'POST'">
                     <div class="space-y-3">
 
                         <div>
@@ -118,7 +120,7 @@
                                 :value="selected?.name ?? ''"
                                 placeholder="e.g. Gulshan-e-Iqbal Market"
                                 class="modal-input"
-                            >
+                             name="name">
                         </div>
 
                         <div>
@@ -129,37 +131,37 @@
                                 :value="selected?.area ?? ''"
                                 placeholder="e.g. Gulshan-e-Iqbal"
                                 class="modal-input"
-                            >
+                             name="area">
                         </div>
 
                         <div>
                             <label class="modal-label">Contact Person</label>
                             <input
                                 type="text"
-                                :value="selected?.contact_person ?? ''"
+                                :value="selected?.contact ?? ''"
                                 placeholder="e.g. Ali Hassan"
                                 class="modal-input"
-                            >
+                             name="contact">
                         </div>
 
                         <div>
                             <label class="modal-label">Contact Phone</label>
                             <input
                                 type="text"
-                                :value="selected?.contact_phone ?? ''"
+                                :value="selected?.phone ?? ''"
                                 placeholder="e.g. 0300-0000000"
                                 class="modal-input"
-                            >
+                             name="phone">
                         </div>
 
                         <div>
-                            <label class="modal-label">Outstanding Balance</label>
+                            <label class="modal-label">Opening Outstanding Balance</label>
                             <input
                                 type="number"
                                 min="0"
-                                :value="selected?.outstanding_balance ?? 0"
+                                :value="selected?.opening_balance ?? 0"
                                 class="modal-input"
-                            >
+                             step="0.01" name="outstanding_balance">
                         </div>
 
                     </div>
@@ -182,7 +184,7 @@
                 </p>
                 <div class="flex justify-end gap-2">
                     <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
-                    <button type="button" @click="close()" class="btn-modal-delete">Confirm Delete</button>
+                    <form method="POST" :action="'{{ url('markets') }}/' + selected.id">@csrf @method('DELETE')<button type="submit" class="btn-modal-delete">Confirm Delete</button></form>
                 </div>
             </div>
         </template>

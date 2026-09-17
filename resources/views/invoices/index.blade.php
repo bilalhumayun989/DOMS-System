@@ -107,8 +107,10 @@
                 <h3 class="text-base font-bold text-gray-900 mb-4"
                     x-text="mode === 'create' ? 'Add Invoice' : 'Edit Invoice'"></h3>
 
-                <form @submit.prevent="close()">
-                    <div class="space-y-3">
+                <form method="POST" :action="mode === 'create' ? '{{ route('invoices.store') }}' : '{{ url('invoices') }}/' + selected.id">
+                    @csrf
+                    <input type="hidden" name="_method" :value="mode === 'edit' ? 'PUT' : 'POST'">
+                    <div class="space-y-3"><div><label class="modal-label">Market</label><select name="market_id" class="modal-input" x-init="$el.value = selected?.market_id ?? ''"><option value="">Select market</option>@foreach($markets as $market)<option value="{{ $market->id }}">{{ $market->name }}</option>@endforeach</select></div><datalist id="invoice-trips">@foreach($trips as $trip)<option value="{{ $trip->trip_number }}">{{ $trip->deliveryman_name }}</option>@endforeach</datalist>
 
                         <div>
                             <label class="modal-label">Invoice Number <span style="color:#222222;">*</span></label>
@@ -118,7 +120,7 @@
                                 :value="selected?.invoice_number ?? ''"
                                 placeholder="e.g. INV-2025-001"
                                 class="modal-input"
-                            >
+                             name="invoice_number">
                         </div>
 
                         <div>
@@ -129,7 +131,7 @@
                                 :value="selected?.customer ?? ''"
                                 placeholder="e.g. Gulshan-e-Iqbal Market"
                                 class="modal-input"
-                            >
+                             name="customer">
                         </div>
 
                         <div>
@@ -140,7 +142,7 @@
                                 :value="selected?.trip_id_display ?? ''"
                                 placeholder="e.g. TR-2025-07-01-001"
                                 class="modal-input"
-                            >
+                             list="invoice-trips" name="trip_id_display">
                         </div>
 
                         <div>
@@ -150,7 +152,7 @@
                                 required
                                 :value="selected?.date ?? ''"
                                 class="modal-input"
-                            >
+                             name="date">
                         </div>
 
                         <div>
@@ -162,12 +164,12 @@
                                 :value="selected?.total_value ?? ''"
                                 placeholder="0"
                                 class="modal-input"
-                            >
+                             step="0.01" name="total_value">
                         </div>
 
                         <div>
                             <label class="modal-label">Status <span style="color:#222222;">*</span></label>
-                            <select
+                            <select name="status"
                                 required
                                 class="modal-input"
                                 x-init="$el.value = selected?.status ?? 'NOT DELIVERED'"
@@ -199,7 +201,7 @@
                 </p>
                 <div class="flex justify-end gap-2">
                     <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
-                    <button type="button" @click="close()" class="btn-modal-delete">Confirm Delete</button>
+                    <form method="POST" :action="'{{ url('invoices') }}/' + selected.id">@csrf @method('DELETE')<button type="submit" class="btn-modal-delete">Confirm Delete</button></form>
                 </div>
             </div>
         </template>

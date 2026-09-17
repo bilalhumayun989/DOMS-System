@@ -96,7 +96,7 @@
         <h3 class="text-base font-bold text-gray-900 mb-4" x-text="mode === 'create' ? 'Add SKU' : 'Edit SKU'"></h3>
         <form method="POST" :action="mode === 'create' ? '{{ route('stock.index') }}' : '{{ url('stock') }}/' + selected?.id">
             @csrf
-            <input x-show="mode === 'edit'" type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="_method" :value="mode === 'edit' ? 'PUT' : 'POST'">
 
             <div class="space-y-3">
                 <div>

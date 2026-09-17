@@ -1,5 +1,39 @@
 @import "tailwindcss";
+@source "../views/**/*.blade.php";
+@source "../js/**/*.js";
 
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body:not(.sidebar-collapsed) .sidebar-reopen { display: none; }
+.sidebar-collapsed #tour-sidebar { display: none; }
+.sidebar-collapsed .sidebar-reopen { display: inline-flex; }
+main input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]), main select, main textarea {
+    padding: .625rem .75rem;
+}
+button, [role="button"] { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .5; }
+:focus-visible { outline: 2px solid #475569; outline-offset: 3px; }
+body .modal-panel {
+    padding: 1.5rem;
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
+    scroll-padding-block: 1.5rem;
+}
+.modal-panel .modal-input { min-width: 0; }
+.modal-panel .flex.justify-end { flex-wrap: wrap; }
+.modal-panel :is(.btn-modal-save, .btn-modal-cancel, .btn-modal-delete) {
+    min-height: 2.5rem;
+}
+@media (max-width: 767px) {
+    #tour-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 45; width: 16rem; box-shadow: 8px 0 24px #0002; }
+    header { padding: .75rem !important; flex-wrap: wrap; gap: .75rem; }
+    main { padding: 1rem !important; }
+    .modal-panel { max-width: calc(100vw - 2rem) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }

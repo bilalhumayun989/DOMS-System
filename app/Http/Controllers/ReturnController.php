@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ReturnClaim;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -23,13 +24,10 @@ class ReturnController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validatedData($request);
-        $returns = $this->returnClaims();
-        $data['id'] = count($returns) + 1;
-        $data['return_ref'] = $data['return_ref'] ?: 'RET-'.now()->format('Y-m').'-'.str_pad((string) $data['id'], 3, '0', STR_PAD_LEFT);
-        $returns[] = $data;
-        session(['return_claims' => $returns]);
+        $data['return_ref'] = $data['return_ref'] ?: 'RET-'.str()->upper(str()->random(10));
+        $claim = ReturnClaim::create($data);
 
-        return redirect()->route('returns.show', $data['id'])->with('success', 'Return claim created successfully.');
+        return to_route('returns.show', $claim->id)->with('success', 'Return claim created.');
     }
 
     public function show(int $return): View
@@ -50,26 +48,20 @@ class ReturnController extends Controller
 
     public function update(Request $request, int $return): RedirectResponse
     {
-        $returns = $this->returnClaims();
-        $index = collect($returns)->search(fn (array $claim): bool => $claim['id'] === $return);
-        abort_unless($index !== false, 404);
+        $claim = ReturnClaim::findOrFail($return);
         $data = $this->validatedData($request);
-        $data['id'] = $return;
-        $data['return_ref'] = $data['return_ref'] ?: $returns[$index]['return_ref'];
-        $returns[$index] = array_merge($returns[$index], $data);
-        session(['return_claims' => $returns]);
+        $data['return_ref'] = $data['return_ref'] ?: $claim->return_ref;
+        $data['items'] = array_merge($data['items'], array_slice($claim->items ?? [], 1));
+        $claim->update($data);
 
-        return redirect()->route('returns.show', $return)->with('success', 'Return claim updated successfully.');
+        return to_route('returns.show', $return)->with('success', 'Return claim updated.');
     }
 
     public function destroy(int $return): RedirectResponse
     {
-        $returns = $this->returnClaims();
-        $remaining = array_values(array_filter($returns, fn (array $claim): bool => $claim['id'] !== $return));
-        abort_unless(count($remaining) !== count($returns), 404);
-        session(['return_claims' => $remaining]);
+        ReturnClaim::findOrFail($return)->delete();
 
-        return redirect()->route('returns.index')->with('success', 'Return claim deleted successfully.');
+        return to_route('returns.index')->with('success', 'Return claim deleted.');
     }
 
     private function validatedData(Request $request): array
@@ -116,14 +108,6 @@ class ReturnController extends Controller
 
     private function returnClaims(): array
     {
-        if (session()->has('return_claims')) {
-            return session('return_claims');
-        }
-
-        return [
-            ['id' => 1, 'return_ref' => 'RET-2026-09-001', 'date' => '03-Sep-2026', 'trip_id' => 1, 'trip_display' => 'TR-2026-09-02-001', 'invoice_ref' => 'INV-8892', 'shop' => 'Al-Noor General Store', 'market' => 'Gulshan-e-Iqbal', 'distributor' => 'AAA Traders', 'deliveryman' => 'Ahmed Khan', 'return_type' => 'Expiry Claim', 'units' => '5 Cartons', 'value' => 14500, 'status' => 'Pending Verification', 'main_reason' => 'Expiry', 'remarks' => 'Inner seal broken during transport by van driver; shopkeeper refused acceptance.', 'condition' => 'Damaged [Send to Distributor Claim]', 'credit_note' => 'CN-2026-102', 'impact' => 'Adjusted in shortage balance', 'claim_status' => 'Pending Claim Submission to AAA Traders', 'items' => [['sku' => 'Sooper FP', 'batch' => 'BATCH-2026-042', 'quantity' => '2 Cartons', 'rate' => 2400, 'line_total' => 4800, 'reason' => 'Expired Product'], ['sku' => 'Rio Chocolate', 'batch' => 'BATCH-2026-061', 'quantity' => '1 Carton, 4 Packs', 'rate' => 1800, 'line_total' => 2250, 'reason' => 'Damaged Packaging'], ['sku' => 'Gluco Family', 'batch' => 'BATCH-2026-053', 'quantity' => '2 Cartons', 'rate' => 2483.33, 'line_total' => 7450, 'reason' => 'Wrong Item Delivered']]],
-            ['id' => 2, 'return_ref' => 'RET-2026-09-002', 'date' => '03-Sep-2026', 'trip_id' => 2, 'trip_display' => 'TR-2026-09-02-002', 'invoice_ref' => 'INV-8893', 'shop' => 'City Mart', 'market' => 'Saddar', 'distributor' => 'AAA Traders', 'deliveryman' => 'Bilal Raza', 'return_type' => 'Damage In Transit', 'units' => '3 Cartons', 'value' => 8200, 'status' => 'Sent to Distributor', 'main_reason' => 'Damage', 'remarks' => 'Outer cartons crushed during delivery and held separately for review.', 'condition' => 'Damaged [Send to Distributor Claim]', 'credit_note' => 'Pending', 'impact' => 'Deducted from sales', 'claim_status' => 'Submitted to AAA Traders', 'items' => [['sku' => 'Pepsi 1.5L', 'batch' => 'BATCH-2026-070', 'quantity' => '3 Cartons', 'rate' => 2733.33, 'line_total' => 8200, 'reason' => 'Damage In Transit']]],
-            ['id' => 3, 'return_ref' => 'RET-2026-09-003', 'date' => '02-Sep-2026', 'trip_id' => 3, 'trip_display' => 'TR-2026-09-01-001', 'invoice_ref' => 'INV-8891', 'shop' => 'Main Bazaar Store', 'market' => 'North Nazimabad', 'distributor' => 'AAA Traders', 'deliveryman' => 'Usman Tariq', 'return_type' => 'Market Return', 'units' => '2 Cartons', 'value' => 5600, 'status' => 'Credit Note Issued', 'main_reason' => 'Market Refusal', 'remarks' => 'Shop received the wrong size and returned unopened goods.', 'condition' => 'Good Condition [Re-stockable]', 'credit_note' => 'CN-2026-101', 'impact' => 'Adjusted in shortage balance', 'claim_status' => 'Credit note received from AAA Traders', 'items' => [['sku' => 'Rio Chocolate', 'batch' => 'BATCH-2026-061', 'quantity' => '2 Cartons', 'rate' => 2800, 'line_total' => 5600, 'reason' => 'Wrong Item Delivered']]],
-        ];
+        return ReturnClaim::orderBy('id')->get()->toArray();
     }
 }

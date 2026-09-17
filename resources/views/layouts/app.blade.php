@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     {{-- Driver.js for Product Tour --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
@@ -126,7 +126,7 @@
 
     /* ─── Modal ──────────────────────────────────────────────────── */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 50; }
-    .modal-panel    { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #ffffff; border-radius: 0.875rem; box-shadow: 0 8px 32px rgba(0,0,0,0.16); z-index: 51; width: 100%; }
+    .modal-panel    { max-height: 90vh; overflow-y: auto; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #ffffff; border-radius: 0.875rem; box-shadow: 0 8px 32px rgba(0,0,0,0.16); z-index: 51; width: 100%; }
     .modal-label    { display: block; font-size: 0.7rem; font-weight: 700; color: #555555; margin-bottom: 0.3rem; }
     .modal-input    { width: 100%; font-size: 0.8125rem; background: #ffffff; border: 1px solid #d4d4d4; border-radius: 0.5rem; padding: 0.6rem 0.75rem; color: #333333; transition: border-color 0.15s; }
     .modal-input:focus { outline: none; border-color: #666666; box-shadow: 0 0 0 3px rgba(0,0,0,0.08); }
@@ -180,7 +180,7 @@
                     <div class="text-[10px] font-semibold text-slate-400">{{ $isDemoMode ? 'Demo Session' : 'Delivery Ops' }}</div>
                 </div>
             </div>
-            <button class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors" title="Toggle Sidebar">
+            <button class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors" type="button" data-sidebar-toggle title="Toggle Sidebar" aria-label="Toggle sidebar">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
                 </svg>
@@ -202,9 +202,9 @@
         ['label'=>'Invoices',    'route'=> $isDemoMode?'demo.invoices':'invoices.index',     'pattern'=> $isDemoMode?'demo.invoices':'invoices.*',        'tourId'=>'tour-nav-invoices',    'icon'=>'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', 'badge'=>null],
         ['label'=>'Deliverymen', 'route'=> $isDemoMode?'demo.deliverymen':'deliverymen.index', 'pattern'=> $isDemoMode?'demo.deliverymen':'deliverymen.*', 'tourId'=>'tour-nav-deliverymen', 'icon'=>'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'badge'=>null],
         ['label'=>'Markets',     'route'=> $isDemoMode?'demo.markets':'markets.index',       'pattern'=> $isDemoMode?'demo.markets':'markets.*',          'tourId'=>'tour-nav-markets',     'icon'=>'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', 'badge'=>null],
-        ['label'=>'Stock',       'route'=> $isDemoMode?'demo.stock':'stock.index',           'pattern'=> $isDemoMode?'demo.stock':'stock.*',              'tourId'=>'tour-nav-stock',       'icon'=>'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', 'badge'=> $isDemoMode?null:'3'],
-        ['label'=>'Returns',     'route'=> $isDemoMode?'demo.returns':'returns.index',       'pattern'=> $isDemoMode?'demo.returns':'returns.*',          'tourId'=>'tour-nav-returns',     'icon'=>'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6', 'badge'=> $isDemoMode?null:'4'],
-        ['label'=>'Settlements', 'route'=> $isDemoMode?'demo.settlements':'settlements.index', 'pattern'=> $isDemoMode?'demo.settlements':'settlements.*', 'tourId'=>'tour-nav-settlements', 'icon'=>'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3', 'badge'=> $isDemoMode?null:'2'],
+        ['label'=>'Stock',       'route'=> $isDemoMode?'demo.stock':'stock.index',           'pattern'=> $isDemoMode?'demo.stock':'stock.*',              'tourId'=>'tour-nav-stock',       'icon'=>'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', 'badge'=> $isDemoMode?null:\App\Models\StockItem::whereColumn('current_stock', '<', 'reorder_point')->count()],
+        ['label'=>'Returns',     'route'=> $isDemoMode?'demo.returns':'returns.index',       'pattern'=> $isDemoMode?'demo.returns':'returns.*',          'tourId'=>'tour-nav-returns',     'icon'=>'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6', 'badge'=> $isDemoMode?null:\App\Models\ReturnClaim::where('status', '!=', 'Credit Note Issued')->count()],
+        ['label'=>'Settlements', 'route'=> $isDemoMode?'demo.settlements':'settlements.index', 'pattern'=> $isDemoMode?'demo.settlements':'settlements.*', 'tourId'=>'tour-nav-settlements', 'icon'=>'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3', 'badge'=> $isDemoMode?null:\App\Models\Trip::where('status', 'SETTLEMENT PENDING')->count()],
         ['label'=>'Ledgers',     'route'=> $isDemoMode?'demo.ledgers':'ledgers.index',       'pattern'=> $isDemoMode?'demo.ledgers':'ledgers.*',          'tourId'=>'tour-nav-ledgers',     'icon'=>'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', 'badge'=>null],
         ['label'=>'Reports',     'route'=> $isDemoMode?'demo.reports':'reports.index',       'pattern'=> $isDemoMode?'demo.reports':'reports.*',          'tourId'=>'tour-nav-reports',     'icon'=>'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'badge'=>null],
     ];
@@ -287,11 +287,11 @@
     </aside>
 
     {{-- ===== MAIN AREA ===== --}}
-    <div class="flex flex-col flex-1 overflow-hidden">
+    <div class="flex min-w-0 flex-col flex-1 overflow-hidden">
 
         {{-- TOP HEADER --}}
         <header class="flex items-center justify-between px-8 py-3.5 flex-shrink-0" style="background:#ffffff; border-bottom: 1px solid #d4d4d4;">
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-6"><button type="button" data-sidebar-toggle class="sidebar-reopen btn-row" aria-label="Show sidebar">&#9776;</button>
                 <div>
                     <h1 class="text-lg font-extrabold text-slate-800 tracking-tight">{{ $pageTitle ?? 'Dashboard' }}</h1>
                     <p class="text-[11px] font-semibold text-slate-400 mt-0.5">{{ now()->format('l, d F Y') }}</p>
@@ -299,7 +299,7 @@
                 
                 {{-- Search Bar --}}
                 <div class="hidden md:flex items-center relative w-72">
-                    <input type="text" placeholder="Search anything" class="w-full bg-slate-50 border border-slate-200 text-xs text-slate-700 rounded-xl pl-9 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium transition-all">
+                    <input type="text" id="page-search" aria-label="Search this page" placeholder="Search this page" class="w-full bg-slate-50 border border-slate-200 text-xs text-slate-700 rounded-xl pl-9 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium transition-all">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
@@ -309,12 +309,12 @@
 
             <div class="flex items-center gap-3">
                 {{-- Notifications Icon --}}
-                <button class="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors relative">
+                <a href="{{ route($isDemoMode ? 'demo.reports' : 'reports.audit-trail') }}" aria-label="Recent activity" class="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors relative">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                     </svg>
                     <span class="w-2 h-2 rounded-full bg-gray-700 absolute top-2 right-2"></span>
-                </button>
+                </a>
 
                 {{-- Start Tour Button --}}
                 <button id="start-tour-btn" class="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-gray-100" style="background: #efefef; color: #222222; border: 1px solid #cccccc; transition: all 0.2s;">
@@ -353,7 +353,14 @@
             </nav>
             @endisset
 
+            @if(session('success'))
+                <div role="status" class="mb-4 rounded-lg border border-slate-300 bg-white p-4 text-sm text-slate-800">{{ session('success') }}</div>
+            @endif
+            @if($errors->any())
+                <div role="alert" class="mb-4 rounded-lg border border-slate-400 bg-white p-4 text-sm text-slate-900"><p class="font-bold">Please correct these fields:</p><ul class="mt-2 list-disc pl-5">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
+            @endif
             @yield('content')
+            @if($errors->any())<script type="application/json" id="previous-form-input">@json(session()->getOldInput())</script>@endif
         </main>
     </div>
 
@@ -407,7 +414,11 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const driver = window.driver.js.driver;
+            const driver = window.driver?.js?.driver;
+            if (!driver) {
+                document.getElementById('start-tour-btn')?.addEventListener('click', () => alert('The tour could not load. Please refresh and try again.'));
+                return;
+            }
 
             /**
              * Open the Trips expandable dropdown in the sidebar.

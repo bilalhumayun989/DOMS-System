@@ -24,8 +24,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/trips', [TripController::class, 'index'])->name('trips.index');
+Route::post('/banks', [BankController::class, 'store'])->name('banks.store');
+Route::post('/bank-transactions', [BankController::class, 'storeTransaction'])->name('banks.transactions.store');
+Route::put('/bank-transactions/{transaction}', [BankController::class, 'updateTransaction'])->name('banks.transactions.update');
+Route::delete('/bank-transactions/{transaction}', [BankController::class, 'destroyTransaction'])->name('banks.transactions.destroy');
 Route::get('/banks', [BankController::class, 'index'])->name('banks.index');
 Route::get('/banks/{bank}', [BankController::class, 'show'])->name('banks.show');
+Route::post('/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+Route::get('/expenses/{expense}/attachment', [ExpenseController::class, 'attachment'])->name('expenses.attachment');
 Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
 Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
 Route::get('/expenses/{expense}', [ExpenseController::class, 'show'])->name('expenses.show');
@@ -40,12 +46,21 @@ Route::post('/trips/{trip}/expenses', [TripController::class, 'storeExpense'])->
 Route::put('/trips/{trip}/expenses/{expense}', [TripController::class, 'updateExpense'])->name('trips.expenses.update');
 Route::post('/trips/{trip}/close', [TripController::class, 'close'])->name('trips.close');
 
+Route::post('/deliverymen', [DeliverymanController::class, 'store'])->name('deliverymen.store');
+Route::put('/deliverymen/{id}', [DeliverymanController::class, 'update'])->name('deliverymen.update');
+Route::delete('/deliverymen/{id}', [DeliverymanController::class, 'destroy'])->name('deliverymen.destroy');
 Route::get('/deliverymen', [DeliverymanController::class, 'index'])->name('deliverymen.index');
 Route::get('/deliverymen/{id}', [DeliverymanController::class, 'show'])->name('deliverymen.show');
 
+Route::post('/markets', [MarketController::class, 'store'])->name('markets.store');
+Route::put('/markets/{id}', [MarketController::class, 'update'])->name('markets.update');
+Route::delete('/markets/{id}', [MarketController::class, 'destroy'])->name('markets.destroy');
 Route::get('/markets', [MarketController::class, 'index'])->name('markets.index');
 Route::get('/markets/{id}', [MarketController::class, 'show'])->name('markets.show');
 
+Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+Route::put('/invoices/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
+Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoices.show');
 
@@ -62,13 +77,18 @@ Route::get('/returns/{return}', [ReturnController::class, 'show'])->name('return
 Route::get('/returns/{return}/edit', [ReturnController::class, 'edit'])->name('returns.edit');
 Route::put('/returns/{return}', [ReturnController::class, 'update'])->name('returns.update');
 Route::delete('/returns/{return}', [ReturnController::class, 'destroy'])->name('returns.destroy');
+Route::post('/collections', [CollectionController::class, 'store'])->name('collections.store');
+Route::put('/collections/{collection}', [CollectionController::class, 'update'])->name('collections.update');
+Route::delete('/collections/{collection}', [CollectionController::class, 'destroy'])->name('collections.destroy');
 Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');
+Route::post('/settlements', [SettlementController::class, 'store'])->name('settlements.store');
 Route::get('/settlements', [SettlementController::class, 'index'])->name('settlements.index');
 Route::get('/settlements/create', [SettlementController::class, 'create'])->name('settlements.create');
 Route::get('/settlements/{settlement}', [SettlementController::class, 'show'])->name('settlements.show');
 Route::get('/ledgers', [LedgerController::class, 'index'])->name('ledgers.index');
 Route::get('/ledgers/create', [LedgerController::class, 'create'])->name('ledgers.create');
 Route::post('/ledgers', [LedgerController::class, 'store'])->name('ledgers.store');
+Route::get('/ledgers/{id}/document', [LedgerController::class, 'document'])->name('ledgers.document');
 Route::get('/ledgers/{id}', [LedgerController::class, 'show'])->name('ledgers.show');
 Route::get('/ledgers/{id}/edit', [LedgerController::class, 'edit'])->name('ledgers.edit');
 Route::put('/ledgers/{id}', [LedgerController::class, 'update'])->name('ledgers.update');

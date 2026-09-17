@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Trip;
+use App\Models\TripSettlement;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SettlementController extends Controller
 {
     public function index(): View
     {
-        $settlements = $this->settlementRecords();
+        $settlements = TripSettlement::with('trip')->latest('settled_at')->get()->map(fn (TripSettlement $settlement): array => $this->present($settlement))->all();
         $totalSettlements = collect($settlements)->sum('net_sales');
         $totalCash = collect($settlements)->sum('actual_cash');
         $totalCredit = collect($settlements)->sum('credit');
@@ -19,30 +23,44 @@ class SettlementController extends Controller
 
     public function create(): View
     {
-        $tripOptions = [
-            ['id' => 'TR-2026-09-02-001', 'date' => '03-Sep-2026', 'driver' => 'Ahmed Khan', 'vehicle' => 'KHI-1234', 'market' => 'Gulshan-e-Iqbal', 'distributor' => 'AAA Traders', 'net_sales' => 120000, 'credit' => 20000, 'collections' => 68000, 'expenses' => 2500],
-            ['id' => 'TR-2026-09-02-002', 'date' => '03-Sep-2026', 'driver' => 'Bilal Raza', 'vehicle' => 'KHI-4567', 'market' => 'Saddar', 'distributor' => 'AAA Traders', 'net_sales' => 95000, 'credit' => 10000, 'collections' => 75000, 'expenses' => 1800],
-            ['id' => 'TR-2026-09-01-001', 'date' => '02-Sep-2026', 'driver' => 'Usman Tariq', 'vehicle' => 'KHI-7890', 'market' => 'North Nazimabad', 'distributor' => 'AAA Traders', 'net_sales' => 72000, 'credit' => 7000, 'collections' => 62000, 'expenses' => 1600],
-        ];
+        $tripOptions = Trip::where('status', '!=', 'CLOSED')->with(['collections', 'expenses'])->get()->map(fn (Trip $trip): array => [
+            'id' => $trip->id, 'number' => $trip->trip_number, 'date' => $trip->trip_date->toDateString(),
+            'driver' => $trip->deliveryman_name, 'vehicle' => $trip->vehicle, 'market' => $trip->market_area,
+            'distributor' => 'AAA Traders', 'net_sales' => (float) $trip->expected_cash, 'credit' => 0,
+            'collections' => (float) $trip->collections->sum('amount'), 'expenses' => (float) $trip->expenses->sum('amount'),
+        ])->all();
 
         return view('settlements.create', compact('tripOptions'));
     }
 
-    public function show(int $settlement): View
+    public function store(Request $request): RedirectResponse
     {
-        $record = collect($this->settlementRecords())->firstWhere('id', $settlement);
-        abort_unless($record, 404);
+        $request->validate(['trip_id' => ['required', 'integer', 'exists:trips,id']]);
+        $trip = Trip::findOrFail($request->input('trip_id'));
+        app(TripController::class)->close($request, $trip);
 
-        return view('settlements.show', compact('record'));
+        return to_route('settlements.show', $trip->settlement->id)->with('success', 'Settlement saved and trip closed.');
     }
 
-    private function settlementRecords(): array
+    public function show(TripSettlement $settlement): View
     {
-        return [
-            ['id' => 1, 'settlement_ref' => 'SET-2026-09-001', 'date' => '03-Sep-2026', 'trip_display' => 'TR-2026-09-02-001', 'trip_id' => 1, 'deliveryman' => 'Ahmed Khan', 'vehicle' => 'KHI-1234', 'market' => 'Gulshan-e-Iqbal', 'distributor' => 'AAA Traders', 'net_sales' => 120000, 'expected_cash' => 88000, 'actual_cash' => 80000, 'shortage' => 8000, 'status' => 'Shortage Flagged', 'loaded' => 140000, 'returned' => 18000, 'damaged' => 2000, 'discounts' => 7000, 'credit' => 20000, 'cheques' => 18000, 'transfers' => 8000, 'action' => 'Charge to Salesman Ledger', 'settled_by' => 'Manager', 'excess' => 0],
-            ['id' => 2, 'settlement_ref' => 'SET-2026-09-002', 'date' => '03-Sep-2026', 'trip_display' => 'TR-2026-09-02-002', 'trip_id' => 2, 'deliveryman' => 'Bilal Raza', 'vehicle' => 'KHI-4567', 'market' => 'Saddar', 'distributor' => 'AAA Traders', 'net_sales' => 95000, 'expected_cash' => 75000, 'actual_cash' => 75000, 'shortage' => 0, 'status' => 'Fully Cleared', 'loaded' => 110000, 'returned' => 15000, 'damaged' => 0, 'discounts' => 5000, 'credit' => 10000, 'cheques' => 7000, 'transfers' => 3000, 'action' => 'None', 'settled_by' => 'Admin', 'excess' => 0],
-            ['id' => 3, 'settlement_ref' => 'SET-2026-09-003', 'date' => '02-Sep-2026', 'trip_display' => 'TR-2026-09-01-001', 'trip_id' => 3, 'deliveryman' => 'Usman Tariq', 'vehicle' => 'KHI-7890', 'market' => 'North Nazimabad', 'distributor' => 'AAA Traders', 'net_sales' => 72000, 'expected_cash' => 62000, 'actual_cash' => 62000, 'shortage' => 0, 'status' => 'Fully Cleared', 'loaded' => 80000, 'returned' => 8000, 'damaged' => 0, 'discounts' => 3000, 'credit' => 7000, 'cheques' => 5000, 'transfers' => 2000, 'action' => 'None', 'settled_by' => 'Manager', 'excess' => 0],
-            ['id' => 4, 'settlement_ref' => 'SET-2026-09-004', 'date' => '01-Sep-2026', 'trip_display' => 'TR-2026-08-31-001', 'trip_id' => 4, 'deliveryman' => 'Kashif Hussain', 'vehicle' => 'KHI-3456', 'market' => 'Clifton', 'distributor' => 'AAA Traders', 'net_sales' => 68000, 'expected_cash' => 55000, 'actual_cash' => 52000, 'shortage' => 3000, 'status' => 'Pending Audit', 'loaded' => 75000, 'returned' => 7000, 'damaged' => 0, 'discounts' => 2500, 'credit' => 10000, 'cheques' => 4000, 'transfers' => 1000, 'action' => 'Recover from Salary', 'settled_by' => 'Pending', 'excess' => 0],
-        ];
+        return view('settlements.show', ['record' => $this->present($settlement)]);
+    }
+
+    private function present(TripSettlement $settlement): array
+    {
+        $trip = $settlement->trip;
+        $difference = (float) $settlement->difference_amount;
+
+        return ['id' => $settlement->id, 'settlement_ref' => 'SET-'.str_pad((string) $settlement->id, 5, '0', STR_PAD_LEFT),
+            'date' => $settlement->settled_at->toDateString(), 'trip_display' => $trip->trip_number, 'trip_id' => $trip->id,
+            'deliveryman' => $trip->deliveryman_name, 'vehicle' => $trip->vehicle, 'market' => $trip->market_area, 'distributor' => 'AAA Traders',
+            'net_sales' => (float) $settlement->expected_cash, 'expected_cash' => (float) $settlement->expected_cash - (float) $settlement->expense_amount,
+            'actual_cash' => (float) $settlement->collected_amount, 'shortage' => max(0, $difference), 'excess' => max(0, -$difference),
+            'status' => abs($difference) < 0.01 ? 'Fully Cleared' : 'Shortage Flagged', 'loaded' => (float) $trip->load_value,
+            'returned' => 0, 'damaged' => 0, 'discounts' => 0, 'credit' => 0,
+            'cheques' => (float) $trip->collections()->where('method', 'Cheque')->sum('amount'),
+            'transfers' => (float) $trip->collections()->where('method', 'Transfer')->sum('amount'),
+            'action' => $settlement->shortage_classification ?? 'None', 'settled_by' => 'Admin'];
     }
 }

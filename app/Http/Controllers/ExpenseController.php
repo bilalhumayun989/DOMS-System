@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
+use App\Models\Trip;
+use App\Models\TripExpense;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ExpenseController extends Controller
 {
     public function index(): View
     {
         $expenses = $this->expenseRecords();
-        $todayTotal = collect($expenses)->where('date', '03-Sep-2026')->sum('amount');
-        $monthlyFuelMaintenance = collect($expenses)->whereIn('category', ['Vehicle Fuel', 'Vehicle Repair'])->sum('amount');
+        $todayTotal = collect($expenses)->where('date', now()->toDateString())->sum('amount');
+        $monthlyFuelMaintenance = collect($expenses)->filter(fn (array $row): bool => substr($row['date'], 0, 7) === now()->format('Y-m'))->whereIn('category', ['Fuel', 'Vehicle Fuel', 'Vehicle Repair', 'Repair/Maintenance'])->sum('amount');
         $staffTotal = collect($expenses)->whereIn('category', ['Driver Allowance', 'Driver Meals / Allowance'])->sum('amount');
         $pendingTotal = collect($expenses)->where('status', 'Pending Verification')->sum('amount');
 
@@ -19,12 +27,17 @@ class ExpenseController extends Controller
 
     public function create(): View
     {
-        return view('expenses.create');
+        return view('expenses.create', ['trips' => Trip::where('status', '!=', 'CLOSED')->get()]);
     }
 
-    public function show(int $expense): View
+    public function show(string $expense): View|RedirectResponse
     {
-        $record = collect($this->expenseRecords())->firstWhere('id', $expense);
+        if (str_starts_with($expense, 'trip-')) {
+            $record = TripExpense::findOrFail(substr($expense, 5));
+
+            return to_route('trips.show', $record->trip_id);
+        }
+        $record = collect($this->expenseRecords())->firstWhere('id', (int) $expense);
         abort_unless($record, 404);
 
         return view('expenses.show', compact('record'));
@@ -32,12 +45,52 @@ class ExpenseController extends Controller
 
     private function expenseRecords(): array
     {
-        return [
-            ['id' => 1, 'expense_id' => 'EXP-2026-09-001', 'date' => '03-Sep-2026', 'category' => 'Vehicle Fuel', 'source' => 'Paid from Cash Drawer', 'driver' => 'Ahmed Khan', 'route' => 'KHI-1234 / Gulshan Route', 'amount' => 8500, 'voucher' => 'Fuel Slip #4412', 'status' => 'Approved', 'approved_by' => 'Admin', 'payment_source' => 'Cash', 'receipt' => 'Fuel Slip #4412', 'market' => 'Gulshan-e-Iqbal', 'created_by' => 'Admin', 'created_at' => '03-Sep-2026', 'notes' => 'Diesel for morning dispatch.'],
-            ['id' => 2, 'expense_id' => 'EXP-2026-09-002', 'date' => '03-Sep-2026', 'category' => 'Driver Allowance', 'source' => 'Paid from Cash Drawer', 'driver' => 'Bilal Raza', 'route' => 'KHI-4567 / Saddar Route', 'amount' => 4500, 'voucher' => 'ALW-260903-02', 'status' => 'Pending Verification', 'approved_by' => 'Pending', 'payment_source' => 'Cash', 'receipt' => 'ALW-260903-02', 'market' => 'Saddar', 'created_by' => 'Operator 1', 'created_at' => '03-Sep-2026', 'notes' => 'Daily route allowance awaiting receipt verification.'],
-            ['id' => 3, 'expense_id' => 'EXP-2026-09-003', 'date' => '02-Sep-2026', 'category' => 'Vehicle Repair', 'source' => 'Paid from Bank Account', 'driver' => 'Usman Tariq', 'route' => 'KHI-7890 / Orangi Route', 'amount' => 12000, 'voucher' => 'REP-8831', 'status' => 'Approved', 'approved_by' => 'Admin', 'payment_source' => 'Bank A', 'receipt' => 'REP-8831', 'market' => 'Orangi Town', 'created_by' => 'Admin', 'created_at' => '02-Sep-2026', 'notes' => 'Brake service and minor van repair.'],
-            ['id' => 4, 'expense_id' => 'EXP-2026-09-004', 'date' => '01-Sep-2026', 'category' => 'Warehouse Rent', 'source' => 'Paid from Bank Account', 'driver' => 'N/A', 'route' => 'AAA Traders Warehouse', 'amount' => 30000, 'voucher' => 'RENT-SEP-26', 'status' => 'Approved', 'approved_by' => 'Admin', 'payment_source' => 'Bank B', 'receipt' => 'RENT-SEP-26', 'market' => 'Warehouse', 'created_by' => 'Admin', 'created_at' => '01-Sep-2026', 'notes' => 'September warehouse rent.'],
-            ['id' => 5, 'expense_id' => 'EXP-2026-09-005', 'date' => '31-Aug-2026', 'category' => 'Utilities', 'source' => 'Driver Out-of-Pocket', 'driver' => 'Kashif Hussain', 'route' => 'MNO-345 / North Route', 'amount' => 2500, 'voucher' => 'UTIL-901', 'status' => 'Rejected', 'approved_by' => 'Admin', 'payment_source' => 'Driver Petty Cash', 'receipt' => 'UTIL-901', 'market' => 'North Nazimabad', 'created_by' => 'Operator 1', 'created_at' => '31-Aug-2026', 'notes' => 'Receipt image was not legible.'],
-        ];
+        $records = Expense::orderBy('id')->get()->toArray();
+        $tripExpenses = TripExpense::with('trip')->whereNotIn('expense_ref', array_column($records, 'expense_id'))->get()->map(fn (TripExpense $expense): array => [
+            'id' => 'trip-'.$expense->id, 'expense_id' => $expense->expense_ref, 'date' => $expense->expense_date->toDateString(),
+            'category' => $expense->category, 'source' => 'Trip Collection', 'driver' => $expense->trip->deliveryman_name,
+            'route' => $expense->trip->vehicle, 'amount' => (float) $expense->amount, 'voucher' => $expense->expense_ref, 'status' => 'Pending Verification',
+        ])->all();
+
+        return array_merge($records, $tripExpenses);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'date' => ['required', 'date'], 'category' => ['required', 'string', 'max:150'],
+            'notes' => ['nullable', 'string', 'max:5000'], 'amount' => ['required', 'numeric', 'gt:0'],
+            'source' => ['required', 'in:Cash in Hand,Bank Account,Driver Petty Cash'],
+            'payment_source' => ['nullable', 'string', 'max:150'], 'voucher' => ['nullable', 'string', 'max:150'],
+            'trip_id' => ['nullable', 'integer', 'exists:trips,id'], 'driver' => ['nullable', 'string', 'max:150'],
+            'route' => ['nullable', 'string', 'max:150'], 'attachment' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+        ]);
+        $trip = ! empty($data['trip_id']) ? Trip::findOrFail($data['trip_id']) : null;
+        abort_if($trip?->isClosed(), 422, 'Closed trips are locked.');
+        unset($data['attachment']);
+        if ($request->hasFile('attachment')) {
+            $data['attachment_path'] = $request->file('attachment')->store('expense-receipts');
+        }
+        $expense = DB::transaction(function () use ($data, $trip): Expense {
+            $expense = Expense::create([...$data, 'expense_id' => 'EXP-'.str()->upper(str()->random(10)),
+                'status' => 'Pending Verification', 'approved_by' => 'Pending', 'receipt' => $data['voucher'] ?? '',
+                'created_by' => auth()->user()?->name ?? 'Admin', 'market' => $trip?->market_area ?? '',
+                'driver' => $trip?->deliveryman_name ?? ($data['driver'] ?? ''), 'route' => $trip?->vehicle ?? ($data['route'] ?? '')]);
+            if ($trip) {
+                $trip->expenses()->create(['expense_ref' => $expense->expense_id, 'category' => $expense->category,
+                    'amount' => $expense->amount, 'expense_date' => $expense->date, 'description' => $expense->notes]);
+            }
+
+            return $expense;
+        });
+
+        return to_route('expenses.show', $expense->id)->with('success', 'Expense saved.');
+    }
+
+    public function attachment(Expense $expense): StreamedResponse
+    {
+        abort_unless($expense->attachment_path && Storage::exists($expense->attachment_path), 404);
+
+        return Storage::download($expense->attachment_path);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Deliveryman;
+use App\Models\Invoice;
+use App\Models\ReturnClaim;
 use App\Models\Trip;
 use App\Models\TripCollection;
 use App\Models\TripExpense;
@@ -70,6 +73,7 @@ class TripController extends Controller
     public function destroy(Trip $trip): RedirectResponse
     {
         abort_unless($trip->status === 'DRAFT' && ! $trip->collections()->exists() && ! $trip->expenses()->exists(), 422, 'Only an empty draft trip can be deleted.');
+        abort_if(Invoice::where('trip_id', $trip->id)->exists() || ReturnClaim::where('trip_id', $trip->id)->exists(), 422, 'Remove linked invoices and return claims before deleting this draft trip.');
         $trip->delete();
 
         return to_route('trips.index')->with('success', 'Draft trip deleted.');
@@ -168,6 +172,10 @@ class TripController extends Controller
             'customer' => ['required', 'string', 'max:255'], 'invoice_number' => ['required', 'string', 'max:100'],
             'amount' => ['required', 'numeric', 'gt:0'], 'method' => ['required', Rule::in(['Cash', 'Cheque', 'Transfer'])],
             'collected_at' => ['required', 'date'], 'notes' => ['nullable', 'string', 'max:1000'],
+            'cheque_number' => ['nullable', 'required_if:method,Cheque', 'string', 'max:100'],
+            'bank_name' => ['nullable', 'required_if:method,Cheque', 'string', 'max:150'],
+            'instrument_date' => ['nullable', 'required_if:method,Cheque', 'date'],
+            'bank_reference' => ['nullable', 'required_if:method,Transfer', 'string', 'max:150'],
         ]));
 
         return back()->with('success', 'Collection updated.');
@@ -255,12 +263,6 @@ class TripController extends Controller
 
     private function deliverymenWithVehicles(): array
     {
-        return [
-            ['id' => 1, 'name' => 'Ahmed Khan', 'employee_id' => 'EMP-001', 'vehicle' => 'Toyota Hilux - ABC-123', 'area' => 'Gulshan-e-Iqbal'],
-            ['id' => 2, 'name' => 'Bilal Raza', 'employee_id' => 'EMP-002', 'vehicle' => 'Suzuki Ravi - DEF-456', 'area' => 'North Nazimabad'],
-            ['id' => 3, 'name' => 'Usman Tariq', 'employee_id' => 'EMP-003', 'vehicle' => 'Mazda Truck - GHI-789', 'area' => 'Orangi Town'],
-            ['id' => 4, 'name' => 'Zubair Malik', 'employee_id' => 'EMP-004', 'vehicle' => 'Toyota Hilux - JKL-012', 'area' => 'Liaquatabad'],
-            ['id' => 5, 'name' => 'Kashif Hussain', 'employee_id' => 'EMP-005', 'vehicle' => 'Suzuki Carry - MNO-345', 'area' => 'Saddar'],
-        ];
+        return Deliveryman::get()->map(fn ($driver): array => [...$driver->toArray(), 'area' => implode(', ', $driver->assigned_areas ?? [])])->all();
     }
 }

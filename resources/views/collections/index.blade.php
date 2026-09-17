@@ -67,8 +67,8 @@
                     <tr class="">
                         <td class="font-mono text-xs font-semibold text-gray-500">{{ $col['collection_ref'] }}</td>
                         <td class="text-xs text-gray-500">{{ $col['date'] }}</td>
-                        <td><a href="{{ route('markets.show',$col['market_id']) }}" class="text-sm font-semibold text-gray-800">{{ $col['customer'] }}</a></td>
-                        <td><a href="{{ route('invoices.show',$col['invoice_id']) }}" class="font-mono text-xs font-bold" style="color:#222222;">{{ $col['invoice_number'] }}</a></td>
+                        <td><a href="{{ $col['market_id'] ? route('markets.show',$col['market_id']) : route('markets.index') }}" class="text-sm font-semibold text-gray-800">{{ $col['customer'] }}</a></td>
+                        <td><a href="{{ $col['invoice_id'] ? route('invoices.show',$col['invoice_id']) : route('invoices.index') }}" class="font-mono text-xs font-bold" style="color:#222222;">{{ $col['invoice_number'] }}</a></td>
                         <td><a href="{{ route('trips.show',$col['trip_id']) }}" class="font-mono text-xs font-bold" style="color:#222222;">{{ $col['trip_display'] }}</a></td>
                         <td class="text-right text-sm font-bold" style="color:#333333;">{{ pkr($col['amount']) }}</td>
                         <td>
@@ -110,7 +110,7 @@
         <template x-if="mode === 'create' || mode === 'edit'">
             <div>
                 <h3 class="text-base font-bold text-gray-900 mb-4" x-text="mode === 'create' ? 'Add Collection' : 'Edit Collection'"></h3>
-                <form @submit.prevent="close()">
+                <form method="POST" :action="mode === 'edit' ? '{{ url('collections') }}/' + selected.id : '{{ route('collections.store') }}'">@csrf<input type="hidden" name="_method" :value="mode === 'edit' ? 'PUT' : 'POST'">
                     <div class="space-y-3">
 
                         <div>
@@ -119,37 +119,37 @@
                                 type="text"
                                 readonly
                                 :value="selected?.collection_ref ?? 'COL-' + Date.now()"
-                                class="modal-input">
+                                class="modal-input" name="collection_ref">
                         </div>
 
                         <div>
                             <label class="modal-label">Date</label>
-                            <input type="date" required :value="selected?.date ?? ''" class="modal-input">
+                            <input type="date" required :value="selected?.date ?? ''" class="modal-input" name="date">
                         </div>
 
                         <div>
                             <label class="modal-label">Customer / Market</label>
-                            <input type="text" required :value="selected?.customer ?? ''" class="modal-input">
+                            <input type="text" required :value="selected?.customer ?? ''" class="modal-input" name="customer">
                         </div>
 
                         <div>
                             <label class="modal-label">Invoice Number</label>
-                            <input type="text" required :value="selected?.invoice_number ?? ''" class="modal-input">
+                            <input type="text" required :value="selected?.invoice_number ?? ''" class="modal-input" name="invoice_number">
                         </div>
 
                         <div>
                             <label class="modal-label">Trip ID</label>
-                            <input type="text" required :value="selected?.trip_display ?? ''" class="modal-input">
+                            <input type="text" required :value="selected?.trip_display ?? ''" class="modal-input" :readonly="mode === 'edit'" name="trip_display">
                         </div>
 
                         <div>
                             <label class="modal-label">Amount</label>
-                            <input type="number" required min="0" :value="selected?.amount ?? ''" class="modal-input">
+                            <input type="number" required min="0" :value="selected?.amount ?? ''" class="modal-input" step="0.01" name="amount">
                         </div>
 
                         <div>
                             <label class="modal-label">Method</label>
-                            <select required class="modal-input">
+                            <select required name="method" class="modal-input">
                                 <option value="">Select method…</option>
                                 <template x-for="opt in ['Cash','Cheque','Transfer']" :key="opt">
                                     <option :value="opt" :selected="selected?.method === opt" x-text="opt"></option>
@@ -158,12 +158,17 @@
                         </div>
 
                         <div>
-                            <label class="modal-label">Deliveryman</label>
-                            <input type="text" required :value="selected?.deliveryman ?? ''" class="modal-input">
+                            <label class="modal-label">Deliveryman (from trip)</label>
+                            <input type="text" readonly :value="selected?.deliveryman ?? ''" class="modal-input" name="deliveryman">
                         </div>
 
                     </div>
-                    <div class="flex justify-end gap-2 mt-5">
+                    <div class="space-y-3 mt-3">
+<label class="modal-label">Cheque Number (for cheques)</label><input name="cheque_number" :value="selected?.cheque_number ?? ''" class="modal-input">
+<label class="modal-label">Bank Name (for cheques)</label><input name="bank_name" :value="selected?.bank_name ?? ''" class="modal-input">
+<label class="modal-label">Cheque Date</label><input type="date" name="instrument_date" :value="selected?.instrument_date ?? ''" class="modal-input">
+<label class="modal-label">Bank Reference (for transfers)</label><input name="bank_reference" :value="selected?.bank_reference ?? ''" class="modal-input">
+</div><div class="flex justify-end gap-2 mt-5">
                         <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
                         <button type="submit" class="btn-modal-save">Save</button>
                     </div>
@@ -181,7 +186,7 @@
                 </p>
                 <div class="flex justify-end gap-2">
                     <button type="button" @click="close()" class="btn-modal-cancel">Cancel</button>
-                    <button type="button" @click="close()" class="btn-modal-delete">Confirm Delete</button>
+                    <form method="POST" :action="'{{ url('collections') }}/' + selected.id">@csrf @method('DELETE')<button type="submit" class="btn-modal-delete">Confirm Delete</button></form>
                 </div>
             </div>
         </template>

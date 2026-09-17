@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Trip extends Model
 {
+    use HasFactory;
+
     public const STATUSES = ['DRAFT', 'READY', 'DISPATCHED', 'COMPLETED', 'SETTLEMENT PENDING', 'SETTLED', 'CLOSED'];
 
     protected $fillable = ['trip_number', 'trip_date', 'deliveryman_id', 'deliveryman_name', 'vehicle', 'market_area', 'source_dlf', 'status', 'delivery_result', 'follow_up_date', 'delivery_notes', 'load_value', 'expected_cash', 'closed_at'];

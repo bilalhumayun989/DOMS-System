@@ -48,7 +48,7 @@ $driverAreas = [
         openEdit(r) {
             this.mode = 'edit';
             this.selected = r;
-            this.selectedAreas = r.areas ?? [];
+            this.selectedAreas = r.assigned_areas ?? [];
             this.open = true;
         },
         openDelete(r) { this.mode = 'delete'; this.selected = r; this.open = true; },
@@ -88,14 +88,14 @@ $driverAreas = [
                         <th class="text-left">Assigned Areas</th>
                         <th class="text-center">Total Trips</th>
                         <th class="text-center">Active</th>
-                        <th class="text-right">Collected Today</th>
+                        <th class="text-right">Total Collected</th>
                         <th class="text-right">Shortages</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($deliverymen as $dm)
-                    @php $areas = $driverAreas[$dm['id']] ?? []; @endphp
+                    @php $areas = $dm['assigned_areas'] ?? []; @endphp
                     <tr>
                         <td>
                             <div class="flex items-center gap-3">
@@ -195,7 +195,10 @@ $driverAreas = [
                 <h3 class="text-base font-bold text-gray-900 mb-5"
                     x-text="mode === 'create' ? 'Add Deliveryman' : 'Edit Deliveryman'"></h3>
 
-                <form @submit.prevent="close()">
+                <form method="POST" :action="mode === 'create' ? '{{ route('deliverymen.store') }}' : '{{ url('deliverymen') }}/' + selected.id">
+                    @csrf
+<template x-for="area in selectedAreas" :key="area"><input type="hidden" name="assigned_areas[]" :value="area"></template>
+                    <input type="hidden" name="_method" :value="mode === 'edit' ? 'PUT' : 'POST'">
                     <div class="grid grid-cols-1 gap-4">
 
                         {{-- Name --}}
@@ -206,7 +209,7 @@ $driverAreas = [
                                 required
                                 x-bind:value="selected?.name ?? ''"
                                 class="modal-input"
-                            >
+                             name="name">
                         </div>
 
                         {{-- Employee ID --}}
@@ -217,7 +220,7 @@ $driverAreas = [
                                 required
                                 x-bind:value="selected?.employee_id ?? ''"
                                 class="modal-input"
-                            >
+                             name="employee_id">
                         </div>
 
                         {{-- Phone --}}
@@ -228,7 +231,7 @@ $driverAreas = [
                                 required
                                 x-bind:value="selected?.phone ?? ''"
                                 class="modal-input"
-                            >
+                             name="phone">
                         </div>
 
                         {{-- Vehicle --}}
@@ -238,7 +241,7 @@ $driverAreas = [
                                 type="text"
                                 x-bind:value="selected?.vehicle ?? ''"
                                 class="modal-input"
-                            >
+                             name="vehicle">
                         </div>
 
                         {{-- Join Date --}}
@@ -249,7 +252,7 @@ $driverAreas = [
                                 required
                                 x-bind:value="selected?.joined_at ?? ''"
                                 class="modal-input"
-                            >
+                             name="joined_at">
                         </div>
 
                         {{-- Assigned Areas --}}
