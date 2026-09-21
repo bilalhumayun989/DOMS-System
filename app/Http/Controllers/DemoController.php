@@ -977,7 +977,14 @@ class DemoController extends Controller
 
     private function requireDemo(): void
     {
-        abort_unless(session('demo_mode'), 403, 'Demo mode is not active. Visit /demo to start the demo.');
+        if (! session('demo_mode')) {
+            session([
+                'demo_mode' => true,
+                'demo_id' => \Illuminate\Support\Str::uuid()->toString(),
+                'demo_counts' => array_fill_keys(self::FEATURES, 0),
+                'demo_data' => $this->initialDemoData(),
+            ]);
+        }
     }
 
     private function limitReached(string $feature): bool
