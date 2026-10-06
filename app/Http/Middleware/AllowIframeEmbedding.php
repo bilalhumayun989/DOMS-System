@@ -25,7 +25,7 @@ class AllowIframeEmbedding
         // Allow embedding only from the marketing site and local dev.
         $response->headers->set(
             'Content-Security-Policy',
-            "frame-ancestors 'self' https://www.broshtech.com https://broshtech.com http://localhost:* http://127.0.0.1:*"
+            "frame-ancestors 'self' https://*.broshtech.com https://www.broshtech.com https://broshtech.com http://localhost:* http://127.0.0.1:*"
         );
 
         return $response;
